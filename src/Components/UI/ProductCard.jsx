@@ -4,7 +4,7 @@ const ProductCard = (props) => {
   return (
     <article>
       <div>
-        <img src={props.image} alt="ipad" className="w-48" />
+        <img src={props.image} alt="ipad" className="md:w-48 w-full" />
         <div>
           <span className="text-xs text-[#737373] font-normal">
             {props.upload_time}

@@ -2,17 +2,17 @@ import React from "react";
 
 const Header = () => {
   return (
-    <section className="flex align-middle justify-between w-full mt-8 px-10">
-      <div className="flex">
+    <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full mt-8 md:px-10">
+      <div className="md:flex flex align-middle justify-between">
         <div className="flex">
           <img src="/assets/Group 1.svg" alt="group1_" className="w-8 h-12" />
           <img
             src="/assets/uniswap.sc.svg"
             alt="uniswap"
-            className="w-48 h-12 ml-3"
+            className="md:w-48 w-24 h-12 ml-3"
           />
         </div>
-        <div className="w-96 ml-6">
+        <div className="md:w-96 md:ml-6">
           <form>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
@@ -36,11 +36,11 @@ const Header = () => {
           </form>
         </div>
       </div>
-      <div className="flex gap-7">
-        <button className="w-28 h-10 rounded-full border border-black">
+      <div className="flex md:gap-7 align-middle justify-between mt-4">
+        <button className="w-28 h-10 rounded-full border border-black ">
           Sell an item
         </button>
-        <button className="w-24 h-10 rounded-full border ">Login</button>
+        <button className="w-24 h-10 rounded-full border">Login</button>
         <button className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white">
           Sign up
         </button>
