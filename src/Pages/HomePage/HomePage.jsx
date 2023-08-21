@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import ProductCatagories from "../../Components/ProductCatagories/ProductCatagories";
 import Footer from "../../Components/Footer/Footer";
 
-const LandingPage = () => {
+const HomePage = () => {
   const trendingProducts = [
     {
       image: "/assets/ipad.svg",
@@ -100,38 +100,31 @@ const LandingPage = () => {
 
   return (
     <div>
-      <div className="relative">
-        <div className="absolute md:left-44 md:top-8 left-5 top-3">
-          <h1 className="md:text-2xl text-xs font-bold text-white">
-            Sign up with your college campus!
-          </h1>
-        </div>
-        <button className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
-          Sign up
-        </button>
-        <div className="md:mt-10 flex align-middle justify-center">
-          <img src="/assets/MASK.svg" alt="mask" className="md:w-4/5" />
-        </div>
-      </div>
-      <div className="px-7 mt-6 flex flex-col gap-10 w-4/5 m-auto">
-        <ProductCatagories
-          prod_catag_title="Trending @USC"
-          trendingProducts={trendingProducts}
-        />
-        <ProductCatagories
-          prod_catag_title="Mens Shoes"
-          trendingProducts={mensShoes}
-        />
-        <ProductCatagories
-          prod_catag_title="Technology"
-          trendingProducts={technologies}
-        />
-      </div>
       <div>
+        <div className="w-4/5 m-auto mt-8">
+          <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
+        </div>
+        <div className="py-10 m-auto w-4/5">
+          <img src="/assets/Line 18.svg" />
+        </div>
+        <div className="px-7 flex flex-col gap-10 w-4/5 m-auto">
+          <ProductCatagories
+            prod_catag_title="Trending @USC"
+            trendingProducts={trendingProducts}
+          />
+          <ProductCatagories
+            prod_catag_title="Mens Shoes"
+            trendingProducts={mensShoes}
+          />
+          <ProductCatagories
+            prod_catag_title="Technology"
+            trendingProducts={technologies}
+          />
+        </div>
         <Footer />
       </div>
     </div>
   );
 };
 
-export default LandingPage;
+export default HomePage;

@@ -1,9 +1,19 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useGlobalCotext } from "../../Context/Context";
 
-const Header = () => {
+const Header = (props) => {
+  const navigate = useNavigate();
+  const { useLogin } = useGlobalCotext();
+
+  const handleLogin = () => {
+    useLogin();
+    navigate("/home");
+  };
+
   return (
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full mt-8 md:px-10">
-      <div className="md:flex flex align-middle justify-between">
+      <div className="md:flex flex align-middle justify-between flex-grow mt-3">
         <div className="flex">
           <img src="/assets/Group 1.svg" alt="group1_" className="w-8 h-12" />
           <img
@@ -12,7 +22,7 @@ const Header = () => {
             className="md:w-48 w-24 h-12 ml-3"
           />
         </div>
-        <div className="md:w-96 md:ml-6">
+        <div className="md:w-full pl-8 mr-24 md:ml-6">
           <form>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
@@ -36,14 +46,69 @@ const Header = () => {
           </form>
         </div>
       </div>
-      <div className="flex md:gap-7 align-middle justify-between mt-4">
-        <button className="w-28 h-10 rounded-full border border-black ">
-          Sell an item
-        </button>
-        <button className="w-24 h-10 rounded-full border">Login</button>
-        <button className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white">
-          Sign up
-        </button>
+      <div className="mt-3">
+        {props.user ? (
+          <div className="flex gap-8 align-middle justify-around">
+            <div className="flex gap-3">
+              <img src="/assets/Line 20.svg" alt="line" />
+              <div className="flex gap-3">
+                <Link to="/likedproduct">
+                  <img
+                    src="/assets/Vectorheader.svg"
+                    alt="vectorheader"
+                    className="w-6 mt-3 h-6"
+                  />
+                </Link>
+                <Link to="/createnewlisting">
+                  <img
+                    src="/assets/Vectorheader1.svg"
+                    alt="vectorheader"
+                    className="w-6 mt-3 h-6"
+                  />
+                </Link>
+                <Link>
+                  <img
+                    src="/assets/Vectorheader2.svg"
+                    alt="vectorheader"
+                    className="w-6 mt-3 h-6"
+                  />
+                </Link>
+                <Link to="/cart">
+                  <img
+                    src="/assets/Vectorheader3.svg"
+                    alt="vectorheader"
+                    className="w-6 mt-3 h-6"
+                  />
+                </Link>
+              </div>
+            </div>
+            <div>
+              <Link to="myprofile">
+                <img
+                  src="/assets/userprofile.svg"
+                  alt="userprofile"
+                  width={50}
+                  height={50}
+                />
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="flex md:gap-7 align-middle justify-between mt-4">
+            <button className="w-28 h-10 rounded-full border border-black ">
+              Sell an item
+            </button>
+            <button
+              className="w-24 h-10 rounded-full border"
+              onClick={handleLogin}
+            >
+              Login
+            </button>
+            <button className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white">
+              Sign up
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
