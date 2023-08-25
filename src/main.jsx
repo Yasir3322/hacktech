@@ -2,6 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+
+//them provider
+import { ThemeProvider } from "@material-tailwind/react";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyProfile from "./Pages/MyProfile/MyProfile.jsx";
 import Cart from "./Pages/Cart/Cart.jsx";
@@ -10,6 +14,7 @@ import HomePage from "./Pages/HomePage/HomePage.jsx";
 import CreateNewListing from "./Pages/CreateNewListing/CreateNewListing.jsx";
 import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
 import { AppProvider } from "./Context/Context.jsx";
+import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,14 +49,20 @@ const router = createBrowserRouter([
         path: "/likedproduct",
         element: <LikedPage />,
       },
+      {
+        path: "/productpage",
+        element: <ProductPage />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AppProvider>
-      <RouterProvider router={router} />
-    </AppProvider>
+    <ThemeProvider>
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

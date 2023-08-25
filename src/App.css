@@ -9,3 +9,10 @@ body{
   height: 100vh;
   background-color: #fafafa
 }
+
+.show {
+  display: block;
+}
+.hidden {
+  display: hidden;
+}

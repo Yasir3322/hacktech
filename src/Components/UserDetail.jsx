@@ -6,7 +6,7 @@ const UserDetail = () => {
       <div className="flex w-4/5 m-auto mt-5 align-middle justify-between">
         <div className="flex flex-col flex-grow">
           <div className="flex">
-            <h2 className="w-96 h-7 font-semibold text-6xl">Kevin Gerges</h2>
+            <h2 className="w-96 h-7 font-semibold text-5xl">Kevin Gerges</h2>
             <img
               src="/assets/badge.svg"
               alt="userprofilebadge"

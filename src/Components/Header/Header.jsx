@@ -4,15 +4,16 @@ import { useGlobalCotext } from "../../Context/Context";
 
 const Header = (props) => {
   const navigate = useNavigate();
-  const { useLogin } = useGlobalCotext();
+  const { useLogin, showCreateAccountPopup } = useGlobalCotext();
 
   const handleLogin = () => {
-    useLogin();
-    navigate("/home");
+    // useLogin();
+    showCreateAccountPopup();
+    // navigate("/home");
   };
 
   return (
-    <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full mt-8 md:px-10">
+    <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex flex align-middle justify-between flex-grow mt-3">
         <div className="flex">
           <img src="/assets/Group 1.svg" alt="group1_" className="w-8 h-12" />
@@ -98,13 +99,11 @@ const Header = (props) => {
             <button className="w-28 h-10 rounded-full border border-black ">
               Sell an item
             </button>
+            <button className="w-24 h-10 rounded-full border">Login</button>
             <button
-              className="w-24 h-10 rounded-full border"
+              className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white"
               onClick={handleLogin}
             >
-              Login
-            </button>
-            <button className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white">
               Sign up
             </button>
           </div>

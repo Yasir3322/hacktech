@@ -5,6 +5,8 @@ import Navbar from "./Components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { useGlobalCotext } from "./Context/Context";
+import Footer from "./Components/Footer/Footer";
+import CreateAccountPopup from "./Components/Popups/CreateAccountPopup";
 function App() {
   const { isLogin } = useGlobalCotext();
 
@@ -13,7 +15,8 @@ function App() {
       <div>
         {!isLogin ? (
           <>
-            <section className="shadow-md pb-4">
+            <section className="shadow-md pb-4 relative">
+              <CreateAccountPopup />
               <Header />
               <Navbar />
               <LandingPage />
@@ -25,9 +28,10 @@ function App() {
               <Header user={isLogin} />
               <Navbar />
             </section>
-            <div id="detail">
+            <div id="detail" className="w-4/5 m-auto">
               <Outlet />
             </div>
+            <Footer />
           </>
         )}
       </div>
