@@ -15,6 +15,7 @@ import CreateNewListing from "./Pages/CreateNewListing/CreateNewListing.jsx";
 import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
 import { AppProvider } from "./Context/Context.jsx";
 import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
+import ChatPage from "./Pages/ChatPage/ChatPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/productpage",
         element: <ProductPage />,
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
       },
     ],
   },

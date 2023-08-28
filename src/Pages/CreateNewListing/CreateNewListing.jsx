@@ -83,7 +83,6 @@ const CreateNewListing = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

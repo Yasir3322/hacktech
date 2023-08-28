@@ -15,7 +15,6 @@ const Cart = () => {
           <CartCard />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

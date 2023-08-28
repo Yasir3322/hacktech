@@ -121,7 +121,6 @@ const HomePage = () => {
             trendingProducts={technologies}
           />
         </div>
-        <Footer />
       </div>
     </div>
   );

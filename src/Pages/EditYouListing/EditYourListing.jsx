@@ -102,7 +102,6 @@ const EditYourListing = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

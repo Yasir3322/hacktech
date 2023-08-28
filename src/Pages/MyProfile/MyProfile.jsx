@@ -90,7 +90,6 @@ const MyProfile = () => {
           );
         })}
       </div>
-      <Footer />
     </div>
   );
 };
