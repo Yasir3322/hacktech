@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useGlobalCotext } from "./Context/Context";
 import Footer from "./Components/Footer/Footer";
 import CreateAccountPopup from "./Components/Popups/CreateAccountPopup";
+import LoginPopup from "./Components/Popups/LoginPopup";
 function App() {
   const { isLogin } = useGlobalCotext();
 
@@ -17,6 +18,7 @@ function App() {
           <>
             <section className="shadow-md pb-4 relative">
               <CreateAccountPopup />
+              <LoginPopup />
               <Header />
               <Navbar />
               <LandingPage />

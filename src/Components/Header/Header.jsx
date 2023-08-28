@@ -4,11 +4,17 @@ import { useGlobalCotext } from "../../Context/Context";
 
 const Header = (props) => {
   const navigate = useNavigate();
-  const { useLogin, showCreateAccountPopup } = useGlobalCotext();
+  const { useLogin, showCreateAccountPopup, showLoginPopup } =
+    useGlobalCotext();
 
-  const handleLogin = () => {
+  const handleSignup = () => {
     // useLogin();
     showCreateAccountPopup();
+    // navigate("/home");
+  };
+  const handleLogin = () => {
+    // useLogin();
+    showLoginPopup();
     // navigate("/home");
   };
 
@@ -99,10 +105,15 @@ const Header = (props) => {
             <button className="w-28 h-10 rounded-full border border-black ">
               Sell an item
             </button>
-            <button className="w-24 h-10 rounded-full border">Login</button>
+            <button
+              className="w-24 h-10 rounded-full border"
+              onClick={handleLogin}
+            >
+              Login
+            </button>
             <button
               className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white"
-              onClick={handleLogin}
+              onClick={handleSignup}
             >
               Sign up
             </button>
