@@ -25,7 +25,7 @@ const ChatBar = () => {
   ];
 
   return (
-    <div>
+    <div className="border border-black p-2">
       {peoples.map((people) => {
         const { image, bio, name } = people;
         return (
