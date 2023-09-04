@@ -16,3 +16,20 @@ body{
 .hidden {
   display: hidden;
 }
+
+.custom-select {
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+}
+
+.custom-option {
+  padding: 0.5rem 1rem;
+}
+
+.custom-option:not(:first-child) {
+  border-top: 1px solid #e2e8f0;
+}
+
+.custom-scrollbar::-webkit-scrollbar{
+  width: 8px;
+}

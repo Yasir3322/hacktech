@@ -7,6 +7,12 @@ export const AppProvider = ({ children }) => {
   const [isCreateAccountPopupOpen, setIsCreateAccountPopupOpen] =
     useState(false);
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
+  const [isSoldPopupOpen, setIsSoldPopupOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
+    useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [allCatagories, setAllCatagories] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
   const useLogin = () => {
     setIsLogin(!isLogin);
@@ -19,6 +25,18 @@ export const AppProvider = ({ children }) => {
     setIsLoginPopupOpen(!isLoginPopupOpen);
   };
 
+  const showSoldPopup = () => {
+    setIsSoldPopupOpen(!isSoldPopupOpen);
+  };
+
+  const showNotiDropdown = () => {
+    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+  };
+
+  const showProfileDropdown = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -28,6 +46,16 @@ export const AppProvider = ({ children }) => {
         showCreateAccountPopup,
         isLoginPopupOpen,
         showLoginPopup,
+        isSoldPopupOpen,
+        showSoldPopup,
+        isNotificationDropdownOpen,
+        showNotiDropdown,
+        isProfileDropdownOpen,
+        showProfileDropdown,
+        allCatagories,
+        setAllCatagories,
+        allProducts,
+        setAllProducts,
       }}
     >
       {children}

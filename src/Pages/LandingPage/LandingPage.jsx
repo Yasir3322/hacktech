@@ -1,10 +1,40 @@
-import React from "react";
-import Header from "../../Components/Header/Header";
-import Navbar from "../../Components/Navbar/Navbar";
+import React, { useEffect, useState } from "react";
 import ProductCatagories from "../../Components/ProductCatagories/ProductCatagories";
 import Footer from "../../Components/Footer/Footer";
+import { useGlobalCotext } from "../../Context/Context";
+import axios from "axios";
 
 const LandingPage = () => {
+  const { isLogin } = useGlobalCotext();
+  const [technologyProd, setTechnologyProd] = useState([]);
+  const [mensShoesProd, setMensShoesProd] = useState([]);
+  const [trandingProd, setTrandingProd] = useState([]);
+
+  const getAllProducts = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
+    );
+    res.data.allProducts?.map((products) => {
+      if (products._id === "Technology") {
+        setTechnologyProd(products.products);
+      } else if (products._id === "Mens Shoes") {
+        setMensShoesProd(products.products);
+      }
+
+      products.products.map((product) => {
+        if (product.istranding) {
+          setTrandingProd((prev) => {
+            return [...prev, product];
+          });
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
   const trendingProducts = [
     {
       image: "/assets/ipad.svg",
@@ -100,35 +130,45 @@ const LandingPage = () => {
 
   return (
     <div>
-      <div className="relative">
-        <div className="absolute md:left-44 md:top-8 left-5 top-3">
-          <h1 className="md:text-2xl text-xs font-bold text-white">
-            Sign up with your college campus!
-          </h1>
-        </div>
-        <button className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
-          Sign up
-        </button>
-        <div className="md:mt-10 flex align-middle justify-center">
-          <img src="/assets/MASK.svg" alt="mask" className="md:w-4/5" />
-        </div>
+      <div>
+        {!isLogin ? (
+          <div className="relative">
+            <div className="absolute md:left-44 md:top-8 left-5 top-3">
+              <h1 className="md:text-2xl text-xs font-bold text-white">
+                Sign up with your college campus!
+              </h1>
+            </div>
+            <button className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
+              Sign up
+            </button>
+            <div className="md:mt-10 flex align-middle justify-center">
+              <img src="/assets/MASK.svg" alt="mask" className="md:w-5/6" />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="w-11/12 m-auto mt-8">
+              <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
+            </div>
+            <div className="py-10 m-auto w-11/12">
+              <img src="/assets/Line 18.svg" />
+            </div>
+          </div>
+        )}
       </div>
-      <div className="px-7 mt-6 flex flex-col gap-10 w-4/5 m-auto">
+      <div className="px-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
         <ProductCatagories
           prod_catag_title="Trending @USC"
-          trendingProducts={trendingProducts}
+          trendingProducts={trandingProd}
         />
         <ProductCatagories
           prod_catag_title="Mens Shoes"
-          trendingProducts={mensShoes}
+          trendingProducts={mensShoesProd}
         />
         <ProductCatagories
           prod_catag_title="Technology"
-          trendingProducts={technologies}
+          trendingProducts={technologyProd}
         />
-      </div>
-      <div>
-        <Footer />
       </div>
     </div>
   );

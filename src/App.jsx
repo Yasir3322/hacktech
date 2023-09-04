@@ -2,14 +2,110 @@ import LandingPage from "./Pages/LandingPage/LandingPage";
 import "./App.css";
 import Header from "./Components/Header/Header";
 import Navbar from "./Components/Navbar/Navbar";
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useGlobalCotext } from "./Context/Context";
 import Footer from "./Components/Footer/Footer";
 import CreateAccountPopup from "./Components/Popups/CreateAccountPopup";
 import LoginPopup from "./Components/Popups/LoginPopup";
+import SoldtowhoPopup from "./Components/Popups/SoldtowhoPopup";
+import DropDown from "./Components/UI/DropDown";
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
-  const { isLogin } = useGlobalCotext();
+  const {
+    isLogin,
+    isNotificationDropdownOpen,
+    isProfileDropdownOpen,
+    useLogin,
+    allCatagories,
+    setAllCatagories,
+    setAllProducts,
+  } = useGlobalCotext();
+  const navigat = useNavigate();
+  // const [isLogin, setIsLogin] = useState(false);
+  const location = useLocation();
+  const notifi_dropdown_props = [
+    {
+      title: "Notification",
+      url: "/notification",
+    },
+    {
+      title: "Your liked item has been sold",
+      url: "/likeditems",
+    },
+    {
+      title: "You have unread chats",
+      url: "/chat",
+    },
+    {
+      title: "Label4",
+      url: "",
+    },
+    {
+      title: "Label5",
+      url: "",
+    },
+  ];
+
+  const profile_dropdown_props = [
+    {
+      title: "My profile",
+      url: "/myprofile",
+    },
+    {
+      title: "Information",
+      url: "/information",
+    },
+    {
+      title: "Logout",
+      url: "/",
+    },
+    {
+      title: "Label4",
+      url: "",
+    },
+    {
+      title: "Label5",
+      url: "",
+    },
+  ];
+
+  const tokenUserLogin = async () => {
+    const token = localStorage.getItem("hacktechtoken");
+    if (token) {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/verifytoken/tokenlogin`,
+        null,
+        {
+          headers: {
+            token: `${token}`,
+          },
+        }
+      );
+      if (res) {
+        useLogin();
+      }
+    }
+  };
+
+  useEffect(() => {
+    tokenUserLogin();
+  }, []);
+
+  const getAllCatagories = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/catagory/allcatagories`
+    );
+    // console.log(res);
+    setAllCatagories(res.data.catagories);
+  };
+
+  useEffect(() => {
+    getAllCatagories();
+  }, []);
 
   return (
     <>
@@ -18,22 +114,37 @@ function App() {
           <>
             <section className="shadow-md pb-4 relative">
               <CreateAccountPopup />
+              <SoldtowhoPopup />
               <LoginPopup />
               <Header />
               <Navbar />
               <LandingPage />
+              <Footer />
             </section>
           </>
         ) : (
           <>
             <section className="shadow-md pb-4">
+              <ToastContainer />
+              {isNotificationDropdownOpen ? (
+                <DropDown items={notifi_dropdown_props} />
+              ) : isProfileDropdownOpen ? (
+                <DropDown items={profile_dropdown_props} />
+              ) : (
+                ""
+              )}
               <Header user={isLogin} />
               <Navbar />
             </section>
-            <div id="detail" className="w-4/5 m-auto">
+            <div
+              id="detail"
+              className={`${
+                location.pathname === "/chat" ? "w-full" : "w-11/12 m-auto"
+              }`}
+            >
               <Outlet />
             </div>
-            <Footer />
+            {location.pathname === "/chat" ? "" : <Footer />}
           </>
         )}
       </div>

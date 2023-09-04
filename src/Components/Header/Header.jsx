@@ -1,11 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Header = (props) => {
   const navigate = useNavigate();
-  const { useLogin, showCreateAccountPopup, showLoginPopup } =
-    useGlobalCotext();
+  const {
+    useLogin,
+    showCreateAccountPopup,
+    showLoginPopup,
+    showNotiDropdown,
+    showProfileDropdown,
+  } = useGlobalCotext();
 
   const handleSignup = () => {
     // useLogin();
@@ -18,17 +24,25 @@ const Header = (props) => {
     // navigate("/home");
   };
 
+  const handleNotificationbutton = () => {
+    showNotiDropdown();
+  };
+
+  const handleProfileDropdownButton = () => {
+    showProfileDropdown();
+  };
+
   return (
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex flex align-middle justify-between flex-grow mt-3">
-        <div className="flex">
+        <Link className="flex" to={props.user ? "/" : "/"}>
           <img src="/assets/Group 1.svg" alt="group1_" className="w-8 h-12" />
           <img
             src="/assets/uniswap.sc.svg"
             alt="uniswap"
             className="md:w-48 w-24 h-12 ml-3"
           />
-        </div>
+        </Link>
         <div className="md:w-full pl-8 mr-24 md:ml-6">
           <form>
             <label className="relative block">
@@ -56,6 +70,12 @@ const Header = (props) => {
       <div className="mt-3">
         {props.user ? (
           <div className="flex gap-8 align-middle justify-around">
+            <button
+              className="w-28 h-10 rounded-full border  bg-[#DB3B39] text-white"
+              onClick={() => navigate("/createnewlisting")}
+            >
+              Sell an item
+            </button>
             <div className="flex gap-3">
               <img src="/assets/Line 20.svg" alt="line" />
               <div className="flex gap-3">
@@ -66,20 +86,20 @@ const Header = (props) => {
                     className="w-6 mt-3 h-6"
                   />
                 </Link>
-                <Link to="/createnewlisting">
+                <Link to="/chat">
                   <img
                     src="/assets/Vectorheader1.svg"
                     alt="vectorheader"
                     className="w-6 mt-3 h-6"
                   />
                 </Link>
-                <Link>
+                <button onClick={handleNotificationbutton}>
                   <img
                     src="/assets/Vectorheader2.svg"
                     alt="vectorheader"
-                    className="w-6 mt-3 h-6"
+                    className="w-6 h-6"
                   />
-                </Link>
+                </button>
                 <Link to="/cart">
                   <img
                     src="/assets/Vectorheader3.svg"
@@ -89,7 +109,7 @@ const Header = (props) => {
                 </Link>
               </div>
             </div>
-            <div>
+            <div className="flex gap-3 align-middle justify-center">
               <Link to="myprofile">
                 <img
                   src="/assets/userprofile.svg"
@@ -98,6 +118,12 @@ const Header = (props) => {
                   height={50}
                 />
               </Link>
+              <button
+                className=" cursor-pointer"
+                onClick={handleProfileDropdownButton}
+              >
+                <IoIosArrowDown />
+              </button>
             </div>
           </div>
         ) : (

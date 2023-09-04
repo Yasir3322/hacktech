@@ -16,6 +16,8 @@ import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
 import { AppProvider } from "./Context/Context.jsx";
 import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
 import ChatPage from "./Pages/ChatPage/ChatPage.jsx";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +25,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/home",
-        element: <HomePage />,
+        path: "/",
+        element: <LandingPage />,
       },
       {
         path: "/user",
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: "/edityourlisting",
+        path: "/edityourlisting/:id",
         element: <EditYourListing />,
       },
       {
@@ -62,12 +64,38 @@ const router = createBrowserRouter([
   },
 ]);
 
+import Pusher from "pusher-js";
+import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
+
+const connectWithPusher = () => {
+  const pusher = new Pusher("1904b460da23661d8163", {
+    cluster: "ap2",
+  });
+
+  const channel = pusher.subscribe("hacktech");
+
+  channel.bind("create-product", function (data) {
+    if (data) {
+      toast.success("Listing Created successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  });
+};
+
+connectWithPusher();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <AppProvider>
-        <RouterProvider router={router} />
-      </AppProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider>
+    <AppProvider>
+      <RouterProvider router={router} />
+    </AppProvider>
+  </ThemeProvider>
 );

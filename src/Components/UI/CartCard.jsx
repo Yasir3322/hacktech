@@ -4,7 +4,7 @@ const CartCard = () => {
   return (
     <div>
       <div className="flex flex-col gap-6 border border-[#737373] p-6">
-        <div className="flex align-middle justify-between">
+        <div className="md:flex md:flex-row flex flex-col align-middle justify-between">
           <div className="flex align-middle justify-center gap-5">
             <img
               src="/assets/cartshoepic.svg"
@@ -41,7 +41,7 @@ const CartCard = () => {
           </div>
         </div>
       </div>
-      <button className="bg-[#EA1E1B] text-white w-60 mt-8 h-10 rounded-md float-right">
+      <button className="bg-[#EA1E1B] text-white w-60 mt-8  h-10 rounded-md float-right">
         Proceed To Checkout
       </button>
     </div>

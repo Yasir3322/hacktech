@@ -101,13 +101,13 @@ const HomePage = () => {
   return (
     <div>
       <div>
-        <div className="w-4/5 m-auto mt-8">
+        <div className="w-11/12 m-auto mt-8">
           <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
         </div>
-        <div className="py-10 m-auto w-4/5">
+        <div className="py-10 m-auto w-11/12">
           <img src="/assets/Line 18.svg" />
         </div>
-        <div className="px-7 flex flex-col gap-10 w-4/5 m-auto">
+        <div className=" flex flex-col gap-10 w-11/12 m-auto">
           <ProductCatagories
             prod_catag_title="Trending @USC"
             trendingProducts={trendingProducts}

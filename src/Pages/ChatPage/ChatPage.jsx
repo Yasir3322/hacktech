@@ -4,7 +4,7 @@ import ChatBody from "./ChatBody";
 
 const ChatPage = () => {
   return (
-    <div className="flex gap-5 border border-black w-full h-screen">
+    <div className="flex gap-5 w-full h-full">
       <ChatBar />
       <ChatBody />
     </div>
