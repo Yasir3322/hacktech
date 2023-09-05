@@ -7,7 +7,12 @@ const CartCard = (props) => {
     const res = await axios.delete(
       `${
         import.meta.env.VITE_BACKEND_URL
-      }/api/cart/removefromcart/64f6bfd7c5d8d105df6f4afe`
+      }/api/cart/removefromcart/64f6bfd7c5d8d105df6f4afe`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
     if (res.status === 200) {
       toast.success("Removed Successfully", {

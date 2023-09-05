@@ -16,7 +16,12 @@ const ProductPage = () => {
 
   const getProduct = async () => {
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
     setProduct(res?.data?.product);
   };
@@ -71,6 +76,7 @@ const ProductPage = () => {
         {
           headers: {
             token: token,
+            "ngrok-skip-browser-warning": true,
           },
         }
       );
@@ -99,6 +105,7 @@ const ProductPage = () => {
       {
         headers: {
           token: token,
+          "ngrok-skip-browser-warning": true,
         },
       }
     );

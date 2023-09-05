@@ -12,7 +12,7 @@ const Cart = () => {
     const token = localStorage.getItem("hacktechtoken");
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/getusercartitems`,
-      { headers: { token: token } }
+      { headers: { token: token, "ngrok-skip-browser-warning": true } }
     );
     setUserCartItems(res.data.items);
   };

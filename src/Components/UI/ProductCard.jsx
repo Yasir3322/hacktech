@@ -18,6 +18,7 @@ const ProductCard = (props) => {
         {
           headers: {
             token: token,
+            "ngrok-skip-browser-warning": true,
           },
         }
       );
@@ -40,7 +41,12 @@ const ProductCard = (props) => {
 
   const handleRemoveLikedButton = async (id) => {
     const res = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${id}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
     if (res.status === 200) {
       toast.success("Removed successfully", {

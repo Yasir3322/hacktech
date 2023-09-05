@@ -82,6 +82,7 @@ function App() {
         {
           headers: {
             token: `${token}`,
+            "ngrok-skip-browser-warning": true,
           },
         }
       );

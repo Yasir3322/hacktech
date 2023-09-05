@@ -12,7 +12,12 @@ export const LikedPage = () => {
     const res = await axios.get(
       `${
         import.meta.env.VITE_BACKEND_URL
-      }/api/favourite/64f0baedc6d368f282262e29`
+      }/api/favourite/64f0baedc6d368f282262e29`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
 
     console.log(res.data.favouriteProducts);

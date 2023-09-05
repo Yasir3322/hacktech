@@ -18,12 +18,7 @@ const LandingPage = () => {
       `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
       {
         headers: {
-          // "Content-Type": "application/x-www-form-urlencoded",
-          // "Access-Control-Allow-Origin": "*",
-          // "Access-Control-Allow-Methods":
-          // "GET, POST, PATCH, PUT, DELETE, OPTIONS",
           "ngrok-skip-browser-warning": true,
-          // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
         },
       }
     );

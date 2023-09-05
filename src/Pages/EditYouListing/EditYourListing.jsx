@@ -94,7 +94,12 @@ const EditYourListing = () => {
 
   const getProduct = async () => {
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
     setProduct(res?.data?.product);
     setFormData({
