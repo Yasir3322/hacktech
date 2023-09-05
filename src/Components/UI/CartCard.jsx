@@ -1,20 +1,37 @@
 import React from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const CartCard = () => {
+const CartCard = (props) => {
+  const handleRemoveFromCart = async (id) => {
+    const res = await axios.delete(
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/cart/removefromcart/64f6bfd7c5d8d105df6f4afe`
+    );
+    if (res.status === 200) {
+      toast.success("Removed Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   return (
-    <div>
+    <div className="mt-4">
       <div className="flex flex-col gap-6 border border-[#737373] p-6">
         <div className="md:flex md:flex-row flex flex-col align-middle justify-between">
           <div className="flex align-middle justify-center gap-5">
-            <img
-              src="/assets/cartshoepic.svg"
-              alt="cart"
-              width={80}
-              height={80}
-            />
+            <img src={props.image} alt="cart" width={80} height={80} />
             <div className="flex flex-col mt-4">
-              <h4 className="font-medium text-2xl">Nike Air Max Penny</h4>
-              <p className="font-medium text-xl">$50.00</p>
+              <h4 className="font-medium text-2xl">{props.title}</h4>
+              <p className="font-medium text-xl">${props.price}</p>
             </div>
           </div>
           <div className="flex gap-7  w-96 align-middle justify-between mr-4">
@@ -22,10 +39,15 @@ const CartCard = () => {
               <button className="w-7 h-7 rounded-full items-center bg-white">
                 +
               </button>
-              <p>qty:1</p>
+              <p>qty:{props.quantity}</p>
               <button className="w-7 h-7 rounded-full bg-white">-</button>
             </div>
-            <button className="font-semibold text-base">Remove</button>
+            <button
+              className="font-semibold text-base"
+              onClick={() => handleRemoveFromCart(props.id)}
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div className="flex align-middle justify-between">
@@ -41,9 +63,6 @@ const CartCard = () => {
           </div>
         </div>
       </div>
-      <button className="bg-[#EA1E1B] text-white w-60 mt-8  h-10 rounded-md float-right">
-        Proceed To Checkout
-      </button>
     </div>
   );
 };

@@ -64,6 +64,8 @@ const EditYourListing = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(fileList);
+    console.log(formData);
+    return;
     const imagefiles = fileList.map((file) => {
       return file.originFileObj;
     });
@@ -92,9 +94,9 @@ const EditYourListing = () => {
 
   const getProduct = async () => {
     const res = await axios.get(
-      `http://localhost:5000/api/product/singleproduct/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`
     );
-    setProduct(res.data.product);
+    setProduct(res?.data?.product);
     setFormData({
       title: product.title,
       description: product.description,
@@ -103,14 +105,14 @@ const EditYourListing = () => {
       catagory: product.catagory,
       isOnline: product.isOnline,
       condition: product.condition,
-      images: product.images[0],
+      images: product?.images[0],
     });
 
     fileList.push({
       uid: Math.floor(Math.random()),
       name: "image.png",
       status: "done",
-      url: product.images[0],
+      url: product?.images[0],
     });
   };
 
@@ -249,7 +251,10 @@ const EditYourListing = () => {
               </div>
             </div>
             <div className="w-full flex align-middle justify-between">
-              <button className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5">
+              <button
+                className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5"
+                type="submit"
+              >
                 update it!
               </button>
               <button className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5">

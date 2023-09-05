@@ -2,9 +2,12 @@ import React from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
   const { isLogin } = useGlobalCotext();
+
+  const navigate = useNavigate();
 
   const handleLikedButton = async (id) => {
     const token = localStorage.getItem("hacktechtoken");
@@ -52,8 +55,16 @@ const ProductCard = (props) => {
       });
     }
   };
+
+  const handleProductClick = (id) => {
+    navigate(`/productpage/${id}`);
+  };
+
   return (
-    <article>
+    <article
+      className="cursor-pointer"
+      onClick={() => handleProductClick(props.id)}
+    >
       <div className="relative">
         {props.isliked ? (
           <button

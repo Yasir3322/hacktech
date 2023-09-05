@@ -3,14 +3,17 @@ import ProductCatagories from "../../Components/ProductCatagories/ProductCatagor
 import Footer from "../../Components/Footer/Footer";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
+import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const LandingPage = () => {
   const { isLogin } = useGlobalCotext();
   const [technologyProd, setTechnologyProd] = useState([]);
   const [mensShoesProd, setMensShoesProd] = useState([]);
   const [trandingProd, setTrandingProd] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAllProducts = async () => {
+    setLoading(!loading);
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
     );
@@ -29,6 +32,7 @@ const LandingPage = () => {
         }
       });
     });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -147,28 +151,50 @@ const LandingPage = () => {
           </div>
         ) : (
           <div>
-            <div className="w-11/12 m-auto mt-8">
-              <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
-            </div>
-            <div className="py-10 m-auto w-11/12">
-              <img src="/assets/Line 18.svg" />
-            </div>
+            {loading ? (
+              <Box padding="6" boxShadow="lg" bg="white">
+                <SkeletonText
+                  mt="4"
+                  noOfLines={4}
+                  spacing="4"
+                  skeletonHeight="2"
+                />
+              </Box>
+            ) : (
+              <div>
+                <div className="w-11/12 m-auto mt-8">
+                  <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
+                </div>
+                <div className="py-10 m-auto w-11/12">
+                  <img src="/assets/Line 18.svg" />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
-      <div className="px-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
-        <ProductCatagories
-          prod_catag_title="Trending @USC"
-          trendingProducts={trandingProd}
-        />
-        <ProductCatagories
-          prod_catag_title="Mens Shoes"
-          trendingProducts={mensShoesProd}
-        />
-        <ProductCatagories
-          prod_catag_title="Technology"
-          trendingProducts={technologyProd}
-        />
+      <div>
+        {loading ? (
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+        ) : (
+          <div className="px-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
+            <ProductCatagories
+              prod_catag_title="Trending @USC"
+              trendingProducts={trandingProd}
+            />
+            <ProductCatagories
+              prod_catag_title="Mens Shoes"
+              trendingProducts={mensShoesProd}
+            />
+            <ProductCatagories
+              prod_catag_title="Technology"
+              trendingProducts={technologyProd}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

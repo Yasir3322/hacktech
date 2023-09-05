@@ -18,6 +18,7 @@ import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
 import ChatPage from "./Pages/ChatPage/ChatPage.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
   {
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
         element: <LikedPage />,
       },
       {
-        path: "/productpage",
+        path: "/productpage/:id",
         element: <ProductPage />,
       },
       {
@@ -94,8 +95,10 @@ connectWithPusher();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider>
-    <AppProvider>
-      <RouterProvider router={router} />
-    </AppProvider>
+    <ChakraProvider>
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
+    </ChakraProvider>
   </ThemeProvider>
 );
