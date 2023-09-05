@@ -15,7 +15,17 @@ const LandingPage = () => {
   const getAllProducts = async () => {
     setLoading(!loading);
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
+      {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          // "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Methods":
+          // "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+          "ngrok-skip-browser-warning": true,
+          // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+        },
+      }
     );
     res.data.allProducts?.map((products) => {
       if (products._id === "Technology") {

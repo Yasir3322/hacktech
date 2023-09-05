@@ -97,7 +97,12 @@ function App() {
 
   const getAllCatagories = async () => {
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/catagory/allcatagories`
+      `${import.meta.env.VITE_BACKEND_URL}/api/catagory/allcatagories`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
     // console.log(res);
     setAllCatagories(res.data.catagories);
