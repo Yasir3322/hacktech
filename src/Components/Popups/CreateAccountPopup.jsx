@@ -31,13 +31,10 @@ const CreateAccountPopup = () => {
     });
     showCreateAccountPopup();
     if (res.data) {
-      const token = res.data.token;
-      const { _id, fullName } = res.data.user;
-      const user = { _id, fullName };
-      localStorage.setItem("hacktechtoken", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      useLogin();
-      navigate("/home");
+      const email = res.data.email;
+      localStorage.setItem("useremail", email);
+      useLogin;
+      navigate("/verifyemail");
     }
   };
 

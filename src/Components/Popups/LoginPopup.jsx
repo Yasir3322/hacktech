@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const LoginPopup = () => {
   const navigate = useNavigate();
@@ -65,10 +66,20 @@ const LoginPopup = () => {
           onSubmit={handleSignin}
         >
           <h1 className="text-4xl font-bold">Login into an Account!</h1>
-          <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
+          {/* <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
             <img src="/assets/Frame.png" className="mt-1" />
             <span>Continue with Google</span>
-          </button>
+          </button> */}
+          <GoogleOAuthProvider clientId="402471966178-64i90065ujh2ga5e2793g3l6jn00mq4c.apps.googleusercontent.com">
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </GoogleOAuthProvider>
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Email address</label>
             <input

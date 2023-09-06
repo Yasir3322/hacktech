@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 const CartCard = (props) => {
   const handleRemoveFromCart = async (id) => {
     const res = await axios.delete(
-      `${
-        import.meta.env.VITE_BACKEND_URL
-      }/api/cart/removefromcart/64f6bfd7c5d8d105df6f4afe`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/removefromcart/${id}`,
       {
         headers: {
           "ngrok-skip-browser-warning": true,
@@ -30,7 +28,7 @@ const CartCard = (props) => {
 
   return (
     <div className="mt-4">
-      <div className="flex flex-col gap-6 border border-[#737373] p-6">
+      <div className="flex flex-col gap-6 p-6">
         <div className="md:flex md:flex-row flex flex-col align-middle justify-between">
           <div className="flex align-middle justify-center gap-5">
             <img src={props.image} alt="cart" width={80} height={80} />
@@ -53,18 +51,6 @@ const CartCard = (props) => {
             >
               Remove
             </button>
-          </div>
-        </div>
-        <div className="flex align-middle justify-between">
-          <div className="flex flex-col align-middle justify-center bg-white p-3 px-5">
-            <span className="text-center font-normal text-sm">Subtotal</span>
-            <span className="text-center font-normal text-sm">fee</span>
-            <span className="text-center font-normal text-sm">total</span>
-          </div>
-          <div className="flex flex-col align-middle justify-cente p-3 px-5">
-            <span className="text-center font-normal text-sm">$35.96</span>
-            <span className="text-center font-normal text-sm">$1.00</span>
-            <span className="text-center font-normal text-sm">$36.96</span>
           </div>
         </div>
       </div>

@@ -10,16 +10,16 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyProfile from "./Pages/MyProfile/MyProfile.jsx";
 import Cart from "./Pages/Cart/Cart.jsx";
 import EditYourListing from "./Pages/EditYouListing/EditYourListing.jsx";
-import HomePage from "./Pages/HomePage/HomePage.jsx";
 import CreateNewListing from "./Pages/CreateNewListing/CreateNewListing.jsx";
 import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
 import { AppProvider } from "./Context/Context.jsx";
 import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
 import ChatPage from "./Pages/ChatPage/ChatPage.jsx";
-import axios from "axios";
+import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import { toast } from "react-toastify";
 import { ChakraProvider } from "@chakra-ui/react";
-
+import Pusher from "pusher-js";
+import VerifyEmail from "./Pages/VerifyEmail/VerifyEmail.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,10 +63,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/verifyemail",
+    element: <VerifyEmail />,
+  },
 ]);
-
-import Pusher from "pusher-js";
-import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 
 const connectWithPusher = () => {
   const pusher = new Pusher("1904b460da23661d8163", {

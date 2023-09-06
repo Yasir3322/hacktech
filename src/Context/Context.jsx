@@ -13,6 +13,7 @@ export const AppProvider = ({ children }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [allCatagories, setAllCatagories] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const [userCartItems, setUserCartItems] = useState([]);
 
   const useLogin = () => {
     setIsLogin(!isLogin);
@@ -56,6 +57,8 @@ export const AppProvider = ({ children }) => {
         setAllCatagories,
         allProducts,
         setAllProducts,
+        userCartItems,
+        setUserCartItems,
       }}
     >
       {children}
