@@ -67,10 +67,7 @@ const ProductCard = (props) => {
   };
 
   return (
-    <article
-      className="cursor-pointer"
-      onClick={() => handleProductClick(props.id)}
-    >
+    <article>
       <div className="relative">
         {props.isliked ? (
           <button
@@ -95,18 +92,27 @@ const ProductCard = (props) => {
             )}
           </div>
         )}
-        <img src={props.image} alt="ipad" className="md:w-52 w-full" />
-        <div>
-          <span className="text-xs text-[#737373] font-normal">
-            {props.upload_time}
-          </span>
-          <div className="flex align-middle justify-between">
-            <p className="text-base font-semibold text-black">{props.title}</p>
-            <p className="text-base font-semibold text-black">${props.price}</p>
+        <div
+          className="cursor-pointer"
+          onClick={() => handleProductClick(props.id)}
+        >
+          <img src={props.image} alt="ipad" className="md:w-52 w-full" />
+          <div>
+            <span className="text-xs text-[#737373] font-normal">
+              {props.upload_time}
+            </span>
+            <div className="flex align-middle justify-between">
+              <p className="text-base font-semibold text-black">
+                {props.title}
+              </p>
+              <p className="text-base font-semibold text-black">
+                ${props.price}
+              </p>
+            </div>
+            <span className="text-base text-[#C0C0C0] font-normal">
+              {props.spec}
+            </span>
           </div>
-          <span className="text-base text-[#C0C0C0] font-normal">
-            {props.spec}
-          </span>
         </div>
       </div>
     </article>

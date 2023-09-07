@@ -16,15 +16,36 @@ const Cart = () => {
 
   useEffect(() => {
     getUserCartItem();
-  }, [userCartItems]);
+  }, []);
 
   var total_price = 0;
   var fee = 0;
 
-  const handleCheckOut = () => {
-    console.log("clicked checkout");
+  const handleCheckOut = async () => {
+    const token = localStorage.getItem("hacktechtoken");
+    const metaData = {
+      price_id: "price_1NneMwEg2I5qxKjJLfEZlcSi",
+      product_id: "64f9959a42d30c77db795d43",
+    };
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/stripe/stripecheckout`,
+      metaData,
+      {
+        headers: {
+          token: `${token}`,
+        },
+      }
+    );
+    if (res.status === 200) {
+      window.location.href = res.data;
+    } else {
+      alert("something went wrong");
+    }
+    console.log;
   };
 
+  console.log(userCartItems);
   return (
     <div>
       <div className="w-4/5 m-auto">

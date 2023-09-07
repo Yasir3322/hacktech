@@ -3,9 +3,11 @@ import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { m } from "../Magic-client";
 
 const LoginPopup = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { isLoginPopupOpen, useLogin, showLoginPopup } = useGlobalCotext();
   const [formData, setFormData] = useState({
     email: "",
@@ -15,25 +17,32 @@ const LoginPopup = () => {
 
   const handleSignin = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    const res = await axios.post(
-      "http://localhost:5000/api/user/loginuser",
-      formData
-    );
-    console.log(res);
-    setFormData({
-      email: "",
-      password: "",
-    });
-    showLoginPopup();
-    if (res.data) {
+    setLoading(!loading);
+    try {
+      const didtoken = await m.auth.loginWithMagicLink({
+        email: formData.email,
+      });
+      const res = await axios.post(
+        "http://localhost:5000/api/user/loginuser",
+        formData
+      );
+      setFormData({
+        email: "",
+        password: "",
+      });
+      showLoginPopup();
       const token = res.data.token;
-      const { _id, fullName } = res.data.user;
-      const user = { _id, fullName };
-      localStorage.setItem("hacktechtoken", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      useLogin();
-      navigate("/");
+      setLoading(!loading);
+      if (token && didtoken) {
+        const { _id, fullName } = res.data.user;
+        const user = { _id, fullName };
+        localStorage.setItem("hacktechtoken", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        useLogin();
+        navigate("/");
+      }
+    } catch {
+      console.log("something went wrong");
     }
   };
 
@@ -113,8 +122,8 @@ const LoginPopup = () => {
               I agree to the uniswap Terms of Service and Privacy Policy
             </label>
           </div>
-          <button className="bg-[#CDCED2] text-white w-full p-1" type="submit">
-            Sign in
+          <button className="bg-[#DB3B39] text-white w-full p-1" type="submit">
+            {!loading ? "Sign in" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
             Have an account already? Login instead

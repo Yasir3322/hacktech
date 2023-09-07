@@ -11,6 +11,9 @@ const LandingPage = () => {
   const [mensShoesProd, setMensShoesProd] = useState([]);
   const [trandingProd, setTrandingProd] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
   const getAllProducts = async () => {
     setLoading(!loading);
@@ -168,7 +171,7 @@ const LandingPage = () => {
             ) : (
               <div>
                 <div className="w-11/12 m-auto mt-8">
-                  <h1 className="font-semibold text-4xl">Welcome, Kevin!</h1>
+                  <h1 className="font-semibold text-4xl capitalize">{`Welcome, ${fullName.fullName}!`}</h1>
                 </div>
                 <div className="py-10 m-auto w-11/12">
                   <img src="/assets/Line 18.svg" />

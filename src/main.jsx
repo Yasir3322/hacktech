@@ -20,6 +20,8 @@ import { toast } from "react-toastify";
 import { ChakraProvider } from "@chakra-ui/react";
 import Pusher from "pusher-js";
 import VerifyEmail from "./Pages/VerifyEmail/VerifyEmail.jsx";
+import Success from "./Pages/SuccessfullPage/Success.jsx";
+import Failure from "./Pages/FailurePage/Failure.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
   {
     path: "/verifyemail",
     element: <VerifyEmail />,
+  },
+  {
+    path: "/Successfull",
+    element: <Success />,
+  },
+  {
+    path: "/paymentfailure",
+    element: <Failure />,
   },
 ]);
 

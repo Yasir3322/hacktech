@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Carasoule } from "../../Components/Carasoule";
 import SellerCard from "../../Components/MeetTheSeller/SellerCard";
 import SellerReview from "../../Components/SellerReview/SellerReview";
-import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,6 +12,7 @@ const ProductPage = () => {
   const [textareaValue, setTextareaValue] = useState("");
   const [product, setProduct] = useState({});
   const { id } = useParams();
+  const [productReqStatus, setProductReqStatus] = useState(0);
 
   const getProduct = async () => {
     const res = await axios.get(
@@ -123,6 +123,24 @@ const ProductPage = () => {
     }
   };
 
+  const handleSendReq = async (value, productid) => {
+    const token = localStorage.getItem("hacktechtoken");
+    const data = {
+      buyercomment: value,
+      prodid: productid,
+    };
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/productrequest`,
+      data,
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    setProductReqStatus(res.status);
+  };
+
   return (
     <>
       {Object.keys(product).length ? (
@@ -155,62 +173,79 @@ const ProductPage = () => {
                     </span>
                     <p className="text-lg font-semibold">${product.price}</p>
                   </div>
-                  <div className="py-5">
-                    {!wantProd ? (
-                      <div className="grid grid-cols-2 gap-4">
-                        <button
-                          className="bg-[#F2F2F2] rounded-sm p-1"
-                          onClick={() => handleAddToCart(id)}
-                        >
-                          Add
-                        </button>
-                        <button
-                          className="bg-[#DB3B39] rounded-sm text-white p-1"
-                          onClick={() => setWantProd(!wantProd)}
-                        >
-                          I Want this!
-                        </button>
+                  <div>
+                    {productReqStatus === 200 ? (
+                      <div className="py-8">
+                        <div className="flex flex-col align-middle justify-center items-center">
+                          <img src="/assets/tick.svg" width={50} height={50} />
+                          <p className="text-base font-bold">Request Send!</p>
+                        </div>
                       </div>
                     ) : (
-                      <div>
-                        <textarea
-                          className="border w-full h-20 bg-[#F2F2F2] px-2"
-                          placeholder="make an offer!"
-                          value={textareaValue}
-                          style={{ resize: "none" }}
-                        />
-                        <div>
-                          <span
-                            onClick={() =>
-                              setTextareaValue("I’m interested in this item.")
-                            }
-                            className={`${
-                              textareaValue === "I’m interested in this item."
-                                ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                                : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                            }`}
-                          >
-                            I’m interested in this item.
-                          </span>
-                          <span
-                            onClick={() =>
-                              setTextareaValue(
-                                "What condition is this item in?"
-                              )
-                            }
-                            className={`${
-                              textareaValue ===
-                              "What condition is this item in?"
-                                ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                                : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                            }`}
-                          >
-                            What condition is this item in?
-                          </span>
-                        </div>
-                        <button className="bg-[#DB3B39] text-white w-full mt-4 rounded-sm p-1">
-                          Send
-                        </button>
+                      <div className="py-5">
+                        {!wantProd ? (
+                          <div className="grid grid-cols-2 gap-4">
+                            <button
+                              className="bg-[#F2F2F2] rounded-sm p-1"
+                              onClick={() => handleAddToCart(id)}
+                            >
+                              Add
+                            </button>
+                            <button
+                              className="bg-[#DB3B39] rounded-sm text-white p-1"
+                              onClick={() => setWantProd(!wantProd)}
+                            >
+                              I Want this!
+                            </button>
+                          </div>
+                        ) : (
+                          <div>
+                            <textarea
+                              className="border w-full h-20 bg-[#F2F2F2] px-2"
+                              placeholder="make an offer!"
+                              value={textareaValue}
+                              style={{ resize: "none" }}
+                            />
+                            <div>
+                              <span
+                                onClick={() =>
+                                  setTextareaValue(
+                                    "I’m interested in this item."
+                                  )
+                                }
+                                className={`${
+                                  textareaValue ===
+                                  "I’m interested in this item."
+                                    ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                }`}
+                              >
+                                I’m interested in this item.
+                              </span>
+                              <span
+                                onClick={() =>
+                                  setTextareaValue(
+                                    "What condition is this item in?"
+                                  )
+                                }
+                                className={`${
+                                  textareaValue ===
+                                  "What condition is this item in?"
+                                    ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                }`}
+                              >
+                                What condition is this item in?
+                              </span>
+                            </div>
+                            <button
+                              className="bg-[#DB3B39] text-white w-full mt-4 rounded-sm p-1"
+                              onClick={() => handleSendReq(textareaValue, id)}
+                            >
+                              Send
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

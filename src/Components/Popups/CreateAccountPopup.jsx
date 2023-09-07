@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { m } from "../Magic-client";
+
 const CreateAccountPopup = () => {
   const navigate = useNavigate();
   const { isCreateAccountPopupOpen, showCreateAccountPopup, useLogin } =
     useGlobalCotext();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -17,24 +20,35 @@ const CreateAccountPopup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    const res = await axios.post(
-      "http://localhost:5000/api/user/createuser",
-      formData
-    );
-    console.log(res);
-    setFormData({
-      fullName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      privacypolicy: false,
-    });
-    showCreateAccountPopup();
-    if (res.data) {
-      const email = res.data.email;
-      localStorage.setItem("useremail", email);
-      useLogin;
-      navigate("/verifyemail");
+    setLoading(!loading);
+    try {
+      const didtoken = await m.auth.loginWithMagicLink({
+        email: formData.email,
+      });
+      const res = await axios.post(
+        "http://localhost:5000/api/user/createuser",
+        formData
+      );
+      setFormData({
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        privacypolicy: false,
+      });
+      showCreateAccountPopup();
+      const token = res.data.token;
+      setLoading(!loading);
+      if (didtoken && token) {
+        const { _id, fullName } = res.data.user;
+        const user = { _id, fullName };
+        localStorage.setItem("hacktechtoken", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        useLogin();
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -126,8 +140,8 @@ const CreateAccountPopup = () => {
               I agree to the uniswap Terms of Service and Privacy Policy
             </label>
           </div>
-          <button className="bg-[#CDCED2] text-white w-full p-1" type="submit">
-            Sign up
+          <button className="bg-[#DB3B39]  text-white w-full p-1" type="submit">
+            {!loading ? "Sign up" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
             Have an account already? Login instead
