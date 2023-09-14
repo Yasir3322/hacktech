@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import UserDetail from "../../Components/UserDetail";
 import axios from "axios";
 import UserListing from "../../Components/UI/UserListing";
+import { useGlobalCotext } from "../../Context/Context";
 
 const MyProfile = () => {
   const [userListing, setUserListing] = useState([]);
+  const { userimage, setProfileImage } = useGlobalCotext();
 
   const getUserListing = async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/product/64f0baedc6d368f282262e29"
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/64f0baedc6d368f282262e29`
     );
     setUserListing(res.data.products);
   };
@@ -97,9 +99,13 @@ const MyProfile = () => {
     }
   }
 
+  useEffect(() => {
+    setProfileImage();
+  }, []);
+
   return (
     <div>
-      <UserDetail />
+      <UserDetail image={userimage} setProfileImage={setProfileImage} />
       <div className="w-full flex align-middle justify-center">
         <button className="w-3/4 h-14 bg-[#DB3B39] text-white mt-16 rounded-3xl text-2xl font-semibold">
           MY Listing

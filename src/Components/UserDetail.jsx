@@ -1,9 +1,43 @@
-import React, { useState } from "react";
-
-const UserDetail = () => {
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+const UserDetail = (props) => {
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    const token = localStorage.getItem("hacktechtoken");
+    const formdata = new FormData();
+    formdata.append("images", e.target.files[0]);
+
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/user/uploadpic`,
+      formdata,
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    if (res.status === 200) {
+      toast.success("profile Changed", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      const { image } = res.data.newUser;
+      localStorage.setItem("profile", JSON.stringify(image));
+      props.setProfileImage();
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -28,14 +62,25 @@ const UserDetail = () => {
             <img src="/assets/star.svg" />
           </div>
         </div>
-        <div>
-          <img
-            src="/assets/userprofile.svg"
-            alt="userprofile"
-            width={100}
-            height={100}
+        <form>
+          <label htmlFor="fileInput">
+            <img
+              src={`${props.image ? props.image : "/assets/preview.avif"}`}
+              alt="userprofile"
+              width={100}
+              height={100}
+              className="w-20 h-20 rounded-full cursor-pointer"
+              id="imagePreview"
+            />
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
           />
-        </div>
+        </form>
       </div>
       <div className="mt-5">
         <img src="/assets/Line 18.svg" />

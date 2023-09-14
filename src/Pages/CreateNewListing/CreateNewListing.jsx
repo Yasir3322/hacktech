@@ -61,7 +61,7 @@ const CreateNewListing = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(fileList);
+    const hashtag = formData.hashtags.split(",");
     const imagefiles = fileList.map((file) => {
       return file.originFileObj;
     });
@@ -69,7 +69,7 @@ const CreateNewListing = () => {
     formdata.append("title", formData.title);
     formdata.append("description", formData.description);
     formdata.append("price", 123);
-    formdata.append("hashtags", formData.hashtags);
+    formdata.append("hashtags", JSON.stringify(hashtag));
     formdata.append("catagory", formData.catagory);
     formdata.append("isOnline", formData.isOnline);
     formdata.append("condition", formData.condition);
@@ -80,11 +80,10 @@ const CreateNewListing = () => {
 
     const token = localStorage.getItem("hacktechtoken");
     const res = await axios.post(
-      `${import.meta.env.BACKEND_URL}/product/createproduct`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/createproduct`,
       formdata,
       { headers: { "Content-Type": "multipart/form-data", token: token } }
     );
-    console.log(res);
   };
 
   return (

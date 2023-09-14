@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { m } from "../Magic-client";
+import { toast } from "react-toastify";
 
-const CreateAccountPopup = () => {
+const CreateAccountPopup = ({ socket }) => {
   const navigate = useNavigate();
   const { isCreateAccountPopupOpen, showCreateAccountPopup, useLogin } =
     useGlobalCotext();
@@ -16,17 +17,21 @@ const CreateAccountPopup = () => {
     password: "",
     confirmPassword: "",
     privacypolicy: false,
+    socketid: socket.id,
   });
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    // remove comment if you want that email should end with ucp.edu;
+    // if (formData.email.match("/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$/")){
     setLoading(!loading);
     try {
       const didtoken = await m.auth.loginWithMagicLink({
         email: formData.email,
       });
       const res = await axios.post(
-        "http://localhost:5000/api/user/createuser",
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
         formData
       );
       setFormData({
@@ -45,11 +50,27 @@ const CreateAccountPopup = () => {
         localStorage.setItem("hacktechtoken", token);
         localStorage.setItem("user", JSON.stringify(user));
         useLogin();
+        socket.emit("newuser", {
+          userid: _id,
+          socketId: socket.id,
+        });
         navigate("/");
       }
     } catch (error) {
       console.log(error.message);
     }
+    // }else{
+    //      toast.success("please provide valid email", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // }
   };
 
   const handleChange = (e) => {

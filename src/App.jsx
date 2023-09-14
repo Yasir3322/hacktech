@@ -14,7 +14,7 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function App() {
+function App({ socket }) {
   const {
     isLogin,
     isNotificationDropdownOpen,
@@ -119,9 +119,9 @@ function App() {
         {!isLogin ? (
           <>
             <section className="shadow-md pb-4 relative">
-              <CreateAccountPopup />
+              <CreateAccountPopup socket={socket} />
               <SoldtowhoPopup />
-              <LoginPopup />
+              <LoginPopup socket={socket} />
               <Header />
               <Navbar />
               <LandingPage />
@@ -145,12 +145,19 @@ function App() {
             <div
               id="detail"
               className={`${
-                location.pathname === "/chat" ? "w-full" : "w-11/12 m-auto"
+                location.pathname === "/chat" || "/chat/:id"
+                  ? "w-full"
+                  : "w-11/12 m-auto"
               }`}
             >
               <Outlet />
             </div>
-            {location.pathname === "/chat" ? "" : <Footer />}
+            {location.pathname === "/chat" ||
+            location.pathname === "/chat/:id" ? (
+              ""
+            ) : (
+              <Footer />
+            )}
           </>
         )}
       </div>

@@ -6,10 +6,10 @@ const DropDown = ({ items }) => {
   const { useLogin } = useGlobalCotext();
   const navigate = useNavigate();
   const handleDropdownLink = (url) => {
-    console.log(url);
     if (url === "/") {
       localStorage.removeItem("hacktechtoken");
       localStorage.removeItem("user");
+      localStorage.removeItem("profile");
       useLogin();
       navigate("/");
     }

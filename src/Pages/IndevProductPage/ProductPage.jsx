@@ -26,6 +26,8 @@ const ProductPage = () => {
     setProduct(res?.data?.product);
   };
 
+  console.log(product);
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -142,9 +144,9 @@ const ProductPage = () => {
   };
 
   return (
-    <>
+    <div>
       {Object.keys(product).length ? (
-        <div>
+        <div className="w-4/5 m-auto">
           <div className="flex gap-3">
             <div className="w-62 mt-7 flex flex-col gap-3 justify-between h-96">
               {images.map((image) => {
@@ -317,7 +319,7 @@ const ProductPage = () => {
           <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
         </Box>
       )}
-    </>
+    </div>
   );
 };
 

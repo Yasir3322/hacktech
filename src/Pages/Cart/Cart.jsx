@@ -21,6 +21,8 @@ const Cart = () => {
   var total_price = 0;
   var fee = 0;
 
+  console.log(userCartItems);
+
   const handleCheckOut = async () => {
     const token = localStorage.getItem("hacktechtoken");
     const metaData = {

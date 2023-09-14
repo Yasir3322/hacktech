@@ -6,13 +6,12 @@ import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
 
 export const LikedPage = () => {
-  const [likedProducts, setLikedProducts] = useState();
+  const [likedProducts, setLikedProducts] = useState([]);
 
   const getLikedProducts = async () => {
+    const userid = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URL
-      }/api/favourite/64f0baedc6d368f282262e29`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${userid}`,
       {
         headers: {
           "ngrok-skip-browser-warning": true,
@@ -26,7 +25,7 @@ export const LikedPage = () => {
 
   useEffect(() => {
     getLikedProducts();
-  }, [likedProducts]);
+  }, []);
 
   const likedItems = [
     {
@@ -83,8 +82,6 @@ export const LikedPage = () => {
       return days === 1 ? "1 day ago" : `${days} days ago`;
     }
   }
-
-  // console.log(likedProducts.products);
 
   return (
     <div>

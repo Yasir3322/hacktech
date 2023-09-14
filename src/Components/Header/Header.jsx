@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { IoIosArrowDown } from "react-icons/io";
 
 const Header = (props) => {
   const navigate = useNavigate();
+  const { userimage } = useGlobalCotext();
+
   const {
     useLogin,
     showCreateAccountPopup,
@@ -112,10 +114,11 @@ const Header = (props) => {
             <div className="flex gap-3 align-middle justify-center">
               <Link to="myprofile">
                 <img
-                  src="/assets/userprofile.svg"
+                  src={`${userimage ? userimage : "/assets/preview.avif"}`}
                   alt="userprofile"
                   width={50}
                   height={50}
+                  className="w-11 h-11 rounded-full"
                 />
               </Link>
               <button

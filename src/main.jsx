@@ -14,7 +14,6 @@ import CreateNewListing from "./Pages/CreateNewListing/CreateNewListing.jsx";
 import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
 import { AppProvider } from "./Context/Context.jsx";
 import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
-import ChatPage from "./Pages/ChatPage/ChatPage.jsx";
 import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import { toast } from "react-toastify";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -22,14 +21,21 @@ import Pusher from "pusher-js";
 import VerifyEmail from "./Pages/VerifyEmail/VerifyEmail.jsx";
 import Success from "./Pages/SuccessfullPage/Success.jsx";
 import Failure from "./Pages/FailurePage/Failure.jsx";
+import socketIO from "socket.io-client";
+import ChatBar from "./Pages/ChatPage/ChatBar.jsx";
+import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
+import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
+
+const socket = socketIO.connect("http://localhost:5000");
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App socket={socket} />,
     children: [
       {
         path: "/",
-        element: <LandingPage />,
+        element: <LandingPage socket={socket} />,
       },
       {
         path: "/user",
@@ -61,7 +67,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/chat",
-        element: <ChatPage />,
+        element: <ChatBar socket={socket} />,
+        children: [
+          {
+            path: "/chat",
+            element: <ChatWelcome />,
+          },
+          {
+            path: "/chat/:id",
+            element: <ChatBody socket={socket} />,
+          },
+        ],
       },
     ],
   },

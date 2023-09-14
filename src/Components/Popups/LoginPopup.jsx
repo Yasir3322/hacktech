@@ -4,8 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { m } from "../Magic-client";
+import { toast } from "react-toastify";
 
-const LoginPopup = () => {
+const LoginPopup = ({ socket }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { isLoginPopupOpen, useLogin, showLoginPopup } = useGlobalCotext();
@@ -17,15 +18,18 @@ const LoginPopup = () => {
 
   const handleSignin = async (e) => {
     e.preventDefault();
+
+    // remove comment if you want that email should end with ucp.edu;
+    // if (formData.email.match("/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$/")){
     setLoading(!loading);
     try {
-      const didtoken = await m.auth.loginWithMagicLink({
-        email: formData.email,
-      });
       const res = await axios.post(
         "http://localhost:5000/api/user/loginuser",
         formData
       );
+      const didtoken = await m.auth.loginWithMagicLink({
+        email: formData.email,
+      });
       setFormData({
         email: "",
         password: "",
@@ -34,16 +38,36 @@ const LoginPopup = () => {
       const token = res.data.token;
       setLoading(!loading);
       if (token && didtoken) {
-        const { _id, fullName } = res.data.user;
+        console.log(res.data.user);
+        const { _id, fullName, image } = res.data.user;
+        console.log(image);
         const user = { _id, fullName };
+
         localStorage.setItem("hacktechtoken", token);
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("profile", image);
         useLogin();
+        socket.emit("newuser", {
+          userid: _id,
+          socketId: socket.id,
+        });
         navigate("/");
       }
     } catch {
       console.log("something went wrong");
     }
+    // }else{
+    //      toast.success("please provide valid email", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // }
   };
 
   const handleChange = (e) => {

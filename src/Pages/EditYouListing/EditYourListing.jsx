@@ -6,9 +6,9 @@ import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useGlobalCotext } from "../../Context/Context";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditYourListing = () => {
-  const [product, setProduct] = useState({});
   const { allCatagories } = useGlobalCotext();
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -65,6 +65,25 @@ const EditYourListing = () => {
     e.preventDefault();
     console.log(fileList);
     console.log(formData);
+
+    const response = await axios.patch(
+      `http://localhost:5000/api/product/editlisting/${id}`,
+      formData
+    );
+
+    if (response.status === 200) {
+      toast.success("Updated Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
     return;
     const imagefiles = fileList.map((file) => {
       return file.originFileObj;
@@ -101,23 +120,22 @@ const EditYourListing = () => {
         },
       }
     );
-    setProduct(res?.data?.product);
     setFormData({
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      hashtags: product.hashtags,
-      catagory: product.catagory,
-      isOnline: product.isOnline,
-      condition: product.condition,
-      images: product?.images[0],
+      title: res?.data?.product.title,
+      description: res?.data?.product.description,
+      price: res?.data?.product.price,
+      hashtags: res?.data?.product.hashtags,
+      catagory: res?.data?.product.catagory,
+      isOnline: res?.data?.product.isOnline,
+      condition: res?.data?.product.condition,
+      images: res?.data?.product?.images,
     });
 
     fileList.push({
       uid: Math.floor(Math.random()),
       name: "image.png",
       status: "done",
-      url: product?.images[0],
+      url: formData?.images[0],
     });
   };
 
@@ -125,7 +143,7 @@ const EditYourListing = () => {
     getProduct();
   }, []);
 
-  console.log(product);
+  console.log(formData);
 
   return (
     <div className="w-full">
@@ -144,7 +162,6 @@ const EditYourListing = () => {
                 <input
                   type="text"
                   className="border bg-white border-[#D0D4D9] w-full px-2"
-                  placeholder={product.title}
                   name="title"
                   value={formData.title}
                   onChange={handleChange2}
@@ -180,7 +197,6 @@ const EditYourListing = () => {
               <input
                 type="text"
                 className="border border-[#D0D4D9] px-2"
-                placeholder={product.description}
                 name="description"
                 value={formData.description}
                 onChange={handleChange2}

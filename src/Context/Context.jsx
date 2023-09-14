@@ -14,6 +14,18 @@ export const AppProvider = ({ children }) => {
   const [allCatagories, setAllCatagories] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [userCartItems, setUserCartItems] = useState([]);
+  const [userimage, setUserImage] = useState("");
+  const [chatWith, setChatWith] = useState([]);
+
+  const addChatWithUser = (user) => {
+    setChatWith((prev) => {
+      return [...prev, user];
+    });
+  };
+
+  const setProfileImage = () => {
+    setUserImage(JSON.parse(localStorage.getItem("profile")));
+  };
 
   const useLogin = () => {
     setIsLogin(!isLogin);
@@ -59,6 +71,10 @@ export const AppProvider = ({ children }) => {
         setAllProducts,
         userCartItems,
         setUserCartItems,
+        userimage,
+        setProfileImage,
+        chatWith,
+        addChatWithUser,
       }}
     >
       {children}

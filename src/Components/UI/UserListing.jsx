@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UserListing = (props) => {
   const navigate = useNavigate();
@@ -12,10 +14,36 @@ const UserListing = (props) => {
     navigate(`/productpage/${id}`);
   };
 
+  const handleMarkSold = async (id) => {
+    const data = {
+      isSold: true,
+    };
+
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/editlisting/${id}`,
+      data
+    );
+    if (res.status === 200) {
+      toast.success("Your product marked as Sold", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   return (
     <article>
       <div className="relative">
-        <button className="bg-[#5B5B5BBF]/70 px-2 top-1 left-2 text-white text-sm font-normal rounded-full absolute">
+        <button
+          onClick={() => handleMarkSold(props.id)}
+          className="bg-[#5B5B5BBF]/70 px-2 top-1 left-2 text-white text-sm font-normal rounded-full absolute"
+        >
           mark sold
         </button>
         <button
