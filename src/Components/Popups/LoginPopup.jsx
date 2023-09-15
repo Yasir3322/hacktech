@@ -24,12 +24,12 @@ const LoginPopup = ({ socket }) => {
     setLoading(!loading);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/user/loginuser",
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/loginuser`,
         formData
       );
-      const didtoken = await m.auth.loginWithMagicLink({
-        email: formData.email,
-      });
+      // const didtoken = await m.auth.loginWithMagicLink({
+      //   email: formData.email,
+      // });
       setFormData({
         email: "",
         password: "",
@@ -37,7 +37,7 @@ const LoginPopup = ({ socket }) => {
       showLoginPopup();
       const token = res.data.token;
       setLoading(!loading);
-      if (token && didtoken) {
+      if (token) {
         console.log(res.data.user);
         const { _id, fullName, image } = res.data.user;
         console.log(image);

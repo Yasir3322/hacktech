@@ -9,8 +9,10 @@ const MyProfile = () => {
   const { userimage, setProfileImage } = useGlobalCotext();
 
   const getUserListing = async () => {
+    const { id } = JSON.parse(localStorage.getItem("user"))._id;
+
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/64f0baedc6d368f282262e29`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`
     );
     setUserListing(res.data.products);
   };

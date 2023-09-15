@@ -67,7 +67,7 @@ const EditYourListing = () => {
     console.log(formData);
 
     const response = await axios.patch(
-      `http://localhost:5000/api/product/editlisting/${id}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/editlisting/${id}`,
       formData
     );
 

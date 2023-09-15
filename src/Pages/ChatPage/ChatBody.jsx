@@ -30,7 +30,7 @@ const ChatBody = ({ socket }) => {
 
   const getUserMess = async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/message/allmessages"
+      `${import.meta.env.VITE_BACKEND_URL}/api/message/allmessages`
     );
     // setMessages(res.data.allMessages);
     const allmess = res.data.allMessages;

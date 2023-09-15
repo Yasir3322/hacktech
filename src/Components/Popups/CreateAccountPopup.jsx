@@ -27,9 +27,9 @@ const CreateAccountPopup = ({ socket }) => {
     // if (formData.email.match("/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$/")){
     setLoading(!loading);
     try {
-      const didtoken = await m.auth.loginWithMagicLink({
-        email: formData.email,
-      });
+      // const didtoken = await m.auth.loginWithMagicLink({
+      //   email: formData.email,
+      // });
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
         formData
@@ -44,7 +44,7 @@ const CreateAccountPopup = ({ socket }) => {
       showCreateAccountPopup();
       const token = res.data.token;
       setLoading(!loading);
-      if (didtoken && token) {
+      if (token) {
         const { _id, fullName } = res.data.user;
         const user = { _id, fullName };
         localStorage.setItem("hacktechtoken", token);

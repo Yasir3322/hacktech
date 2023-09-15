@@ -26,7 +26,7 @@ import ChatBar from "./Pages/ChatPage/ChatBar.jsx";
 import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
 import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
 
-const socket = socketIO.connect("http://localhost:5000");
+const socket = socketIO.connect("http://3.143.204.110:8000");
 
 const router = createBrowserRouter([
   {
