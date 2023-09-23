@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Rating from "./UI/Rating";
+import ShowRating from "./UI/ShowRating";
 const UserDetail = (props) => {
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
@@ -56,10 +58,10 @@ const UserDetail = (props) => {
             />
           </div>
           <div className="w-full">
-            <span>158 reviews | 255 listed |167 sales</span>
+            <span>{`0 reviews | ${props.userListingLength} listed | 0 sales`}</span>
           </div>
           <div className="h-8">
-            <img src="/assets/star.svg" />
+            <ShowRating rating={3} />
           </div>
         </div>
         <form>

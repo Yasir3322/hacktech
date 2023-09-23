@@ -6,14 +6,16 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { useGlobalCotext } from "../../Context/Context";
 
 const ProductPage = () => {
   const [wantProd, setWantProd] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
   const [product, setProduct] = useState({});
-  const { id } = useParams();
   const [productReqStatus, setProductReqStatus] = useState(0);
+  const { isLogin } = useGlobalCotext();
 
+  const { id } = useParams();
   const getProduct = async () => {
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
@@ -25,8 +27,6 @@ const ProductPage = () => {
     );
     setProduct(res?.data?.product);
   };
-
-  console.log(product);
 
   useEffect(() => {
     getProduct();

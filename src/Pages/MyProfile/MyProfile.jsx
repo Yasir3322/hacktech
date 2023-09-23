@@ -6,15 +6,16 @@ import { useGlobalCotext } from "../../Context/Context";
 
 const MyProfile = () => {
   const [userListing, setUserListing] = useState([]);
+  const [userListingLength, setUserListingLength] = useState(0);
   const { userimage, setProfileImage } = useGlobalCotext();
 
   const getUserListing = async () => {
-    const { id } = JSON.parse(localStorage.getItem("user"))._id;
-
+    const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`
     );
     setUserListing(res.data.products);
+    setUserListingLength(res.data.totalProductCount);
   };
 
   useEffect(() => {
@@ -107,7 +108,11 @@ const MyProfile = () => {
 
   return (
     <div>
-      <UserDetail image={userimage} setProfileImage={setProfileImage} />
+      <UserDetail
+        image={userimage}
+        setProfileImage={setProfileImage}
+        userListingLength={userListingLength}
+      />
       <div className="w-full flex align-middle justify-center">
         <button className="w-3/4 h-14 bg-[#DB3B39] text-white mt-16 rounded-3xl text-2xl font-semibold">
           MY Listing

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ChatFooter from "./ChatFooter";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGlobalCotext } from "../../Context/Context";
 
 const ChatBody = ({ socket }) => {
   const { id } = useParams();
@@ -9,6 +10,7 @@ const ChatBody = ({ socket }) => {
   const [messages, setMessages] = useState([]);
   const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(false);
+  const { setShow } = useGlobalCotext();
 
   useEffect(() => {
     console.log("called");
@@ -52,8 +54,19 @@ const ChatBody = ({ socket }) => {
     setLoading(true);
   }, [id]);
 
+  const handleGoBackClick = () => {
+    setShow(false);
+  };
+
   return (
     <div className="p-5 w-full h-[28rem] relative">
+      <Link
+        to="/chat"
+        className="px-4 absolute right-1"
+        onClick={() => handleGoBackClick()}
+      >
+        Go back
+      </Link>
       <div className="flex gap-2">
         <img
           src={userDetail?.image ? userDetail.image : "/assets/preview.avif"}

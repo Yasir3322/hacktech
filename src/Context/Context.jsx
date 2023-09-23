@@ -16,6 +16,7 @@ export const AppProvider = ({ children }) => {
   const [userCartItems, setUserCartItems] = useState([]);
   const [userimage, setUserImage] = useState("");
   const [chatWith, setChatWith] = useState([]);
+  const [show, setShow] = useState(false);
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -75,6 +76,8 @@ export const AppProvider = ({ children }) => {
         setProfileImage,
         chatWith,
         addChatWithUser,
+        show,
+        setShow,
       }}
     >
       {children}

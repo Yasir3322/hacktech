@@ -15,6 +15,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App({ socket }) {
+  const [notifi_dropdown_props, setNotifi_dropdown_props] = useState([]);
+
+  const id = JSON.parse(localStorage.getItem("user"))._id;
+
   const {
     isLogin,
     isNotificationDropdownOpen,
@@ -27,28 +31,13 @@ function App({ socket }) {
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
-  const notifi_dropdown_props = [
-    {
-      title: "Notification",
-      url: "/notification",
-    },
-    {
-      title: "Your liked item has been sold",
-      url: "/likeditems",
-    },
-    {
-      title: "You have unread chats",
-      url: "/chat",
-    },
-    {
-      title: "Label4",
-      url: "",
-    },
-    {
-      title: "Label5",
-      url: "",
-    },
-  ];
+
+  // const notifi_dropdown_props = [
+  //   {
+  //     title: "Notification",
+  //     url: "",
+  //   },
+  // ];
 
   const profile_dropdown_props = [
     {
@@ -62,14 +51,6 @@ function App({ socket }) {
     {
       title: "Logout",
       url: "/",
-    },
-    {
-      title: "Label4",
-      url: "",
-    },
-    {
-      title: "Label5",
-      url: "",
     },
   ];
 
@@ -92,9 +73,25 @@ function App({ socket }) {
     }
   };
 
+  const userNotification = async () => {
+    const res = await axios.get(
+      `http://localhost:5000/api/notification/allnotification/${id}`
+    );
+    console.log(res.data.allnotification);
+    if (res.data.allnotification.length === 0) {
+      setNotifi_dropdown_props([{ title: "NO notification", url: "" }]);
+    } else {
+      setNotifi_dropdown_props(res.data.allnotification);
+    }
+  };
+
   useEffect(() => {
     tokenUserLogin();
   }, []);
+
+  useEffect(() => {
+    userNotification();
+  }, [id]);
 
   const getAllCatagories = async () => {
     const res = await axios.get(
@@ -120,11 +117,13 @@ function App({ socket }) {
           <>
             <section className="shadow-md pb-4 relative">
               <CreateAccountPopup socket={socket} />
-              <SoldtowhoPopup />
               <LoginPopup socket={socket} />
               <Header />
               <Navbar />
-              <LandingPage />
+              {/* <LandingPage /> */}
+              <div id="detail">
+                <Outlet />
+              </div>
               <Footer />
             </section>
           </>
@@ -132,6 +131,7 @@ function App({ socket }) {
           <>
             <section className="shadow-md pb-4">
               <ToastContainer />
+              <SoldtowhoPopup />
               {isNotificationDropdownOpen ? (
                 <DropDown items={notifi_dropdown_props} />
               ) : isProfileDropdownOpen ? (

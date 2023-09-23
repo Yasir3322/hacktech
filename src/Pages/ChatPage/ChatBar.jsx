@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useGlobalCotext } from "../../Context/Context";
 
 const ChatBar = ({ socket }) => {
   const [usersList, setUsersList] = useState([]);
   const [peoples, setPeople] = useState([]);
+  const { show, setShow } = useGlobalCotext();
 
   useEffect(() => {
     socket.on("newUserResponse", (data) => {
@@ -34,7 +36,7 @@ const ChatBar = ({ socket }) => {
   }, []);
 
   const handleChatClick = (id) => {
-    console.log(id);
+    setShow(!show);
   };
 
   // const peoples = [
@@ -82,13 +84,23 @@ const ChatBar = ({ socket }) => {
 
   return (
     <div className="flex w-full">
-      <div className="border-r-2 w-1/4 p-4 h-[28rem] overflow-y-scroll custom-scrollbar">
+      <div
+        className={
+          !show
+            ? "border-r-2 md:w-1/4 block  w-full p-4 h-[28rem] overflow-y-scroll custom-scrollbar"
+            : "border-r-2 md:w-1/4 md:block hidden w-full p-4 h-[28rem] overflow-y-scroll custom-scrollbar"
+        }
+      >
         <h4 className="text-lg">Chat</h4>
         <div className="flex w-full flex-col gap-3 mt-4">
           {peoples.map((people) => {
             const { image, fullName, _id } = people;
             return (
-              <Link className="flex gap-3 cursor-pointer" to={`/chat/${_id}`}>
+              <Link
+                className="flex gap-3 cursor-pointer"
+                to={`/chat/${_id}`}
+                onClick={() => handleChatClick(_id)}
+              >
                 <img
                   src={image?.length > 0 ? image : "/assets/preview.avif"}
                   alt="image"
@@ -105,7 +117,12 @@ const ChatBar = ({ socket }) => {
           })}
         </div>
       </div>
-      <div id="detail" className="w-3/4">
+      <div
+        id="detail"
+        className={
+          show ? "md:w-3/4 w-full md:block" : "md:w-3/4 w-full md:block hidden"
+        }
+      >
         <Outlet />
       </div>
     </div>

@@ -22,6 +22,13 @@ const Cart = () => {
   var fee = 0;
 
   console.log(userCartItems);
+  const paymentdata = userCartItems.map((item) => {
+    const quantity = item.quantity;
+    const { _id, priceid } = item.product[0];
+    return { _id, priceid, quantity };
+  });
+
+  console.log(paymentdata);
 
   const handleCheckOut = async () => {
     const token = localStorage.getItem("hacktechtoken");
@@ -32,7 +39,8 @@ const Cart = () => {
 
     const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/stripe/stripecheckout`,
-      metaData,
+      // metaData,
+      { paymentdata },
       {
         headers: {
           token: `${token}`,
@@ -88,7 +96,7 @@ const Cart = () => {
           </div>
         </div>
         <button
-          className="bg-[#EA1E1B] border-2 cursor-pointer text-white w-60 mt-8  h-10 rounded-md float-right"
+          className="bg-[#EA1E1B]  border-2 cursor-pointer text-white w-60 mt-8  h-10 rounded-md float-right"
           onClick={() => handleCheckOut()}
         >
           Proceed To Checkout
