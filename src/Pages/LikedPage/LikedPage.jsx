@@ -4,6 +4,7 @@ import Header from "../../Components/Header/Header";
 import ProductCard from "../../Components/UI/ProductCard";
 import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const LikedPage = () => {
   const [likedProducts, setLikedProducts] = useState([]);
@@ -19,12 +20,76 @@ export const LikedPage = () => {
       }
     );
 
-    console.log(res.data.favouriteProducts);
+    // console.log(res.data.favouriteProducts);
+    // const { instock } = res.data.favouriteProducts.products[0];
+    // if (!instock) {
+    //   toast("Your favourite item has sold");
+    //   await axios.post(
+    //     `${
+    //       import.meta.env.VITE_BACKEND_URL
+    //     }/api/notification/createnotification`,
+    //     {
+    //       title: "Your favorite item has sold",
+    //       url: "/likedproduct",
+    //       notificationto: "64fffd805bd23133cda10641",
+    //     }
+    //   );
+    // }
     setLikedProducts(res.data.favouriteProducts);
+  };
+
+  const getInstockProducts = async () => {
+    const userid = JSON.parse(localStorage.getItem("user"))._id;
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${userid}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
+    );
+
+    console.log(res.data.favouriteProducts);
+    const { products } = res.data.favouriteProducts[0];
+    console.log(products);
+    products.map(async (product) => {
+      if (!product.instock) {
+        toast("Your favourite item has sold");
+        await axios.post(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/notification/createnotification`,
+          {
+            title: "Your favorite item has sold",
+            url: "/likedproduct",
+            notificationto: "64fffd805bd23133cda10641",
+          }
+        );
+      }
+    });
+
+    // const { instock } = res.data.favouriteProducts.products[0];
+    // if (!instock) {
+    //   toast("Your favourite item has sold");
+    //   await axios.post(
+    //     `${
+    //       import.meta.env.VITE_BACKEND_URL
+    //     }/api/notification/createnotification`,
+    //     {
+    //       title: "Your favorite item has sold",
+    //       url: "/likedproduct",
+    //       notificationto: "64fffd805bd23133cda10641",
+    //     }
+    //   );
+    // }
   };
 
   useEffect(() => {
     getLikedProducts();
+  }, [likedProducts]);
+
+  useEffect(() => {
+    getInstockProducts();
   }, []);
 
   const likedItems = [

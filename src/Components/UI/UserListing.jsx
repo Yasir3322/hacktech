@@ -38,7 +38,8 @@ const UserListing = (props) => {
     //     theme: "light",
     //   });
     // }
-    showSoldPopup();
+    console.log(id);
+    showSoldPopup(id);
   };
 
   return (
@@ -56,7 +57,10 @@ const UserListing = (props) => {
         >
           Edit
         </button>
-        <div className="cursor-pointer">
+        <div
+          className="cursor-pointer"
+          onClick={() => handleProductClick(props.id)}
+        >
           <img src={props.image} alt="ipad" className="md:w-52 w-full" />
           <div>
             <span className="text-xs text-[#737373] font-normal">

@@ -27,6 +27,7 @@ const CreateAccountPopup = ({ socket }) => {
     // if (formData.email.match("/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$/")){
     setLoading(!loading);
     try {
+      // email verification code
       // const didtoken = await m.auth.loginWithMagicLink({
       //   email: formData.email,
       // });
@@ -49,6 +50,7 @@ const CreateAccountPopup = ({ socket }) => {
         const user = { _id, fullName };
         localStorage.setItem("hacktechtoken", token);
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isEmailVerified", true);
         useLogin();
         socket.emit("newuser", {
           userid: _id,

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Box, Icon, PseudoBox, Stack, Text } from "@chakra-ui/core";
+import { useGlobalCotext } from "../../Context/Context";
 
 const Rating = React.forwardRef(
   ({ size, icon, scale, fillColor, strokeColor }, ref) => {
-    const [rating, setRating] = useState(0);
+    const { rating, setRating } = useGlobalCotext();
+
     const buttons = [];
 
     const onClick = (idx) => {

@@ -12,7 +12,7 @@ import Cart from "./Pages/Cart/Cart.jsx";
 import EditYourListing from "./Pages/EditYouListing/EditYourListing.jsx";
 import CreateNewListing from "./Pages/CreateNewListing/CreateNewListing.jsx";
 import { LikedPage } from "./Pages/LikedPage/LikedPage.jsx";
-import { AppProvider } from "./Context/Context.jsx";
+import { AppProvider, useGlobalCotext } from "./Context/Context.jsx";
 import ProductPage from "./Pages/IndevProductPage/ProductPage.jsx";
 import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import { toast } from "react-toastify";
@@ -25,8 +25,11 @@ import socketIO from "socket.io-client";
 import ChatBar from "./Pages/ChatPage/ChatBar.jsx";
 import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
 import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
+import RatingSold from "./Components/UI/RatingSold.jsx";
 
 const socket = socketIO.connect("http://3.143.204.110:8000");
+
+// const { setNotifi_dropdown_props } = useGlobalCotext();
 
 const router = createBrowserRouter([
   {
@@ -54,7 +57,7 @@ const router = createBrowserRouter([
         element: <CreateNewListing />,
       },
       {
-        path: "/myprofile",
+        path: "/myprofile/:id",
         element: <MyProfile />,
       },
       {
@@ -105,6 +108,24 @@ const connectWithPusher = () => {
   channel.bind("create-product", function (data) {
     if (data) {
       toast.success("Listing Created successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  });
+
+  channel.bind("new-message", function (data) {
+    // setNotifi_dropdown_props(data);
+    console.log(data);
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    if (id === data.notificationto) {
+      toast.success("New message", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

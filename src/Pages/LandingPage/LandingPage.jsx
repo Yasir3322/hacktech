@@ -4,9 +4,11 @@ import Footer from "../../Components/Footer/Footer";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import Pusher from "pusher-js";
+import { toast } from "react-toastify";
 
 const LandingPage = () => {
-  const { isLogin } = useGlobalCotext();
+  const { isLogin, setIsSoldPopupOpen } = useGlobalCotext();
   const [technologyProd, setTechnologyProd] = useState([]);
   const [mensShoesProd, setMensShoesProd] = useState([]);
   const [trandingProd, setTrandingProd] = useState([]);
@@ -14,6 +16,25 @@ const LandingPage = () => {
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+
+  const connectWithPusher = () => {
+    const pusher = new Pusher("1904b460da23661d8163", {
+      cluster: "ap2",
+    });
+    const channel = pusher.subscribe("hacktech");
+    channel.bind("update-productreq", function (data) {
+      console.log(data);
+      const { buyerid } = data;
+      const id = JSON.parse(localStorage.getItem("user"))._id;
+      if (id === buyerid) {
+        setIsSoldPopupOpen(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    connectWithPusher();
+  }, []);
 
   const getAllProducts = async () => {
     setLoading(!loading);

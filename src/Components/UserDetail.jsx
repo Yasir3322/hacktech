@@ -8,6 +8,8 @@ const UserDetail = (props) => {
     JSON.parse(localStorage.getItem("user"))
   );
 
+  const isEmailVerified = localStorage.getItem("isEmailVerified");
+
   const handleFileChange = async (e) => {
     e.preventDefault();
     console.log(e.target.files[0]);
@@ -49,19 +51,25 @@ const UserDetail = (props) => {
             <h2 className="w-96 h-7 font-semibold text-5xl capitalize">
               {fullName.fullName}
             </h2>
-            <img
-              src="/assets/badge.svg"
-              alt="userprofilebadge"
-              width={45}
-              height={45}
-              className="mt-3"
-            />
+            <div>
+              {isEmailVerified ? (
+                <img
+                  src="/assets/badge.svg"
+                  alt="userprofilebadge"
+                  width={45}
+                  height={45}
+                  className="mt-3"
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <div className="w-full">
-            <span>{`0 reviews | ${props.userListingLength} listed | 0 sales`}</span>
+            <span>{`${props.totalReviews} reviews | ${props.userListingLength} listed | ${props.totalUserSale} sales`}</span>
           </div>
           <div className="h-8">
-            <ShowRating rating={3} />
+            <ShowRating rating={props.userAvgRating} />
           </div>
         </div>
         <form>

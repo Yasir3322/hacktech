@@ -3,17 +3,27 @@ import UserDetail from "../../Components/UserDetail";
 import axios from "axios";
 import UserListing from "../../Components/UI/UserListing";
 import { useGlobalCotext } from "../../Context/Context";
+import { useParams } from "react-router-dom";
 
 const MyProfile = () => {
   const [userListing, setUserListing] = useState([]);
   const [userListingLength, setUserListingLength] = useState(0);
+  const [totalUserSale, setTotalUserSale] = useState(0);
+  const [userAvgRating, setUserAvgRating] = useState();
+  const [totalReviews, setTotalReview] = useState();
   const { userimage, setProfileImage } = useGlobalCotext();
+  const { id } = useParams();
 
   const getUserListing = async () => {
-    const id = JSON.parse(localStorage.getItem("user"))._id;
+    // const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`
     );
+    const totalsold = res.data.products.reduce(
+      (total, product) => total + product.sold,
+      0
+    );
+    setTotalUserSale(totalsold);
     setUserListing(res.data.products);
     setUserListingLength(res.data.totalProductCount);
   };
@@ -106,12 +116,34 @@ const MyProfile = () => {
     setProfileImage();
   }, []);
 
+  const getUserDetail = async () => {
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/review/getuserreviews/${id}`
+    );
+    const totalrating = res.data.reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    const totallength = res.data.reviews.length;
+    const avgrating = totalrating / totallength;
+    setUserAvgRating(avgrating);
+    setTotalReview(totallength);
+  };
+
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
   return (
     <div>
       <UserDetail
         image={userimage}
         setProfileImage={setProfileImage}
         userListingLength={userListingLength}
+        totalUserSale={totalUserSale}
+        userAvgRating={userAvgRating}
+        totalReviews={totalReviews}
       />
       <div className="w-full flex align-middle justify-center">
         <button className="w-3/4 h-14 bg-[#DB3B39] text-white mt-16 rounded-3xl text-2xl font-semibold">

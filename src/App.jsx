@@ -15,9 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App({ socket }) {
-  const [notifi_dropdown_props, setNotifi_dropdown_props] = useState([]);
-
-  const id = JSON.parse(localStorage.getItem("user"))._id;
+  const { notifi_dropdown_props, setNotifi_dropdown_props } = useGlobalCotext();
 
   const {
     isLogin,
@@ -74,14 +72,19 @@ function App({ socket }) {
   };
 
   const userNotification = async () => {
+    const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
-      `http://localhost:5000/api/notification/allnotification/${id}`
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/notification/allnotification/${id}`
     );
-    console.log(res.data.allnotification);
     if (res.data.allnotification.length === 0) {
       setNotifi_dropdown_props([{ title: "NO notification", url: "" }]);
     } else {
-      setNotifi_dropdown_props(res.data.allnotification);
+      setNotifi_dropdown_props([
+        notifi_dropdown_props,
+        ...res.data.allnotification,
+      ]);
     }
   };
 
@@ -91,7 +94,7 @@ function App({ socket }) {
 
   useEffect(() => {
     userNotification();
-  }, [id]);
+  }, [notifi_dropdown_props]);
 
   const getAllCatagories = async () => {
     const res = await axios.get(
@@ -152,8 +155,8 @@ function App({ socket }) {
             >
               <Outlet />
             </div>
-            {location.pathname === "/chat" ||
-            location.pathname === "/chat/:id" ? (
+            {location.pathname === "/chat/:id" ||
+            location.pathname === "/chat" ? (
               ""
             ) : (
               <Footer />

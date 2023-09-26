@@ -5,8 +5,8 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const Header = (props) => {
   const navigate = useNavigate();
-  const { userimage } = useGlobalCotext();
 
+  const profile = localStorage.getItem("profile");
   const {
     useLogin,
     showCreateAccountPopup,
@@ -112,9 +112,11 @@ const Header = (props) => {
               </div>
             </div>
             <div className="flex gap-3 align-middle justify-center">
-              <Link to="myprofile">
+              <Link
+                to={`myprofile/${JSON.parse(localStorage.getItem("user"))._id}`}
+              >
                 <img
-                  src={`${userimage ? userimage : "/assets/preview.avif"}`}
+                  src={`${profile ? profile : "/assets/preview.avif"}`}
                   alt="userprofile"
                   width={50}
                   height={50}

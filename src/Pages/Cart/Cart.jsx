@@ -16,7 +16,7 @@ const Cart = () => {
 
   useEffect(() => {
     getUserCartItem();
-  }, []);
+  }, [userCartItems]);
 
   var total_price = 0;
   var fee = 0;

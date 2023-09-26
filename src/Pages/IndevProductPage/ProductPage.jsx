@@ -13,6 +13,22 @@ const ProductPage = () => {
   const [textareaValue, setTextareaValue] = useState("");
   const [product, setProduct] = useState({});
   const [productReqStatus, setProductReqStatus] = useState(0);
+  const [userDetail, setUserDetail] = useState([
+    {
+      _id: "",
+      fullName: "",
+      email: "",
+      type: "",
+      password: "",
+      image: "",
+    },
+  ]);
+  const [userReviews, setUserReviews] = useState([]);
+  const [userAvgRating, setUserAvgRating] = useState();
+  const [totalReviews, setTotalReview] = useState();
+  const [userListingLength, setUserListingLength] = useState(0);
+  const [totalUserSale, setTotalUserSale] = useState(0);
+  const [productInStock, setProductInStock] = useState();
   const { isLogin } = useGlobalCotext();
 
   const { id } = useParams();
@@ -25,11 +41,53 @@ const ProductPage = () => {
         },
       }
     );
+    const { instock } = res?.data?.product;
+    console.log(instock);
+    setProductInStock(instock);
     setProduct(res?.data?.product);
   };
 
   useEffect(() => {
     getProduct();
+  }, [id]);
+
+  const getUserDetail = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/getuserdetail/${id}`
+    );
+    setUserDetail(res.data.userProductDetail[0].seller);
+    setUserReviews(res.data.userProductDetail[0].reviews);
+    const totalrating = res.data.userProductDetail[0].reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    console.log(totalrating);
+    const totallength = res.data.userProductDetail[0].reviews.length;
+    console.log(totallength);
+    const avgrating = totalrating / totallength;
+    setUserAvgRating(avgrating);
+    setTotalReview(totallength);
+  };
+
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
+  const getUserListing = async () => {
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`
+    );
+    const totalsold = res.data.products.reduce(
+      (total, product) => total + product.sold,
+      0
+    );
+    setTotalUserSale(totalsold);
+    setUserListingLength(res.data.totalProductCount);
+  };
+
+  useEffect(() => {
+    getUserListing();
   }, []);
 
   function formatRelativeTime(timestamp) {
@@ -143,6 +201,22 @@ const ProductPage = () => {
     setProductReqStatus(res.status);
   };
 
+  const handleShareClick = () => {
+    const url = window.location.href;
+    if (url) {
+      toast.info("Sharpie link has been copied", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   return (
     <div>
       {Object.keys(product).length ? (
@@ -190,6 +264,7 @@ const ProductPage = () => {
                             <button
                               className="bg-[#F2F2F2] rounded-sm p-1"
                               onClick={() => handleAddToCart(id)}
+                              disabled={!productInStock}
                             >
                               Add
                             </button>
@@ -299,7 +374,7 @@ const ProductPage = () => {
             </div>
           </div>
           <div className="flex gap-4 ml-12 mt-8">
-            <button>
+            <button onClick={handleShareClick}>
               <img src="/assets/share-span.svg" />
             </button>
             <button onClick={() => handleLikedButton(id)}>
@@ -307,10 +382,16 @@ const ProductPage = () => {
             </button>
           </div>
           <div className="mt-4">
-            <SellerCard />
+            <SellerCard
+              userAvgRating={userAvgRating}
+              totalReviews={totalReviews}
+              userDetail={userDetail}
+              userListingLength={userListingLength}
+              totalUserSale={totalUserSale}
+            />
           </div>
           <div>
-            <SellerReview />
+            <SellerReview userReviews={userReviews} />
           </div>
         </div>
       ) : (

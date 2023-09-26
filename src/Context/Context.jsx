@@ -17,6 +17,9 @@ export const AppProvider = ({ children }) => {
   const [userimage, setUserImage] = useState("");
   const [chatWith, setChatWith] = useState([]);
   const [show, setShow] = useState(false);
+  const [notifi_dropdown_props, setNotifi_dropdown_props] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [prodIdForSoldTo, setProdIdForSoldTo] = useState(null);
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -25,7 +28,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const setProfileImage = () => {
-    setUserImage(JSON.parse(localStorage.getItem("profile")));
+    setUserImage(localStorage.getItem("profile"));
   };
 
   const useLogin = () => {
@@ -39,7 +42,8 @@ export const AppProvider = ({ children }) => {
     setIsLoginPopupOpen(!isLoginPopupOpen);
   };
 
-  const showSoldPopup = () => {
+  const showSoldPopup = (id) => {
+    setProdIdForSoldTo(id);
     setIsSoldPopupOpen(!isSoldPopupOpen);
   };
 
@@ -78,6 +82,12 @@ export const AppProvider = ({ children }) => {
         addChatWithUser,
         show,
         setShow,
+        notifi_dropdown_props,
+        setNotifi_dropdown_props,
+        rating,
+        setRating,
+        prodIdForSoldTo,
+        setIsSoldPopupOpen,
       }}
     >
       {children}

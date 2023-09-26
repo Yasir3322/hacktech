@@ -46,6 +46,7 @@ const LoginPopup = ({ socket }) => {
         localStorage.setItem("hacktechtoken", token);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("profile", image);
+        localStorage.setItem("isEmailVerified", true);
         useLogin();
         socket.emit("newuser", {
           userid: _id,

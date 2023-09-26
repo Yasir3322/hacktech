@@ -8,11 +8,17 @@ const ReviewCard = (props) => {
         <div className="flex">
           <ShowRating rating={props.rating} />
         </div>
-        <p className="text-[#6B6B6B] font-normal text-xs">03/02/23</p>
+        <p className="text-[#6B6B6B] font-normal text-xs mt-3">
+          {props.createdat}
+        </p>
       </div>
       <p>{props.text}</p>
       <div className="flex gap-3 ">
-        <img src="/assets/div.svg" />
+        {props.image ? (
+          <img src={props.image} />
+        ) : (
+          <img src="/assets/div.svg" />
+        )}
         <p className="mt-4">{props.name}</p>
       </div>
     </div>
