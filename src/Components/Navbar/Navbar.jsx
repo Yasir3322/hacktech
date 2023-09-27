@@ -10,7 +10,11 @@ const Navbar = ({ props }) => {
         const { images } = catagory;
         return (
           <span class="inline-flex items-center shadow-sm rounded-md ml-3  md:px-5 py-3 text-sm font-medium ring-1 ring-inset ring-gray-500/10">
-            <img src={images} alt="catagory" className="w-23 h-4 scale-125" />
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${images}`}
+              alt="catagory"
+              className="w-23 h-4 scale-125"
+            />
           </span>
         );
       })}

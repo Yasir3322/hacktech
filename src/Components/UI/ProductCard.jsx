@@ -96,7 +96,11 @@ const ProductCard = (props) => {
           className="cursor-pointer"
           onClick={() => handleProductClick(props.id)}
         >
-          <img src={props.image} alt="ipad" className="md:w-52 w-full" />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`}
+            alt="ipad"
+            className="md:w-52 w-full"
+          />
           <div>
             <span className="text-xs text-[#737373] font-normal">
               {props.upload_time}
