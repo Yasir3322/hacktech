@@ -56,6 +56,12 @@ const SoldtowhoPopup = (props) => {
       }
     );
 
+    await axios.patch(
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/product/updatesoldvalue/${prodIdForSoldTo}`
+    );
+
     const dataobj = {
       reviewby: id,
       reviewto: _id,

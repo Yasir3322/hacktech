@@ -27,9 +27,9 @@ const LoginPopup = ({ socket }) => {
         `${import.meta.env.VITE_BACKEND_URL}/api/user/loginuser`,
         formData
       );
-      // const didtoken = await m.auth.loginWithMagicLink({
-      //   email: formData.email,
-      // });
+      const didtoken = await m.auth.loginWithMagicLink({
+        email: formData.email,
+      });
       setFormData({
         email: "",
         password: "",
@@ -37,7 +37,7 @@ const LoginPopup = ({ socket }) => {
       showLoginPopup();
       const token = res.data.token;
       setLoading(!loading);
-      if (token) {
+      if (token && didtoken) {
         console.log(res.data.user);
         const { _id, fullName, image } = res.data.user;
         console.log(image);

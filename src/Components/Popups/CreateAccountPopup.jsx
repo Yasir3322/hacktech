@@ -28,9 +28,9 @@ const CreateAccountPopup = ({ socket }) => {
     setLoading(!loading);
     try {
       // email verification code
-      // const didtoken = await m.auth.loginWithMagicLink({
-      //   email: formData.email,
-      // });
+      const didtoken = await m.auth.loginWithMagicLink({
+        email: formData.email,
+      });
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
         formData
@@ -45,7 +45,7 @@ const CreateAccountPopup = ({ socket }) => {
       showCreateAccountPopup();
       const token = res.data.token;
       setLoading(!loading);
-      if (token) {
+      if (token && didtoken) {
         const { _id, fullName } = res.data.user;
         const user = { _id, fullName };
         localStorage.setItem("hacktechtoken", token);
