@@ -30,6 +30,7 @@ const LoginPopup = ({ socket }) => {
       const didtoken = await m.auth.loginWithMagicLink({
         email: formData.email,
       });
+      console.log(didtoken);
       setFormData({
         email: "",
         password: "",

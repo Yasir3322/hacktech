@@ -31,7 +31,12 @@ const CartCard = (props) => {
       <div className="flex flex-col gap-6 p-6">
         <div className="md:flex md:flex-row flex flex-col align-middle justify-between">
           <div className="flex align-middle justify-center gap-5">
-            <img src={props.image} alt="cart" width={80} height={80} />
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`}
+              alt="cart"
+              width={80}
+              height={80}
+            />
             <div className="flex flex-col mt-4">
               <h4 className="font-medium text-2xl">{props.title}</h4>
               <p className="font-medium text-xl">${props.price}</p>

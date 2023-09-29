@@ -28,7 +28,11 @@ export const AppProvider = ({ children }) => {
   };
 
   const setProfileImage = () => {
-    setUserImage(localStorage.getItem("profile"));
+    setUserImage(
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localStorage.getItem(
+        "profile"
+      )}`
+    );
   };
 
   const useLogin = () => {

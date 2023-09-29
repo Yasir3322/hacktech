@@ -6,7 +6,9 @@ import { IoIosArrowDown } from "react-icons/io";
 const Header = (props) => {
   const navigate = useNavigate();
 
-  const profile = localStorage.getItem("profile");
+  const profile = `${
+    import.meta.env.VITE_BACKEND_URL
+  }/api/v1/${localStorage.getItem("profile")}`;
   const {
     useLogin,
     showCreateAccountPopup,

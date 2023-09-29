@@ -7,7 +7,7 @@ export function Carasoule(props) {
         return (
           <div className="relative h-96 w-full">
             <img
-              src={image}
+              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`}
               alt="image 1"
               className="h-96 w-full object-cover"
             />

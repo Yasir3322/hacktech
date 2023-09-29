@@ -118,7 +118,9 @@ const ProductPage = () => {
     const imageslength = product?.images?.length;
     for (let a = 0; a <= 4; a++) {
       if (a < imageslength) {
-        images.push(product?.images[a]);
+        images.push(
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/${product?.images[a]}`
+        );
       } else {
         images.push("/assets/no-photo.jpg");
       }

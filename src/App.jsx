@@ -15,8 +15,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App({ socket }) {
-  const { notifi_dropdown_props, setNotifi_dropdown_props } = useGlobalCotext();
-
   const {
     isLogin,
     isNotificationDropdownOpen,
@@ -25,6 +23,8 @@ function App({ socket }) {
     allCatagories,
     setAllCatagories,
     setAllProducts,
+    notifi_dropdown_props,
+    setNotifi_dropdown_props,
   } = useGlobalCotext();
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
@@ -92,9 +92,11 @@ function App({ socket }) {
     tokenUserLogin();
   }, []);
 
-  useEffect(() => {
-    userNotification();
-  }, [notifi_dropdown_props]);
+  if (isLogin) {
+    useEffect(() => {
+      userNotification();
+    }, [notifi_dropdown_props]);
+  }
 
   const getAllCatagories = async () => {
     const res = await axios.get(

@@ -23,18 +23,23 @@ const CreateAccountPopup = ({ socket }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    // remove comment if you want that email should end with ucp.edu;
-    // if (formData.email.match("/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$/")){
-    setLoading(!loading);
+    // Toggle loading state to true when the signup process starts
+    setLoading(true);
+
     try {
       // email verification code
       const didtoken = await m.auth.loginWithMagicLink({
         email: formData.email,
       });
+      console.log(didtoken);
+
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
         formData
       );
+
+      console.log(res);
+
       setFormData({
         fullName: "",
         email: "",
@@ -44,7 +49,7 @@ const CreateAccountPopup = ({ socket }) => {
       });
       showCreateAccountPopup();
       const token = res.data.token;
-      setLoading(!loading);
+
       if (token && didtoken) {
         const { _id, fullName } = res.data.user;
         const user = { _id, fullName };
@@ -60,19 +65,10 @@ const CreateAccountPopup = ({ socket }) => {
       }
     } catch (error) {
       console.log(error.message);
+    } finally {
+      // Toggle loading state back to false when the signup process is complete (whether it succeeded or failed)
+      setLoading(false);
     }
-    // }else{
-    //      toast.success("please provide valid email", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // }
   };
 
   const handleChange = (e) => {

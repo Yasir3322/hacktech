@@ -27,7 +27,7 @@ import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
 import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
 import RatingSold from "./Components/UI/RatingSold.jsx";
 
-const socket = socketIO.connect("http://3.143.204.110:8000");
+const socket = socketIO.connect("http://localhost:8000");
 
 // const { setNotifi_dropdown_props } = useGlobalCotext();
 
