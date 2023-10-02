@@ -95,6 +95,11 @@ const ChatBar = ({ socket }) => {
         <div className="flex w-full flex-col gap-3 mt-4">
           {peoples.map((people) => {
             const { image, fullName, _id } = people;
+            const userimage = `${
+              image
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
+                : "/assets/preview.avif"
+            }`;
             return (
               <Link
                 className="flex gap-3 cursor-pointer"
@@ -102,7 +107,7 @@ const ChatBar = ({ socket }) => {
                 onClick={() => handleChatClick(_id)}
               >
                 <img
-                  src={image?.length > 0 ? image : "/assets/preview.avif"}
+                  src={userimage}
                   alt="image"
                   width={45}
                   height={45}

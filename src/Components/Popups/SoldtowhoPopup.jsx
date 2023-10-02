@@ -114,6 +114,11 @@ const SoldtowhoPopup = (props) => {
             <div className="flex flex-col gap-4 mt-4">
               {users.map((people) => {
                 const { image, fullName, _id } = people;
+                const userimage = `${
+                  image
+                    ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
+                    : "/assets/preview.avif"
+                }`;
                 return (
                   <div
                     className="flex gap-3 cursor-pointer"
@@ -121,7 +126,7 @@ const SoldtowhoPopup = (props) => {
                     key={_id}
                   >
                     <img
-                      src={image?.length > 0 ? image : "/assets/preview.avif"}
+                      src={image}
                       alt="image"
                       width={45}
                       height={45}

@@ -1,0 +1,17 @@
+/* CarouselStyles.css */
+
+/* Right button background to white and text to red */
+.carousel::before {
+    background-color: white !important;
+    color: red !important;
+    content: "❯";
+    /* You can replace this with your custom icon or text */
+}
+
+/* Left button background to white and text to red */
+.carousel::after {
+    background-color: white !important;
+    color: red !important;
+    content: "❮";
+    /* You can replace this with your custom icon or text */
+}

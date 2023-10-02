@@ -6,9 +6,10 @@ import axios from "axios";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import Pusher from "pusher-js";
 import { toast } from "react-toastify";
+import ProductCard from "../../Components/UI/ProductCard";
 
 const LandingPage = () => {
-  const { isLogin, setIsSoldPopupOpen } = useGlobalCotext();
+  const { isLogin, setIsSoldPopupOpen, selectedCatagory } = useGlobalCotext();
   const [technologyProd, setTechnologyProd] = useState([]);
   const [mensShoesProd, setMensShoesProd] = useState([]);
   const [trandingProd, setTrandingProd] = useState([]);
@@ -161,6 +162,27 @@ const LandingPage = () => {
     },
   ];
 
+  function formatRelativeTime(timestamp) {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const timeDifferenceInSeconds = Math.floor((now - date) / 1000);
+
+    if (timeDifferenceInSeconds < 60) {
+      return timeDifferenceInSeconds === 1
+        ? "1 sec ago"
+        : `${timeDifferenceInSeconds} secs ago`;
+    } else if (timeDifferenceInSeconds < 3600) {
+      const minutes = Math.floor(timeDifferenceInSeconds / 60);
+      return minutes === 1 ? "1 min ago" : `${minutes} mins ago`;
+    } else if (timeDifferenceInSeconds < 86400) {
+      const hours = Math.floor(timeDifferenceInSeconds / 3600);
+      return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+    } else {
+      const days = Math.floor(timeDifferenceInSeconds / 86400);
+      return days === 1 ? "1 day ago" : `${days} days ago`;
+    }
+  }
+
   return (
     <div>
       <div>
@@ -203,25 +225,53 @@ const LandingPage = () => {
         )}
       </div>
       <div>
-        {loading ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <SkeletonCircle size="10" />
-            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
-          </Box>
+        {selectedCatagory !== "All" ? (
+          <div className="w-3/4 m-auto  md:grid md:grid-cols-4 flex flex-wrap gap-7 align-middle justify-between mt-12">
+            {mensShoesProd.map((listing) => {
+              const { images, createdAt, title, price, description, _id } =
+                listing;
+              const image = images[0];
+              const upload_time = formatRelativeTime(createdAt);
+              return (
+                <ProductCard
+                  image={image}
+                  upload_time={upload_time}
+                  title={title}
+                  price={price}
+                  spec={description}
+                  id={_id}
+                />
+              );
+            })}
+          </div>
         ) : (
-          <div className="px-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
-            <ProductCatagories
-              prod_catag_title="Trending @USC"
-              trendingProducts={trandingProd}
-            />
-            <ProductCatagories
-              prod_catag_title="Mens Shoes"
-              trendingProducts={mensShoesProd}
-            />
-            <ProductCatagories
-              prod_catag_title="Technology"
-              trendingProducts={technologyProd}
-            />
+          <div>
+            {loading ? (
+              <Box padding="6" boxShadow="lg" bg="white">
+                <SkeletonCircle size="10" />
+                <SkeletonText
+                  mt="4"
+                  noOfLines={4}
+                  spacing="4"
+                  skeletonHeight="2"
+                />
+              </Box>
+            ) : (
+              <div className="px-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
+                <ProductCatagories
+                  prod_catag_title="Trending @USC"
+                  trendingProducts={trandingProd}
+                />
+                <ProductCatagories
+                  prod_catag_title="Mens Shoes"
+                  trendingProducts={mensShoesProd}
+                />
+                <ProductCatagories
+                  prod_catag_title="Technology"
+                  trendingProducts={technologyProd}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

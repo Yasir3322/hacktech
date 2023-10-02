@@ -4,10 +4,6 @@ import { toast } from "react-toastify";
 import Rating from "./UI/Rating";
 import ShowRating from "./UI/ShowRating";
 const UserDetail = (props) => {
-  const [fullName, setFullName] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
-
   const isEmailVerified = localStorage.getItem("isEmailVerified");
 
   const handleFileChange = async (e) => {
@@ -49,7 +45,7 @@ const UserDetail = (props) => {
         <div className="flex flex-col flex-grow">
           <div className="flex">
             <h2 className="w-96 h-7 font-semibold text-5xl capitalize">
-              {fullName.fullName}
+              {props.fullName}
             </h2>
             <div>
               {isEmailVerified ? (

@@ -92,11 +92,11 @@ function App({ socket }) {
     tokenUserLogin();
   }, []);
 
-  if (isLogin) {
-    useEffect(() => {
-      userNotification();
-    }, [notifi_dropdown_props]);
-  }
+  // if (isLogin) {
+  //   useEffect(() => {
+  //     userNotification();
+  //   }, [notifi_dropdown_props]);
+  // }
 
   const getAllCatagories = async () => {
     const res = await axios.get(

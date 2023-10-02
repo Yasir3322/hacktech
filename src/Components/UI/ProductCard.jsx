@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
   const { isLogin } = useGlobalCotext();
-
   const navigate = useNavigate();
-
   const handleLikedButton = async (id) => {
     const token = localStorage.getItem("hacktechtoken");
     try {
@@ -67,7 +65,7 @@ const ProductCard = (props) => {
   };
 
   return (
-    <article>
+    <article style={{ width: "fit-content " }}>
       <div className="relative">
         {props.isliked ? (
           <button

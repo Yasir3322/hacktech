@@ -44,7 +44,7 @@ const SellerReview = (props) => {
           <div className="mt-8 grid grid-cols-3 gap-8">
             {props.userReviews.slice(0, 3).map((review) => {
               const { reviewerComment, rating, createdAt } = review;
-              const { fullName, image } = review.reviewerdetail[0];
+              const { fullName, image } = review?.reviewerdetail[0];
               const createdat = formatRelativeTime(createdAt);
               return (
                 <ReviewCard

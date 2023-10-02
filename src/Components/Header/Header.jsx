@@ -6,9 +6,14 @@ import { IoIosArrowDown } from "react-icons/io";
 const Header = (props) => {
   const navigate = useNavigate();
 
+  const localstorageprofile = localStorage.getItem("profile");
+
   const profile = `${
-    import.meta.env.VITE_BACKEND_URL
-  }/api/v1/${localStorage.getItem("profile")}`;
+    !localstorageprofile
+      ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
+      : "/assets/preview.avif"
+  }`;
+
   const {
     useLogin,
     showCreateAccountPopup,
@@ -40,14 +45,13 @@ const Header = (props) => {
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex flex align-middle justify-between flex-grow mt-3">
         <Link className="flex" to={props.user ? "/" : "/"}>
-          <img src="/assets/Group 1.svg" alt="group1_" className="w-8 h-12" />
           <img
-            src="/assets/uniswap.sc.svg"
+            src="/assets/trojansquare.svg"
             alt="uniswap"
-            className="md:w-48 w-24 h-12 ml-3"
+            className="md:w-48 w-24 h-12 ml-3 scale-150"
           />
         </Link>
-        <div className="md:w-full pl-8 mr-24 md:ml-6">
+        <div className="md:w-full pl-8 mr-24 md:ml-12">
           <form>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
@@ -118,7 +122,7 @@ const Header = (props) => {
                 to={`myprofile/${JSON.parse(localStorage.getItem("user"))._id}`}
               >
                 <img
-                  src={`${profile ? profile : "/assets/preview.avif"}`}
+                  src={`${profile}`}
                   alt="userprofile"
                   width={50}
                   height={50}

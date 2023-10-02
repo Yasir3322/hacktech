@@ -1,10 +1,12 @@
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGlobalCotext } from "../../Context/Context";
 
 const UserListing = (props) => {
+  const { id } = useParams();
+  const localstorageid = JSON.parse(localStorage.getItem("user"))._id;
   const navigate = useNavigate();
 
   const handleEditButton = (id) => {
@@ -47,13 +49,21 @@ const UserListing = (props) => {
       <div className="relative">
         <button
           onClick={() => handleMarkSold(props.id)}
-          className="bg-[#5B5B5BBF]/70 px-2 top-1 left-2 text-white text-sm font-normal rounded-full absolute"
+          className={`${
+            id === localstorageid
+              ? "bg-[#5B5B5BBF]/70 px-2 top-1 left-2 text-white text-sm font-normal rounded-full absolute"
+              : "hidden"
+          }`}
         >
           mark sold
         </button>
         <button
           onClick={() => handleEditButton(props.id)}
-          className="bg-gradient-to-r from-[#EA1E1BBF]/75 px-2 text-white font-normal text-sm right-2 top-1  absolute rounded-full to-[#F7C337AC]/30"
+          className={`${
+            id === localstorageid
+              ? "bg-gradient-to-r from-[#EA1E1BBF]/75 px-2 text-white font-normal text-sm right-2 top-1  absolute rounded-full to-[#F7C337AC]/30"
+              : "hidden"
+          }`}
         >
           Edit
         </button>

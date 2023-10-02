@@ -20,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [notifi_dropdown_props, setNotifi_dropdown_props] = useState([]);
   const [rating, setRating] = useState(0);
   const [prodIdForSoldTo, setProdIdForSoldTo] = useState(null);
+  const [selectedCatagory, setSelectedCatagory] = useState("All");
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -28,11 +29,15 @@ export const AppProvider = ({ children }) => {
   };
 
   const setProfileImage = () => {
-    setUserImage(
-      `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localStorage.getItem(
-        "profile"
-      )}`
-    );
+    const localstorageprofile = localStorage.getItem("profile");
+
+    const profile = `${
+      !localstorageprofile
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
+        : "/assets/preview.avif"
+    }`;
+
+    setUserImage(profile);
   };
 
   const useLogin = () => {
@@ -92,6 +97,8 @@ export const AppProvider = ({ children }) => {
         setRating,
         prodIdForSoldTo,
         setIsSoldPopupOpen,
+        selectedCatagory,
+        setSelectedCatagory,
       }}
     >
       {children}

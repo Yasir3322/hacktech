@@ -13,7 +13,10 @@ const SellerCard = (props) => {
         <h3 className="font-semibold text-base">Meet the seller</h3>
         <div className="flex align-middle justify-between gap-5 mt-4">
           {image ? (
-            <img src={image} className="w-16 h-16 rounded-full" />
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`}
+              className="w-16 h-16 rounded-full"
+            />
           ) : (
             <img src="/assets/preview.avif" width={60} height={60} />
           )}

@@ -38,18 +38,20 @@ const ProductPage = () => {
       {
         headers: {
           "ngrok-skip-browser-warning": true,
+          userid: JSON.parse(localStorage.getItem("user"))._id,
         },
       }
     );
-    const { instock } = res?.data?.product;
+    console.log(res);
+    const instock = res?.data?.product[0].instock;
     console.log(instock);
     setProductInStock(instock);
-    setProduct(res?.data?.product);
+    setProduct(res?.data?.product[0]);
   };
 
   useEffect(() => {
     getProduct();
-  }, [id]);
+  }, [id, product]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -89,6 +91,8 @@ const ProductPage = () => {
   useEffect(() => {
     getUserListing();
   }, []);
+
+  console.log(product);
 
   function formatRelativeTime(timestamp) {
     const now = new Date();
@@ -205,6 +209,7 @@ const ProductPage = () => {
 
   const handleShareClick = () => {
     const url = window.location.href;
+    window.navigator.clipboard.writeText(url);
     if (url) {
       toast.info("Sharpie link has been copied", {
         position: "top-right",
@@ -219,6 +224,10 @@ const ProductPage = () => {
     }
   };
 
+  const handleTextAreaChange = (e) => {
+    setTextareaValue(e.target.value);
+  };
+
   return (
     <div>
       {Object.keys(product).length ? (
@@ -231,7 +240,7 @@ const ProductPage = () => {
                     src={image}
                     width={70}
                     height={70}
-                    className="shadow-sm"
+                    className="shadow-sm cursor-pointer"
                   />
                 );
               })}
@@ -282,6 +291,7 @@ const ProductPage = () => {
                             <textarea
                               className="border w-full h-20 bg-[#F2F2F2] px-2"
                               placeholder="make an offer!"
+                              onChange={handleTextAreaChange}
                               value={textareaValue}
                               style={{ resize: "none" }}
                             />
@@ -380,7 +390,11 @@ const ProductPage = () => {
               <img src="/assets/share-span.svg" />
             </button>
             <button onClick={() => handleLikedButton(id)}>
-              <img src="/assets/like-button.svg" />
+              {product.favourite[0]?.isliked ? (
+                <img src="/assets/like-button.svg" />
+              ) : (
+                <img src="/assets/like-button-blue.svg" />
+              )}
             </button>
           </div>
           <div className="mt-4">

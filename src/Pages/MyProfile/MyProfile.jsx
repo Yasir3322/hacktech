@@ -12,7 +12,9 @@ const MyProfile = () => {
   const [userAvgRating, setUserAvgRating] = useState();
   const [totalReviews, setTotalReview] = useState();
   const { userimage, setProfileImage } = useGlobalCotext();
+  const [userName, setUserName] = useState("");
   const { id } = useParams();
+  const localstorageid = JSON.parse(localStorage.getItem("user"))._id;
 
   const getUserListing = async () => {
     // const id = JSON.parse(localStorage.getItem("user"))._id;
@@ -117,18 +119,21 @@ const MyProfile = () => {
   }, []);
 
   const getUserDetail = async () => {
-    const id = JSON.parse(localStorage.getItem("user"))._id;
+    // const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/review/getuserreviews/${id}`
     );
-    const totalrating = res.data.reviews.reduce(
+    const { allreviews } = res.data.reviews[0];
+    const totalrating = allreviews.reduce(
       (sum, review) => sum + review.rating,
       0
     );
-    const totallength = res.data.reviews.length;
+    const totallength = res.data.reviews[0].allreviews.length;
     const avgrating = totalrating / totallength;
     setUserAvgRating(avgrating);
     setTotalReview(totallength);
+    const { fullName } = res.data.reviews[0];
+    setUserName(fullName);
   };
 
   useEffect(() => {
@@ -144,10 +149,11 @@ const MyProfile = () => {
         totalUserSale={totalUserSale}
         userAvgRating={userAvgRating}
         totalReviews={totalReviews}
+        fullName={userName}
       />
       <div className="w-full flex align-middle justify-center">
         <button className="w-3/4 h-14 bg-[#DB3B39] text-white mt-16 rounded-3xl text-2xl font-semibold">
-          MY Listing
+          {`${id === localstorageid ? "My Listing" : `${userName} Listing`}`}
         </button>
       </div>
       <div className="mt-10 m-auto w-3/4">

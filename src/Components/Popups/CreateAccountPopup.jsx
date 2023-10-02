@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { m } from "../Magic-client";
-import { toast } from "react-toastify";
 
 const CreateAccountPopup = ({ socket }) => {
   const navigate = useNavigate();
@@ -101,6 +101,12 @@ const CreateAccountPopup = ({ socket }) => {
           onSubmit={handleSignup}
         >
           <h1 className="text-4xl font-bold">Create an Account!</h1>
+          <button
+            className="absolute right-1 top-1"
+            onClick={() => showCreateAccountPopup()}
+          >
+            <AiFillCloseCircle />
+          </button>
           <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
             <img src="/assets/Frame.png" className="mt-1" />
             <span>Continue with Google</span>

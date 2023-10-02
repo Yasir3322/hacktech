@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { m } from "../Magic-client";
@@ -101,6 +102,12 @@ const LoginPopup = ({ socket }) => {
           onSubmit={handleSignin}
         >
           <h1 className="text-4xl font-bold">Login into an Account!</h1>
+          <button
+            className="absolute right-1 top-1"
+            onClick={() => showLoginPopup()}
+          >
+            <AiFillCloseCircle />
+          </button>
           {/* <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
             <img src="/assets/Frame.png" className="mt-1" />
             <span>Continue with Google</span>
@@ -136,6 +143,9 @@ const LoginPopup = ({ socket }) => {
               onChange={handleChange}
             />
           </div>
+          <button className="text-xs text-blue-700 w-full flex cursor-pointer">
+            Forget password?
+          </button>
           <div className="flex gap-2">
             <input
               type="checkbox"

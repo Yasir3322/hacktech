@@ -53,7 +53,6 @@ const MultiCarasoule = (props) => {
         arrows={true}
         customLeftArrow={<CustomLeftArrow />}
         customRightArrow={<CustomRightArrow />}
-        arr
         itemClass="image-item ml-10 mr-5"
         responsive={responsive}
         infinite
@@ -61,8 +60,15 @@ const MultiCarasoule = (props) => {
         autoPlay={false}
       >
         {props.products?.map((product) => {
-          const { images, createdAt, title, price, description, _id } = product;
-          // console.log(product);
+          const {
+            images,
+            createdAt,
+            title,
+            price,
+            description,
+            _id,
+            favourite,
+          } = product;
           const image = images[0];
           const upload_time = formatRelativeTime(createdAt);
           return (
@@ -73,6 +79,7 @@ const MultiCarasoule = (props) => {
               price={price}
               spec={description}
               id={_id}
+              favourite={favourite}
             />
           );
         })}
