@@ -21,14 +21,14 @@ const Cart = () => {
   var total_price = 0;
   var fee = 0;
 
-  console.log(userCartItems);
+  // console.log(userCartItems);
   const paymentdata = userCartItems.map((item) => {
     const quantity = item.quantity;
     const { _id, priceid } = item.product[0];
     return { _id, priceid, quantity };
   });
 
-  console.log(paymentdata);
+  // console.log(paymentdata);
 
   const handleCheckOut = async () => {
     const token = localStorage.getItem("hacktechtoken");
@@ -52,10 +52,9 @@ const Cart = () => {
     } else {
       alert("something went wrong");
     }
-    console.log;
   };
 
-  console.log(userCartItems);
+  // console.log(userCartItems);
   return (
     <div>
       <div className="w-4/5 m-auto">

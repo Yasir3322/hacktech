@@ -44,13 +44,14 @@ const LandingPage = () => {
       {
         headers: {
           "ngrok-skip-browser-warning": true,
+          userid: JSON.parse(localStorage.getItem("user"))._id,
         },
       }
     );
     res.data.allProducts?.map((products) => {
-      if (products._id === "Technology") {
+      if (products.title === "Technology") {
         setTechnologyProd(products.products);
-      } else if (products._id === "Mens Shoes") {
+      } else if (products.title === "Mens Shoes") {
         setMensShoesProd(products.products);
       }
 

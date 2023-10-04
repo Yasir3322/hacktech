@@ -29,10 +29,9 @@ export const AppProvider = ({ children }) => {
   };
 
   const setProfileImage = () => {
-    const localstorageprofile = localStorage.getItem("profile");
-
+    const localstorageprofile = JSON.parse(localStorage.getItem("profile"));
     const profile = `${
-      !localstorageprofile
+      localstorageprofile
         ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
         : "/assets/preview.avif"
     }`;

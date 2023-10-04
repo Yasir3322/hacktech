@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { useGlobalCotext } from "../../Context/Context";
+import { AiFillHeart } from "react-icons/ai";
 
 const ProductPage = () => {
   const [wantProd, setWantProd] = useState(false);
@@ -29,6 +30,8 @@ const ProductPage = () => {
   const [userListingLength, setUserListingLength] = useState(0);
   const [totalUserSale, setTotalUserSale] = useState(0);
   const [productInStock, setProductInStock] = useState();
+  const [totalProductLiked, setTotalProductLiked] = useState();
+
   const { isLogin } = useGlobalCotext();
 
   const { id } = useParams();
@@ -42,9 +45,10 @@ const ProductPage = () => {
         },
       }
     );
-    console.log(res);
+    // console.log(res);
+    setTotalProductLiked(res?.data?.product[0].totalliked);
     const instock = res?.data?.product[0].instock;
-    console.log(instock);
+    // console.log(instock);
     setProductInStock(instock);
     setProduct(res?.data?.product[0]);
   };
@@ -63,9 +67,9 @@ const ProductPage = () => {
       (sum, review) => sum + review.rating,
       0
     );
-    console.log(totalrating);
+    // console.log(totalrating);
     const totallength = res.data.userProductDetail[0].reviews.length;
-    console.log(totallength);
+    // console.log(totallength);
     const avgrating = totalrating / totallength;
     setUserAvgRating(avgrating);
     setTotalReview(totallength);
@@ -92,7 +96,7 @@ const ProductPage = () => {
     getUserListing();
   }, []);
 
-  console.log(product);
+  // console.log(product);
 
   function formatRelativeTime(timestamp) {
     const now = new Date();
@@ -158,9 +162,38 @@ const ProductPage = () => {
           theme: "light",
         });
       }
+      await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/updatelikedvalue/${id}`
+      );
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleUnLikedButton = async (id) => {
+    const res = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${id}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
+    );
+    if (res.status === 200) {
+      toast.success("Removed successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/decreaselikedvalue/${id}`
+    );
   };
 
   const handleAddToCart = async (id) => {
@@ -247,7 +280,10 @@ const ProductPage = () => {
             </div>
             <div className="grid grid-cols-2 gap-32 mt-7">
               <div>
-                <Carasoule images={product.images} />
+                <Carasoule
+                  images={product.images}
+                  totalProductLiked={totalProductLiked}
+                />
               </div>
               <div className="h-auto">
                 <div>
@@ -389,13 +425,29 @@ const ProductPage = () => {
             <button onClick={handleShareClick}>
               <img src="/assets/share-span.svg" />
             </button>
-            <button onClick={() => handleLikedButton(id)}>
+            <div>
               {product.favourite[0]?.isliked ? (
-                <img src="/assets/like-button.svg" />
+                <button
+                  className="border-2 border-black rounded-md py-2 px-4 flex gap-3"
+                  onClick={() => handleUnLikedButton(id)}
+                >
+                  <AiFillHeart fill="red" className="mt-1" size={25} />
+                  <span className="font-semibold text-lg text-[#DB3B39]">
+                    Unlike this item
+                  </span>
+                </button>
               ) : (
-                <img src="/assets/like-button-blue.svg" />
+                <button
+                  className="border-2 border-[#B77EFF] rounded-md py-2 px-4 flex gap-3"
+                  onClick={() => handleLikedButton(id)}
+                >
+                  <img src="/assets/not-like.svg" alt="" className="mt-0.9" />
+                  <span className="font-semibold text-lg text-[#B77EFF]">
+                    Like this item
+                  </span>
+                </button>
               )}
-            </button>
+            </div>
           </div>
           <div className="mt-4">
             <SellerCard

@@ -26,6 +26,17 @@ const CartCard = (props) => {
     }
   };
 
+  const handleIncreaseQuantity = async (id) => {
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/increasequantity/${id}`
+    );
+  };
+  const handleDecreaseQuantity = async (id) => {
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/decreasequantity/${id}`
+    );
+  };
+
   return (
     <div className="mt-4">
       <div className="flex flex-col gap-6 p-6">
@@ -44,11 +55,19 @@ const CartCard = (props) => {
           </div>
           <div className="flex gap-7  w-96 align-middle justify-between mr-4">
             <div className="flex align-middle justify-center gap-16 mt-6">
-              <button className="w-7 h-7 rounded-full items-center bg-white">
+              <button
+                className="w-7 h-7 rounded-full items-center bg-white"
+                onClick={() => handleIncreaseQuantity(props.id)}
+              >
                 +
               </button>
               <p>qty:{props.quantity}</p>
-              <button className="w-7 h-7 rounded-full bg-white">-</button>
+              <button
+                className="w-7 h-7 rounded-full bg-white"
+                onClick={() => handleDecreaseQuantity(props.id)}
+              >
+                -
+              </button>
             </div>
             <button
               className="font-semibold text-base"

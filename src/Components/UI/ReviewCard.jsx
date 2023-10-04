@@ -13,9 +13,12 @@ const ReviewCard = (props) => {
         </p>
       </div>
       <p>{props.text}</p>
-      <div className="flex gap-3 ">
+      <div className="flex gap-3 align-middle">
         {props.image ? (
-          <img src={props.image} />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`}
+            className="w-10 h-10 rounded-full mt-2"
+          />
         ) : (
           <img src="/assets/div.svg" />
         )}

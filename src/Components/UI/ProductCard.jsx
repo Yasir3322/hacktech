@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
   const { isLogin } = useGlobalCotext();
+  console.log(props.favourite);
+  const id = JSON.parse(localStorage.getItem("user"))._id;
   const navigate = useNavigate();
   const handleLikedButton = async (id) => {
     const token = localStorage.getItem("hacktechtoken");
@@ -32,6 +34,9 @@ const ProductCard = (props) => {
           theme: "light",
         });
       }
+      await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/updatelikedvalue/${id}`
+      );
     } catch (error) {
       console.error("Error:", error);
     }
@@ -58,6 +63,9 @@ const ProductCard = (props) => {
         theme: "light",
       });
     }
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/decreaselikedvalue/${id}`
+    );
   };
 
   const handleProductClick = (id) => {
@@ -95,9 +103,13 @@ const ProductCard = (props) => {
           onClick={() => handleProductClick(props.id)}
         >
           <img
-            src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`}
-            alt="ipad"
-            className="md:w-52 w-full"
+            src={
+              props.image
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`
+                : "/assets/no-photo2.jpg"
+            }
+            alt="no-image"
+            className="md:w-52 w-full h-52 rounded-2xl object-cover"
           />
           <div>
             <span className="text-xs text-[#737373] font-normal">

@@ -69,7 +69,11 @@ const ChatBody = ({ socket }) => {
       </Link>
       <div className="flex gap-2">
         <img
-          src={userDetail?.image ? userDetail.image : "/assets/preview.avif"}
+          src={
+            userDetail?.image
+              ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${userDetail.image}`
+              : "/assets/preview.avif"
+          }
           alt="avatar"
           width={47}
           height={47}
@@ -84,11 +88,38 @@ const ChatBody = ({ socket }) => {
         {!loading ? (
           messages.map((message) => {
             if (message.id === JSON.parse(localStorage.getItem("user"))._id) {
+              const date = new Date(message.createdAt);
+              const hours = date.getHours();
+              const minutes = date.getMinutes();
+
+              let period = "AM";
+              let adjustedHours = hours;
+              if (hours >= 12) {
+                period = "PM";
+                if (hours > 12) {
+                  adjustedHours = hours - 12;
+                }
+              }
+
+              const formattedTime = `${adjustedHours}:${
+                minutes < 10 ? "0" : ""
+              }${minutes} ${period}`;
+
               return (
                 <div className="w-full flex items-end justify-end">
-                  <div className="ml-auto">
+                  <div className="ml-auto relative mt-5">
                     <div className=" bg-[#F9CC65]/30 mt-3 p-1 rounded-l-full px-2 rounded-tr-full text-sm w-80">
                       <p>{message.text}</p>
+                    </div>
+                    <div className="absolute right-0 flex gap-1 mt-1">
+                      <img
+                        src="/assets/doubletick.svg"
+                        alt="delivered"
+                        className="scale-125"
+                      />
+                      <p className="text-[#DEDEDE] text-xs font-normal">
+                        {formattedTime}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -102,7 +133,9 @@ const ChatBody = ({ socket }) => {
                     <img
                       src={
                         userDetail?.image
-                          ? userDetail.image
+                          ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                              userDetail.image
+                            }`
                           : "/assets/preview.avif"
                       }
                       alt="avatar"

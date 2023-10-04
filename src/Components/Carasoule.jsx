@@ -29,17 +29,33 @@ export function Carasoule(props) {
         </IconButton>
       )}
     >
-      {props?.images?.map((image) => {
-        return (
-          <div className="relative h-96 w-full">
-            <img
-              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`}
-              alt="image 1"
-              className="h-96 w-full object-cover"
-            />
-          </div>
-        );
-      })}
+      {props?.images?.length > 0 ? (
+        <div>
+          {props?.images?.map((image) => {
+            return (
+              <div className="relative h-96 w-full">
+                <div className="absolute right-6  flex shadow-md border px-2 rounded-full">
+                  {props.totalProductLiked}
+                  <img src="/assets/totalliked.svg" alt="" />
+                </div>
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`}
+                  alt="image 1"
+                  className="h-96 w-full object-cover"
+                />
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>
+          <img
+            src="/assets/no-photo2.jpg"
+            alt="no-photo"
+            className="h-96 w-full object-cover"
+          />
+        </div>
+      )}
     </Carousel>
   );
 }
