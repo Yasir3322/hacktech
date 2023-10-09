@@ -10,10 +10,21 @@ const ChatBody = ({ socket }) => {
   const [messages, setMessages] = useState([]);
   const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(false);
-  const { setShow } = useGlobalCotext();
+  const { setShow, allActiveUsers } = useGlobalCotext();
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
-    console.log("called");
+    console.log(allActiveUsers);
+    const active = allActiveUsers.some((user) => user.userid === id);
+    if (active) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+    console.log(active);
+  }, [id, socket]);
+
+  useEffect(() => {
     socket.on("messageResponse", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]); // Use the previous state to update messages
     });
@@ -58,6 +69,25 @@ const ChatBody = ({ socket }) => {
     setShow(false);
   };
 
+  const updateMessStatus = async () => {
+    const recieverid = id;
+    const senderid = JSON.parse(localStorage.getItem("user"))._id;
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/message/updatestatus`,
+      {},
+      {
+        headers: {
+          id: senderid,
+          to: recieverid,
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    updateMessStatus();
+  }, [socket, id]);
+
   return (
     <div className="p-5 w-full h-[28rem] relative">
       <Link
@@ -81,7 +111,16 @@ const ChatBody = ({ socket }) => {
         />
         <div>
           <p className="capitalize">{userDetail.fullName}</p>
-          <span className="text-[#9C9797] text-xs">Active Now</span>
+          <span className="text-[#9C9797] text-xs flex align-middle">
+            Active Now{" "}
+            <div>
+              {active ? (
+                <img src="/assets/Ellipse 28.svg" alt="" className="mt-1" />
+              ) : (
+                ""
+              )}
+            </div>
+          </span>
         </div>
       </div>
       <div className="w-full h-4/5 p-5 overflow-y-scroll custom-scrollbar">
@@ -112,11 +151,21 @@ const ChatBody = ({ socket }) => {
                       <p>{message.text}</p>
                     </div>
                     <div className="absolute right-0 flex gap-1 mt-1">
-                      <img
-                        src="/assets/doubletick.svg"
-                        alt="delivered"
-                        className="scale-125"
-                      />
+                      <div>
+                        {message.status === "read" ? (
+                          <img
+                            src="/assets/doubletick.svg"
+                            alt="delivered"
+                            className="scale-125 mt-1"
+                          />
+                        ) : (
+                          <img
+                            src="/assets/singletick.svg"
+                            alt="delivered"
+                            className="scale-125 mt-1"
+                          />
+                        )}
+                      </div>
                       <p className="text-[#DEDEDE] text-xs font-normal">
                         {formattedTime}
                       </p>
@@ -127,6 +176,22 @@ const ChatBody = ({ socket }) => {
             } else if (
               message.to === JSON.parse(localStorage.getItem("user"))._id
             ) {
+              const date = new Date(message.createdAt);
+              const hours = date.getHours();
+              const minutes = date.getMinutes();
+
+              let period = "AM";
+              let adjustedHours = hours;
+              if (hours >= 12) {
+                period = "PM";
+                if (hours > 12) {
+                  adjustedHours = hours - 12;
+                }
+              }
+
+              const formattedTime = `${adjustedHours}:${
+                minutes < 10 ? "0" : ""
+              }${minutes} ${period}`;
               return (
                 <div className="message__chats mt-3">
                   <div className="flex gap-2">
@@ -143,8 +208,15 @@ const ChatBody = ({ socket }) => {
                       height={25}
                       className="rounded-full"
                     />
-                    <div className="bg-[#9C9797]/30 p-1 rounded-r-full px-2 rounded-tl-full text-sm w-80">
-                      <p>{message.text}</p>
+                    <div className="flex flex-col">
+                      <div className="bg-[#9C9797]/30 p-1 rounded-r-full px-2 rounded-tl-full text-sm w-80">
+                        <p>{message.text}</p>
+                      </div>
+                      <div>
+                        <p className="text-[#DEDEDE] text-xs font-normal">
+                          {formattedTime}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

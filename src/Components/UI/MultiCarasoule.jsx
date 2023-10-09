@@ -3,6 +3,8 @@ import Carousel from "react-multi-carousel";
 import ProductCard from "./ProductCard";
 import "react-multi-carousel/lib/styles.css";
 import { CustomLeftArrow, CustomRightArrow } from "./CustomArrow";
+import "./Carasoule.css";
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -44,46 +46,52 @@ const MultiCarasoule = (props) => {
   }
 
   return (
-    <div className="relative mt-3">
-      <Carousel
-        ssr
-        partialVisbile
-        className=""
-        // deviceType={deviceType}
-        arrows={true}
-        customLeftArrow={<CustomLeftArrow />}
-        customRightArrow={<CustomRightArrow />}
-        itemClass="image-item ml-10 mr-5"
-        responsive={responsive}
-        infinite
-        autoPlaySpeed={2000}
-        autoPlay={false}
-      >
-        {props.products?.map((product) => {
-          const {
-            images,
-            createdAt,
-            title,
-            price,
-            description,
-            _id,
-            favourite,
-          } = product;
-          const image = images[0];
-          const upload_time = formatRelativeTime(createdAt);
-          return (
-            <ProductCard
-              image={image}
-              upload_time={upload_time}
-              title={title}
-              price={price}
-              spec={description}
-              id={_id}
-              favourite={favourite}
-            />
-          );
-        })}
-      </Carousel>
+    <div className="relative">
+      <div className="mt-3">
+        <Carousel
+          ssr
+          partialVisbile
+          className=""
+          containerClass="z-10"
+          // deviceType={deviceType}
+          arrows={true}
+          customLeftArrow={<CustomLeftArrow />}
+          customRightArrow={<CustomRightArrow />}
+          itemClass="image-item carasoule-item"
+          responsive={responsive}
+          infinite
+          autoPlaySpeed={2000}
+          autoPlay={false}
+        >
+          {props.products?.map((product) => {
+            const {
+              images,
+              createdAt,
+              title,
+              price,
+              description,
+              _id,
+              favourite,
+            } = product;
+            const image = images[0];
+            const upload_time = formatRelativeTime(createdAt);
+
+            return (
+              <div className="ml-3">
+                <ProductCard
+                  image={image}
+                  upload_time={upload_time}
+                  title={title}
+                  price={price}
+                  spec={description}
+                  id={_id}
+                  favourite={favourite}
+                />
+              </div>
+            );
+          })}
+        </Carousel>
+      </div>
     </div>
   );
 };

@@ -32,7 +32,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getUserListing();
-  }, []);
+  }, [id]);
 
   // const mensShoes = [
   //   {
@@ -116,7 +116,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     setProfileImage();
-  }, []);
+  }, [id]);
 
   const getUserDetail = async () => {
     // const id = JSON.parse(localStorage.getItem("user"))._id;
@@ -138,7 +138,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getUserDetail();
-  }, []);
+  }, [id]);
 
   return (
     <div>

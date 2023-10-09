@@ -17,15 +17,19 @@ const ChatFooter = ({ socket }) => {
         id: JSON.parse(localStorage.getItem("user"))._id,
         to: id,
         socketID: socket.id,
+        status: "delivered",
       };
-
+      setInputText("");
       socket.emit("message", data);
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
         data
       );
     }
-    setInputText("");
+  };
+
+  const handleFileChange = (files) => {
+    console.log(files[0]);
   };
 
   return (
@@ -33,9 +37,21 @@ const ChatFooter = ({ socket }) => {
       className="w-11/12 absolute bottom-5 flex align-middle justify-between"
       onSubmit={handleSubmit}
     >
-      <button>
-        <img src="/assets/Attach-icon.svg" />
-      </button>
+      <div>
+        <label for="fileInput" className="file-input-label cursor-pointer">
+          <img
+            src="/assets/Attach-icon.svg"
+            alt="Attach File"
+            class="attach-icon"
+          />
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          className="file-input hidden"
+          onChange={(e) => handleFileChange(e.target.files)}
+        />
+      </div>
       <input
         type="text"
         placeholder="Send a message"

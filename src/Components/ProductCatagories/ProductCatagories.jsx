@@ -5,7 +5,7 @@ import MultiCarasoule from "../UI/MultiCarasoule";
 const ProductCatagories = (props) => {
   return (
     <div>
-      <h4 className="text-2xl font-semibold text-black">
+      <h4 className="text-2xl font-semibold text-black capitalize">
         {props.prod_catag_title}
       </h4>
       <MultiCarasoule products={props.trendingProducts} />

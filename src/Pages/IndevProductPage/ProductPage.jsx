@@ -41,7 +41,7 @@ const ProductPage = () => {
       {
         headers: {
           "ngrok-skip-browser-warning": true,
-          userid: JSON.parse(localStorage.getItem("user"))._id,
+          // userid: JSON.parse(localStorage.getItem("user"))._id,
         },
       }
     );
@@ -80,7 +80,7 @@ const ProductPage = () => {
   }, []);
 
   const getUserListing = async () => {
-    const id = JSON.parse(localStorage.getItem("user"))._id;
+    // const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`
     );
@@ -265,8 +265,8 @@ const ProductPage = () => {
     <div>
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
-          <div className="flex gap-3">
-            <div className="w-62 mt-7 flex flex-col gap-3 justify-between h-96">
+          <div className="md:flex md:flex-row flex flex-col gap-3">
+            <div className="md:w-62 w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
               {images.map((image) => {
                 return (
                   <img
@@ -278,7 +278,7 @@ const ProductPage = () => {
                 );
               })}
             </div>
-            <div className="grid grid-cols-2 gap-32 mt-7">
+            <div className="md:grid md:grid-cols-2 md:gap-32 mt-7 flex flex-col">
               <div>
                 <Carasoule
                   images={product.images}
@@ -438,7 +438,7 @@ const ProductPage = () => {
                 </button>
               ) : (
                 <button
-                  className="border-2 border-[#B77EFF] rounded-md py-2 px-4 flex gap-3"
+                  className="border-2 border-[#B77EFF] rounded-md md:py-2 py-1 px-1 md:px-4 flex gap-3"
                   onClick={() => handleLikedButton(id)}
                 >
                   <img src="/assets/not-like.svg" alt="" className="mt-0.9" />
@@ -449,7 +449,7 @@ const ProductPage = () => {
               )}
             </div>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col">
             <SellerCard
               userAvgRating={userAvgRating}
               totalReviews={totalReviews}

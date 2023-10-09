@@ -48,3 +48,9 @@ body{
   color: gold;
   /* or your desired filled star color */
 }
+
+/* @media screen and (max-width:780px){
+  .carasoule-item {
+    width: 167px !important;
+  }
+} */

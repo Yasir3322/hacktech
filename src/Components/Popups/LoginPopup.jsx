@@ -50,10 +50,6 @@ const LoginPopup = ({ socket }) => {
         localStorage.setItem("profile", image);
         localStorage.setItem("isEmailVerified", true);
         useLogin();
-        socket.emit("newuser", {
-          userid: _id,
-          socketId: socket.id,
-        });
         navigate("/");
       }
     } catch {

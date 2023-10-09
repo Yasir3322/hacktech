@@ -34,7 +34,7 @@ export function Carasoule(props) {
           {props?.images?.map((image) => {
             return (
               <div className="relative h-96 w-full">
-                <div className="absolute right-6  flex shadow-md border px-2 rounded-full">
+                <div className="absolute right-3 bg-white top-2  flex shadow-md border px-2 rounded-full">
                   {props.totalProductLiked}
                   <img src="/assets/totalliked.svg" alt="" />
                 </div>

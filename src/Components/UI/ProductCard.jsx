@@ -6,24 +6,56 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
   const { isLogin } = useGlobalCotext();
-  console.log(props.favourite);
-  const id = JSON.parse(localStorage.getItem("user"))._id;
+  const [likeFlag, setLikeFlag] = useState(0);
+  // const id = JSON.parse(localStorage.getItem("user"))._id;
   const navigate = useNavigate();
+
   const handleLikedButton = async (id) => {
-    const token = localStorage.getItem("hacktechtoken");
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/favourite/favouriteproduct`,
-        { productid: id },
+    if (likeFlag === 0) {
+      const token = localStorage.getItem("hacktechtoken");
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/favourite/favouriteproduct`,
+          { productid: id },
+          {
+            headers: {
+              token: token,
+              "ngrok-skip-browser-warning": true,
+            },
+          }
+        );
+        if (res.status === 200) {
+          toast.success("Added to Your Liked Items", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+        await axios.patch(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/product/updatelikedvalue/${id}`
+        );
+      } catch (error) {
+        console.error("Error:", error);
+      }
+      setLikeFlag(1);
+    } else {
+      const res = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${id}`,
         {
           headers: {
-            token: token,
             "ngrok-skip-browser-warning": true,
           },
         }
       );
       if (res.status === 200) {
-        toast.success("Added to Your Liked Items", {
+        toast.success("Removed successfully", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -35,14 +67,15 @@ const ProductCard = (props) => {
         });
       }
       await axios.patch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/product/updatelikedvalue/${id}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/product/decreaselikedvalue/${id}`
       );
-    } catch (error) {
-      console.error("Error:", error);
+      setLikeFlag(0);
     }
   };
 
-  const handleRemoveLikedButton = async (id) => {
+  const handleRemoveLiked = async (id) => {
     const res = await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/api/favourite/${id}`,
       {
@@ -73,12 +106,12 @@ const ProductCard = (props) => {
   };
 
   return (
-    <article style={{ width: "fit-content " }}>
+    <article style={{ width: "fit-content ", marginBottom: "10px" }}>
       <div className="relative">
-        {props.isliked ? (
+        {isLogin && props.isliked ? (
           <button
             className="absolute top-2 right-3 bg-red-500 p-1 rounded-full"
-            onClick={() => handleRemoveLikedButton(props.id)}
+            onClick={() => handleRemoveLiked(props.id)}
           >
             <img src="/assets/liked-icon-white.svg" />
           </button>
@@ -86,7 +119,7 @@ const ProductCard = (props) => {
           <div>
             {isLogin ? (
               <button
-                className="absolute top-2 right-3 bg-white p-1 rounded-full"
+                className="absolute md:top-2 top-0 right-3 bg-white p-1 rounded-full"
                 onClick={() => handleLikedButton(props.id)}
               >
                 <img src="/assets/liked-icon.svg" />
@@ -109,7 +142,7 @@ const ProductCard = (props) => {
                 : "/assets/no-photo2.jpg"
             }
             alt="no-image"
-            className="md:w-52 w-full h-52 rounded-2xl object-cover"
+            className="md:w-52  w-full md:h-52 rounded-2xl md:object-cover"
           />
           <div>
             <span className="text-xs text-[#737373] font-normal">

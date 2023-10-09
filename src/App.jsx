@@ -136,7 +136,7 @@ function App({ socket }) {
           <>
             <section className="shadow-md pb-4">
               <ToastContainer />
-              <SoldtowhoPopup />
+              {/* <SoldtowhoPopup /> */}
               {isNotificationDropdownOpen ? (
                 <DropDown items={notifi_dropdown_props} />
               ) : isProfileDropdownOpen ? (
@@ -144,7 +144,7 @@ function App({ socket }) {
               ) : (
                 ""
               )}
-              <Header user={isLogin} />
+              <Header user={isLogin} socket={socket} />
               <Navbar />
             </section>
             <div

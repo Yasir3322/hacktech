@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { IoIosArrowDown } from "react-icons/io";
+import axios from "axios";
 
-const Header = (props) => {
+const Header = ({ user, socket }) => {
   const navigate = useNavigate();
-
-  const localstorageprofile = JSON.parse(localStorage.getItem("profile"));
-
-  const profile = `${
-    localstorageprofile
-      ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
-      : "/assets/preview.avif"
-  }`;
 
   const {
     useLogin,
@@ -20,7 +13,20 @@ const Header = (props) => {
     showLoginPopup,
     showNotiDropdown,
     showProfileDropdown,
+    isLogin,
+    setSearchProduct,
+    setAllSearchProducts,
   } = useGlobalCotext();
+
+  if (isLogin) {
+    var localstorageprofile = localStorage.getItem("profile").replace(/"/g, "");
+
+    var profile = `${
+      localstorageprofile
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
+        : "/assets/preview.avif"
+    }`;
+  }
 
   const handleSignup = () => {
     // useLogin();
@@ -41,17 +47,38 @@ const Header = (props) => {
     showProfileDropdown();
   };
 
+  const handleChatClick = (e) => {
+    e.preventDefault();
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    socket.emit("newuser", {
+      userid: id,
+      socketId: socket.id,
+    });
+
+    navigate("/chat");
+  };
+
+  const handleSearchChange = async (e) => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts?title=${
+        e.target.value
+      }`
+    );
+    console.log(res);
+    setAllSearchProducts(res?.data?.allProducts);
+  };
+
   return (
-    <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
+    <section className="md:flex md:flex-row flex flex-row align-middle justify-between w-full md:px-10">
       <div className="md:flex flex align-middle justify-between flex-grow mt-3">
-        <Link className="flex" to={props.user ? "/" : "/"}>
+        <Link className="flex" to={user ? "/" : "/"}>
           <img
             src="/assets/trojansquare.svg"
             alt="uniswap"
-            className="md:w-48 w-24 h-12 ml-3 scale-150"
+            className="md:w-48 w-24 h-12 ml-3 scale-150 "
           />
         </Link>
-        <div className="md:w-full pl-8 mr-24 md:ml-12">
+        <div className="md:w-full pl-8 md:mr-24 md:ml-12">
           <form>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
@@ -70,13 +97,14 @@ const Header = (props) => {
               <input
                 className="w-full  bg-white placeholder:font-italitc border border-slate-300 rounded-full h-11 pl-10 pr-4 focus:outline-none"
                 type="text"
+                onChange={handleSearchChange}
               />
             </label>
           </form>
         </div>
       </div>
       <div className="mt-3">
-        {props.user ? (
+        {user ? (
           <div className="flex gap-8 align-middle justify-around">
             <button
               className="w-28 h-10 rounded-full border  bg-[#DB3B39] text-white"
@@ -94,13 +122,13 @@ const Header = (props) => {
                     className="w-6 mt-3 h-6"
                   />
                 </Link>
-                <Link to="/chat">
+                <button to="/chat" onClick={handleChatClick}>
                   <img
                     src="/assets/Vectorheader1.svg"
                     alt="vectorheader"
-                    className="w-6 mt-3 h-6"
+                    className="w-6 mt-1 h-6"
                   />
-                </Link>
+                </button>
                 <button onClick={handleNotificationbutton}>
                   <img
                     src="/assets/Vectorheader2.svg"
@@ -138,18 +166,18 @@ const Header = (props) => {
             </div>
           </div>
         ) : (
-          <div className="flex md:gap-7 align-middle justify-between mt-4">
-            <button className="w-28 h-10 rounded-full border border-black ">
+          <div className="flex md:gap-7 gap-1 ml-5 align-middle justify-between ">
+            <button className="md:w-28  w-12 leading-3 rounded-md h-10 md:rounded-full border md:border-black ">
               Sell an item
             </button>
             <button
-              className="w-24 h-10 rounded-full border"
+              className="md:w-24 w-12 leading-3 rounded-md h-10 md:rounded-full border"
               onClick={handleLogin}
             >
               Login
             </button>
             <button
-              className="w-24 h-10 rounded-full border bg-[#DB3B39] text-white"
+              className="md:w-24 w-12 leading-3 rounded-md h-10 md:rounded-full border bg-[#DB3B39] text-white"
               onClick={handleSignup}
             >
               Sign up

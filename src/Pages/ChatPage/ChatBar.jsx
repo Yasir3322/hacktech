@@ -4,17 +4,17 @@ import { Link, Outlet } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 
 const ChatBar = ({ socket }) => {
-  const [usersList, setUsersList] = useState([]);
   const [peoples, setPeople] = useState([]);
-  const { show, setShow } = useGlobalCotext();
+  const { show, setShow, allActiveUsers, setAllActiveUsers } =
+    useGlobalCotext();
 
   useEffect(() => {
+    console.log("called");
     socket.on("newUserResponse", (data) => {
-      setUsersList(data);
+      console.log(data);
+      setAllActiveUsers(data);
     });
-  }, [socket, usersList]);
-
-  console.log({ usersList });
+  }, []);
 
   const getChatWithUser = async () => {
     const userid = JSON.parse(localStorage.getItem("user"))._id;

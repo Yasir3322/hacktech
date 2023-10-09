@@ -6,7 +6,7 @@ const SellerCard = (props) => {
   const { fullName, image, _id } = props?.userDetail[0];
   const isEmailVerified = localStorage.getItem("isEmailVerified");
   return (
-    <div className="flex gap-10">
+    <div className="md:flex md:flex-row flex flex-col gap-10">
       <div>
         <h3 className="font-semibold text-base">Meet the seller</h3>
         <div className="flex align-middle justify-between gap-5 mt-4">
