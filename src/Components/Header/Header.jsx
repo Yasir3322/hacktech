@@ -69,16 +69,16 @@ const Header = ({ user, socket }) => {
   };
 
   return (
-    <section className="md:flex md:flex-row flex flex-row align-middle justify-between w-full md:px-10">
-      <div className="md:flex flex align-middle justify-between flex-grow mt-3">
-        <Link className="flex" to={user ? "/" : "/"}>
+    <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
+      <div className="md:flex md:flex-row flex flex-col align-middle justify-between flex-grow mt-3">
+        <Link className="flex md:ml-0 ml-4" to={user ? "/" : "/"}>
           <img
             src="/assets/trojansquare.svg"
             alt="uniswap"
             className="md:w-48 w-24 h-12 ml-3 scale-150 "
           />
         </Link>
-        <div className="md:w-full pl-8 md:mr-24 md:ml-12">
+        <div className="md:w-full md:pl-8 md:mr-24 md:ml-12">
           <form>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
@@ -105,7 +105,7 @@ const Header = ({ user, socket }) => {
       </div>
       <div className="mt-3">
         {user ? (
-          <div className="flex gap-8 align-middle justify-around">
+          <div className="md:flex md:flex-row flex flex-row gap-8 align-middle justify-around">
             <button
               className="w-28 h-10 rounded-full border  bg-[#DB3B39] text-white"
               onClick={() => navigate("/createnewlisting")}

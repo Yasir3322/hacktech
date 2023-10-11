@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/productpage/:id",
-        element: <ProductPage />,
+        element: <ProductPage socket={socket} />,
       },
       {
         path: "/chat",

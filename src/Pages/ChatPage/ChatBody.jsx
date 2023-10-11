@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ChatFooter from "./ChatFooter";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
+import { useQuery } from "@chakra-ui/react";
 
 const ChatBody = ({ socket }) => {
   const { id } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const prodid = searchParams.get("prodid");
   var localid = JSON.parse(localStorage.getItem("user"))._id;
   const [messages, setMessages] = useState([]);
   const [userDetail, setUserDetail] = useState({});
@@ -97,31 +101,41 @@ const ChatBody = ({ socket }) => {
       >
         Go back
       </Link>
-      <div className="flex gap-2">
-        <img
-          src={
-            userDetail?.image
-              ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${userDetail.image}`
-              : "/assets/preview.avif"
-          }
-          alt="avatar"
-          width={47}
-          height={47}
-          className="rounded-full"
-        />
-        <div>
-          <p className="capitalize">{userDetail.fullName}</p>
-          <span className="text-[#9C9797] text-xs flex align-middle">
-            Active Now{" "}
-            <div>
-              {active ? (
-                <img src="/assets/Ellipse 28.svg" alt="" className="mt-1" />
-              ) : (
-                ""
-              )}
-            </div>
-          </span>
+      <div className="flex align-middle gap-32">
+        <div className="flex gap-2">
+          <img
+            src={
+              userDetail?.image
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                    userDetail.image
+                  }`
+                : "/assets/preview.avif"
+            }
+            alt="avatar"
+            width={47}
+            height={47}
+            className="rounded-full"
+          />
+          <div>
+            <p className="capitalize">{userDetail.fullName}</p>
+            <span className="text-[#9C9797] text-xs flex align-middle">
+              Active Now{" "}
+              <div>
+                {active ? (
+                  <img src="/assets/Ellipse 28.svg" alt="" className="mt-1" />
+                ) : (
+                  ""
+                )}
+              </div>
+            </span>
+          </div>
         </div>
+        <p className="flex">
+          <img src="/assets/trojansquare.png" alt="" width={40} height={10} />
+          <Link to={`/productpage/${prodid}`} className="text-blue-800 mt-2">
+            {`Requested Product`}
+          </Link>
+        </p>
       </div>
       <div className="w-full h-4/5 p-5 overflow-y-scroll custom-scrollbar">
         {!loading ? (

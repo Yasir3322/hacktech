@@ -117,10 +117,10 @@ function App({ socket }) {
 
   return (
     <>
-      <div>
+      <div className="w-full">
         {!isLogin ? (
           <>
-            <section className="shadow-md pb-4 relative">
+            <section className="shadow-md relative">
               <CreateAccountPopup socket={socket} />
               <LoginPopup socket={socket} />
               <Header />
@@ -136,7 +136,7 @@ function App({ socket }) {
           <>
             <section className="shadow-md pb-4">
               <ToastContainer />
-              {/* <SoldtowhoPopup /> */}
+              <SoldtowhoPopup />
               {isNotificationDropdownOpen ? (
                 <DropDown items={notifi_dropdown_props} />
               ) : isProfileDropdownOpen ? (

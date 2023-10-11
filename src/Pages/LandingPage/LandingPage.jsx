@@ -157,12 +157,14 @@ const LandingPage = () => {
               </div>
               <div>
                 {allProducts.map((products) => {
-                  return (
-                    <ProductCatagories
-                      prod_catag_title={products.title}
-                      trendingProducts={products.products}
-                    />
-                  );
+                  if (products.products.length > 0) {
+                    return (
+                      <ProductCatagories
+                        prod_catag_title={products.title}
+                        trendingProducts={products.products}
+                      />
+                    );
+                  }
                 })}
               </div>
             </div>

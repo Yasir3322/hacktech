@@ -97,7 +97,7 @@ const SoldtowhoPopup = (props) => {
       <div
         className={`${
           isSoldPopupOpen
-            ? "show absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 p-5   bg-white rounded-2xl"
+            ? "show absolute md:left-1/2 left-0 md:mx-0 mx-3 md:-translate-x-1/2 top-1/2 -translate-y-1/2 p-5   bg-white rounded-2xl"
             : "hidden"
         }`}
       >
@@ -126,15 +126,15 @@ const SoldtowhoPopup = (props) => {
                     key={_id}
                   >
                     <img
-                      src={image}
+                      src={userimage}
                       alt="image"
-                      width={45}
-                      height={45}
-                      className="rounded-full"
+                      // width={45}
+                      // height={45}
+                      className="rounded-full w-12 h-12"
                     />
                     <div>
                       <h4>{fullName}</h4>
-                      <span className="text-[#9C9797] text-xs">{`Hi ${fullName} Hope youre doing...`}</span>
+                      <span className="md:block hidden text-[#9C9797] text-xs">{`Hi ${fullName} Hope youre doing...`}</span>
                     </div>
                   </div>
                 );

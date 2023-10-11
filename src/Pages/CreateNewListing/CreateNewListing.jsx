@@ -143,7 +143,7 @@ const CreateNewListing = () => {
                 onChange={handleChange2}
               />
             </div>
-            <div className="grid grid-cols-2 gap-8">
+            <div className="md:grid md:grid-cols-2 flex flex-col gap-8">
               <div>
                 <div className="flex flex-col">
                   <label className="text-base font-bold">Hashtags</label>
@@ -181,16 +181,7 @@ const CreateNewListing = () => {
                   <label>Is this an online product ?</label>
                 </div>
               </div>
-              <div class="flex items-center">
-                {/* <div class="relative">
-                  <input
-                    id="file-input"
-                    type="file"
-                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  <img src="/assets/choosefile.svg" alt="Custom Icon" />
-                </div> */}
-
+              <div class="md:flex md:flex-row flex flex-col items-center">
                 <div className="clearfix">
                   <Upload
                     listType="picture-card"

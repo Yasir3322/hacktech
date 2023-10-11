@@ -3,8 +3,10 @@ import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AiFillHeart } from "react-icons/ai";
 
 const ProductCard = (props) => {
+  console.log(props.favourite);
   const { isLogin } = useGlobalCotext();
   const [likeFlag, setLikeFlag] = useState(0);
   // const id = JSON.parse(localStorage.getItem("user"))._id;
@@ -108,24 +110,24 @@ const ProductCard = (props) => {
   return (
     <article style={{ width: "fit-content ", marginBottom: "10px" }}>
       <div className="relative">
-        {isLogin && props.isliked ? (
+        {isLogin && props?.favourite[0]?.isliked ? (
           <button
-            className="absolute top-2 right-3 bg-red-500 p-1 rounded-full"
+            className="absolute top-2 right-3 p-1 rounded-full"
             onClick={() => handleRemoveLiked(props.id)}
           >
-            <img src="/assets/liked-icon-white.svg" />
+            <AiFillHeart fill="red" className="mt-1" size={25} />
           </button>
         ) : (
           <div>
             {isLogin ? (
               <button
-                className="absolute md:top-2 top-0 right-3 bg-white p-1 rounded-full"
+                className="absolute md:top-0 top-0 right-1  p-1 rounded-full"
                 onClick={() => handleLikedButton(props.id)}
               >
-                <img src="/assets/liked-icon.svg" />
+                <AiFillHeart fill="#d0d0d0" className="mt-1" size={25} />
               </button>
             ) : (
-              <button className="absolute top-2 right-3 bg-white p-1 rounded-full">
+              <button className="absolute top-0 right-0 p-1 rounded-full">
                 <img src="/assets/liked-icon.svg" />
               </button>
             )}

@@ -24,7 +24,7 @@ const ChatBar = ({ socket }) => {
     console.log(res.data);
     res.data.chatusers.map((user) => {
       setPeople((prev) => {
-        return [...prev, user.chatuser[0]];
+        return [...prev, { ...user.chatuser[0], prodid: user.prodreqid }];
       });
     });
   };
@@ -94,7 +94,7 @@ const ChatBar = ({ socket }) => {
         <h4 className="text-lg">Chat</h4>
         <div className="flex w-full flex-col gap-3 mt-4">
           {peoples.map((people) => {
-            const { image, fullName, _id } = people;
+            const { image, fullName, _id, prodid } = people;
             const userimage = `${
               image
                 ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
@@ -103,7 +103,7 @@ const ChatBar = ({ socket }) => {
             return (
               <Link
                 className="flex gap-3 cursor-pointer"
-                to={`/chat/${_id}`}
+                to={`/chat/${_id}?prodid=${prodid}`}
                 onClick={() => handleChatClick(_id)}
               >
                 <img

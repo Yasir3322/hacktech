@@ -31,7 +31,9 @@ export const AppProvider = ({ children }) => {
   };
 
   const setProfileImage = () => {
-    const localstorageprofile = JSON.parse(localStorage.getItem("profile"));
+    const localstorageprofile = localStorage
+      .getItem("profile")
+      .replace(/"/g, "");
     const profile = `${
       localstorageprofile
         ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
@@ -53,6 +55,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const showSoldPopup = (id) => {
+    console.log(id);
     setProdIdForSoldTo(id);
     setIsSoldPopupOpen(!isSoldPopupOpen);
   };

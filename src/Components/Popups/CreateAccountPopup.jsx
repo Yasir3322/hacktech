@@ -7,8 +7,12 @@ import { m } from "../Magic-client";
 
 const CreateAccountPopup = ({ socket }) => {
   const navigate = useNavigate();
-  const { isCreateAccountPopupOpen, showCreateAccountPopup, useLogin } =
-    useGlobalCotext();
+  const {
+    isCreateAccountPopupOpen,
+    showCreateAccountPopup,
+    useLogin,
+    showLoginPopup,
+  } = useGlobalCotext();
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -19,6 +23,9 @@ const CreateAccountPopup = ({ socket }) => {
     privacypolicy: false,
     socketid: socket.id,
   });
+
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -81,6 +88,19 @@ const CreateAccountPopup = ({ socket }) => {
     });
   };
 
+  const handleLoginInstead = () => {
+    showCreateAccountPopup();
+    showLoginPopup();
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPass(!showPass);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPass(!showConfirmPass);
+  };
+
   return (
     <div
       className={`${
@@ -133,25 +153,41 @@ const CreateAccountPopup = ({ socket }) => {
           </div>
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Password</label>
-            <input
-              type="password"
-              placeholder="Use at least 8 characters"
-              className="border border-[#CDCED2] rounded-sm h-8 px-2"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                placeholder="Use at least 8 characters"
+                className="border w-full border-[#CDCED2] rounded-sm h-8 px-2"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <span
+                className="absolute right-2 top-1 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                <img src="/assets/eye.svg" alt="Toggle Password Visibility" />
+              </span>
+            </div>
           </div>
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Use at least 8 characters"
-              className="border border-[#CDCED2] rounded-sm h-8 px-2"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPass ? "text" : "password"}
+                placeholder="Use at least 8 characters"
+                className="border w-full border-[#CDCED2] rounded-sm h-8 px-2"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+              <span
+                className="absolute right-2 top-1 cursor-pointer"
+                onClick={toggleConfirmPasswordVisibility}
+              >
+                <img src="/assets/eye.svg" alt="Toggle Password Visibility" />
+              </span>
+            </div>
           </div>
           <div className="flex gap-2">
             <input
@@ -169,7 +205,8 @@ const CreateAccountPopup = ({ socket }) => {
             {!loading ? "Sign up" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
-            Have an account already? Login instead
+            Have an account already?{" "}
+            <button onClick={() => handleLoginInstead()}>Login instead</button>
           </span>
           <div className="w-64 font-normal text-xs items-center">
             <p>

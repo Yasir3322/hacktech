@@ -23,7 +23,7 @@ const CustomArrow = ({ onClick, className, icon }) => (
 export const CustomLeftArrow = ({ onClick, ...rest }) => {
   return (
     <CustomArrow
-      className="custom-left-arrow  z-20 bg-blue-gray-100 rounded-full p-0.5"
+      className="custom-left-arrow  -left-2 z-20  rounded-full p-0.5"
       icon={<AiOutlineLeft />}
       onClick={() => onClick()}
       {...rest}
@@ -34,7 +34,7 @@ export const CustomLeftArrow = ({ onClick, ...rest }) => {
 export const CustomRightArrow = ({ onClick, ...rest }) => {
   return (
     <CustomArrow
-      className="custom-right-arrow right-0 z-20 bg-blue-gray-100 rounded-full p-0.5"
+      className="custom-right-arrow -right-2 z-20  rounded-full p-0.5"
       icon={<AiOutlineRight />}
       onClick={() => onClick()}
       {...rest}

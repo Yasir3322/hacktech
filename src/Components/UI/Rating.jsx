@@ -34,18 +34,20 @@ const Rating = React.forwardRef(
 
     const RatingButton = ({ idx, fill }) => {
       return (
-        <PseudoBox
-          as="button"
-          aria-label={`Rate ${idx}`}
-          height={`${size}px`}
-          width={`${size}px`}
-          variant="unstyled"
-          mx={1}
-          onClick={() => onClick(idx)}
-          _focus={{ outline: 0 }}
-        >
+        // <PseudoBox
+        //   as="button"
+        //   aria-label={`Rate ${idx}`}
+        //   height={`${size}px`}
+        //   width={`${size}px`}
+        //   variant="unstyled"
+        //   mx={1}
+        //   onClick={() => onClick(idx)}
+        //   _focus={{ outline: 0 }}
+        // >
+        <div onClick={() => onClick(idx)}>
           <RatingIcon fill={fill} />
-        </PseudoBox>
+        </div>
+        // </PseudoBox>
       );
     };
 

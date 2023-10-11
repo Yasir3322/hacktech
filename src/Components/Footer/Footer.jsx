@@ -5,21 +5,21 @@ const Footer = () => {
   const { isLogin } = useGlobalCotext();
 
   return (
-    <footer className="mt-10 relative w-full md:h-[64vh]">
+    <footer className="md:relative absolute w-full md:h-52 h-16 lg:h-96 md:mt-0 mt-10">
       <img
         src="/assets/footer/Vector.svg"
         alt="vector"
-        className="z-10 absolute  bottom-0 md:h-[40vh] lg:h-[58vh]"
+        className="z-10 absolute  bottom-0 2xl:h-52 md:h-48 h-20"
       />
       <img
         src="/assets/footer/Vector (1).svg"
         alt="vector_1"
-        className="z-0 absolute  bottom-0 md:h-[40vh] lg:h-[58vh]"
+        className="z-0 absolute  bottom-0 2xl:h-44 2xl:left-28 md:h-44 left-5 h-14"
       />
       <img
         src="/assets/footer/Vector (2).svg"
         alt="vector_1"
-        className="z-10 right-0 absolute  bottom-0 md:h-[40vh] lg:h-[67vh]"
+        className="z-10 right-0 absolute  bottom-0 2xl:h-52 md:h-48 h-20"
       />
       <div className="absolute bottom-6 md:left-8 left-5 text-white md:text-xl text-xs z-10">
         {isLogin ? <button>Contact Us</button> : ""}

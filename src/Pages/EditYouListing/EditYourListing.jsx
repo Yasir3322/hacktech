@@ -145,18 +145,39 @@ const EditYourListing = () => {
 
   console.log(formData);
 
+  const handleDeleteProduct = async (id) => {
+    const res = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/deleteproduct/${id}`
+    );
+
+    if (res.status === 200) {
+      toast.success("Deleted Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="w-11/12 m-auto pt-12">
         <div>
-          <h1 className="font-semibold text-5xl">edit your listing</h1>
-          <p className="font-simibold text-2xl">
+          <h1 className="font-semibold md:text-5xl text-4xl">
+            edit your listing
+          </h1>
+          <p className="font-simibold md:text-2xl text-base">
             Edit the details of the listing
           </p>
         </div>
         <div className="mt-16">
           <form onSubmit={handleFormSubmit}>
-            <div className="flex gap-36 align-middle justify-between">
+            <div className="md:flex md:flex-row flex flex-col md:gap-36 align-middle justify-between">
               <div className="flex flex-col flex-grow">
                 <label className="text-base font-bold">Listing title?</label>
                 <input
@@ -202,7 +223,7 @@ const EditYourListing = () => {
                 onChange={handleChange2}
               />
             </div>
-            <div className="grid grid-cols-2 gap-8">
+            <div className="md:grid md:grid-cols-2 flex flex-col gap-8">
               <div>
                 <div className="flex flex-col">
                   <label className="text-base font-bold">Hashtags</label>
@@ -278,7 +299,11 @@ const EditYourListing = () => {
               >
                 update it!
               </button>
-              <button className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5">
+              <button
+                type="button"
+                onClick={() => handleDeleteProduct(id)}
+                className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5"
+              >
                 Delete it!
               </button>
             </div>

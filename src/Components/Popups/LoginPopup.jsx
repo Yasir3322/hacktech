@@ -10,12 +10,15 @@ import { toast } from "react-toastify";
 const LoginPopup = ({ socket }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { isLoginPopupOpen, useLogin, showLoginPopup } = useGlobalCotext();
+  const { isLoginPopupOpen, useLogin, showLoginPopup, showCreateAccountPopup } =
+    useGlobalCotext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     privacyPolicy: false,
   });
+
+  const [showPass, setShowPass] = useState(false);
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -80,6 +83,15 @@ const LoginPopup = ({ socket }) => {
     });
   };
 
+  const handleLoginInstead = () => {
+    showLoginPopup();
+    showCreateAccountPopup();
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPass(!showPass);
+  };
+
   return (
     <div
       className={`${
@@ -130,14 +142,22 @@ const LoginPopup = ({ socket }) => {
           </div>
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Password</label>
-            <input
-              type="password"
-              placeholder="Use at least 8 characters"
-              className="border border-[#CDCED2] rounded-sm h-8 px-2"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                placeholder="Use at least 8 characters"
+                className="border w-full border-[#CDCED2] rounded-sm h-8 px-2"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <span
+                className="absolute right-2 top-1 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                <img src="/assets/eye.svg" alt="Toggle Password Visibility" />
+              </span>
+            </div>
           </div>
           <button className="text-xs text-blue-700 w-full flex cursor-pointer">
             Forget password?
@@ -158,7 +178,10 @@ const LoginPopup = ({ socket }) => {
             {!loading ? "Sign in" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
-            Have an account already? Login instead
+            Don't have an account?{" "}
+            <button onClick={() => handleLoginInstead()}>
+              Sign up instead
+            </button>
           </span>
           <div className="w-64 font-normal text-xs items-center">
             <p>

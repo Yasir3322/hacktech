@@ -9,7 +9,7 @@ import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { useGlobalCotext } from "../../Context/Context";
 import { AiFillHeart } from "react-icons/ai";
 
-const ProductPage = () => {
+const ProductPage = ({ socket }) => {
   const [wantProd, setWantProd] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
   const [product, setProduct] = useState({});
@@ -24,6 +24,7 @@ const ProductPage = () => {
       image: "",
     },
   ]);
+
   const [userReviews, setUserReviews] = useState([]);
   const [userAvgRating, setUserAvgRating] = useState();
   const [totalReviews, setTotalReview] = useState();
@@ -36,15 +37,27 @@ const ProductPage = () => {
 
   const { id } = useParams();
   const getProduct = async () => {
-    const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
-      {
-        headers: {
-          "ngrok-skip-browser-warning": true,
-          // userid: JSON.parse(localStorage.getItem("user"))._id,
-        },
-      }
-    );
+    let res;
+    if (isLogin) {
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": true,
+            userid: JSON.parse(localStorage.getItem("user"))._id,
+          },
+        }
+      );
+    } else {
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${id}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": true,
+          },
+        }
+      );
+    }
     // console.log(res);
     setTotalProductLiked(res?.data?.product[0].totalliked);
     const instock = res?.data?.product[0].instock;
@@ -222,7 +235,7 @@ const ProductPage = () => {
     }
   };
 
-  const handleSendReq = async (value, productid) => {
+  const handleSendReq = async (value, productid, to, name, socketid) => {
     const token = localStorage.getItem("hacktechtoken");
     const data = {
       buyercomment: value,
@@ -237,6 +250,21 @@ const ProductPage = () => {
         },
       }
     );
+
+    const messagto = {
+      id: JSON.parse(localStorage.getItem("user"))._id,
+      to: userDetail[0]._id,
+      name: JSON.parse(localStorage.getItem("user")).fullName,
+      socketID: socket.id,
+      text: value,
+      status: "delivered",
+    };
+
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
+      messagto
+    );
+
     setProductReqStatus(res.status);
   };
 
@@ -266,7 +294,7 @@ const ProductPage = () => {
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
           <div className="md:flex md:flex-row flex flex-col gap-3">
-            <div className="md:w-62 w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
+            <div className="md:w-20 w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
               {images.map((image) => {
                 return (
                   <img
@@ -458,9 +486,7 @@ const ProductPage = () => {
               totalUserSale={totalUserSale}
             />
           </div>
-          <div>
-            <SellerReview userReviews={userReviews} />
-          </div>
+          <div>{/* <SellerReview userReviews={userReviews} /> */}</div>
         </div>
       ) : (
         <Box padding="6" boxShadow="lg" bg="white">

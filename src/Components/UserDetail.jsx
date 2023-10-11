@@ -41,10 +41,10 @@ const UserDetail = (props) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex w-4/5 m-auto mt-5 align-middle justify-between">
+      <div className="flex w-11/12 m-auto mt-5 align-middle justify-between">
         <div className="flex flex-col flex-grow">
-          <div className="flex">
-            <h2 className="w-96 h-7 font-semibold text-5xl capitalize">
+          <div className="flex gap-0">
+            <h2 className="md:w-96 w-48 h-7 font-semibold md:text-5xl text-3xl capitalize">
               {props.fullName}
             </h2>
             <div>
@@ -52,9 +52,9 @@ const UserDetail = (props) => {
                 <img
                   src="/assets/badge.svg"
                   alt="userprofilebadge"
-                  width={45}
-                  height={45}
-                  className="mt-3"
+                  // width={45}
+                  // height={45}
+                  className="md:mt-3  h-10 w-10"
                 />
               ) : (
                 ""

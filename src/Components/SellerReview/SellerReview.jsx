@@ -66,7 +66,7 @@ const SellerReview = (props) => {
               return (
                 <ReviewCard
                   text={reviewerComment}
-                  name={fullName}
+                  name="dynamic"
                   rating={rating}
                   image={image}
                   createdat={createdat}
