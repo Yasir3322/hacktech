@@ -7,10 +7,21 @@ import { AiFillHeart } from "react-icons/ai";
 
 const ProductCard = (props) => {
   console.log(props.favourite);
-  const { isLogin } = useGlobalCotext();
+  const {
+    isLogin,
+    trandingProd,
+    allProducts,
+    setAllProducts,
+    setTrandingProd,
+    likedProducts,
+    setLikedProducts,
+    showCreateAccountPopup,
+  } = useGlobalCotext();
   const [likeFlag, setLikeFlag] = useState(0);
   // const id = JSON.parse(localStorage.getItem("user"))._id;
   const navigate = useNavigate();
+
+  console.log(trandingProd);
 
   const handleLikedButton = async (id) => {
     if (likeFlag === 0) {
@@ -26,6 +37,37 @@ const ProductCard = (props) => {
             },
           }
         );
+        const favProd = res.data.favourite;
+        const likedprodid = res.data?.favourite?.productid;
+
+        if (props.catagory === "Trending @USC") {
+          const updateprod = trandingProd.map((prod) => {
+            if (prod._id === likedprodid) {
+              console.log(prod);
+              prod.favourite.push(favProd);
+            }
+            return prod;
+          });
+          setTrandingProd(updateprod);
+        } else {
+          let updateProducts = JSON.parse(JSON.stringify(allProducts));
+          updateProducts = updateProducts.map((cat) => {
+            if (cat.title === props.catagory) {
+              console.log(cat);
+              cat?.products?.map((prod) => {
+                if (prod._id === likedprodid) {
+                  console.log(prod);
+                  prod.favourite.push(favProd);
+                }
+                return prod;
+              });
+            }
+            return cat;
+          });
+
+          setAllProducts(updateProducts);
+        }
+
         if (res.status === 200) {
           toast.success("Added to Your Liked Items", {
             position: "top-right",
@@ -86,6 +128,40 @@ const ProductCard = (props) => {
         },
       }
     );
+    console.log(res);
+    const likedprodid = res.data?.deleteFavProd?.productid;
+    if (props.catagory === "Trending @USC") {
+      const updateprod = trandingProd.map((prod) => {
+        if (prod._id === likedprodid) {
+          console.log(prod);
+          prod.favourite.splice(0);
+        }
+        return prod;
+      });
+      setTrandingProd(updateprod);
+    } else {
+      let updateProducts = JSON.parse(JSON.stringify(allProducts));
+      updateProducts = updateProducts.map((cat) => {
+        if (cat.title === props.catagory) {
+          console.log(cat);
+          cat?.products?.map((prod) => {
+            if (prod._id === likedprodid) {
+              console.log(prod);
+              prod.favourite.splice(0);
+            }
+            return prod;
+          });
+        }
+        return cat;
+      });
+
+      setAllProducts(updateProducts);
+    }
+
+    const likedProdArr = likedProducts.filter(
+      (prod) => prod.productid !== likedprodid
+    );
+    setLikedProducts(likedProdArr);
     if (res.status === 200) {
       toast.success("Removed successfully", {
         position: "top-right",
@@ -112,7 +188,7 @@ const ProductCard = (props) => {
       <div className="relative">
         {isLogin && props?.favourite[0]?.isliked ? (
           <button
-            className="absolute top-2 right-3 p-1 rounded-full"
+            className="absolute top-0 right-1 p-1 rounded-full"
             onClick={() => handleRemoveLiked(props.id)}
           >
             <AiFillHeart fill="red" className="mt-1" size={25} />
@@ -127,8 +203,11 @@ const ProductCard = (props) => {
                 <AiFillHeart fill="#d0d0d0" className="mt-1" size={25} />
               </button>
             ) : (
-              <button className="absolute top-0 right-0 p-1 rounded-full">
-                <img src="/assets/liked-icon.svg" />
+              <button
+                className="absolute top-0 right-1 p-1 rounded-full"
+                onClick={() => showCreateAccountPopup()}
+              >
+                <AiFillHeart fill="#d0d0d0" className="mt-1" size={25} />
               </button>
             )}
           </div>

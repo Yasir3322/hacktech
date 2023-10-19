@@ -23,6 +23,10 @@ export const AppProvider = ({ children }) => {
   const [selectedCatagory, setSelectedCatagory] = useState(null);
   const [allActiveUsers, setAllActiveUsers] = useState([]);
   const [searchProduct, setSearchProduct] = useState([]);
+  const [isShowMobileIcon, setIsShowMobileIcon] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
+  const [trandingProd, setTrandingProd] = useState([]);
+  const [likedProducts, setLikedProducts] = useState([]);
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -80,8 +84,10 @@ export const AppProvider = ({ children }) => {
         isSoldPopupOpen,
         showSoldPopup,
         isNotificationDropdownOpen,
+        setIsNotificationDropdownOpen,
         showNotiDropdown,
         isProfileDropdownOpen,
+        setIsProfileDropdownOpen,
         showProfileDropdown,
         allCatagories,
         setAllCatagories,
@@ -107,6 +113,14 @@ export const AppProvider = ({ children }) => {
         setAllActiveUsers,
         searchProduct,
         setSearchProduct,
+        isShowMobileIcon,
+        setIsShowMobileIcon,
+        allProducts,
+        setAllProducts,
+        trandingProd,
+        setTrandingProd,
+        likedProducts,
+        setLikedProducts,
       }}
     >
       {children}

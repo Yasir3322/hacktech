@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 const ChatFooter = ({ socket }) => {
   const [inputtext, setInputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState("");
   const { id } = useParams();
   const handleChange = (e) => {
     setInputText(e.target.value);
@@ -30,40 +32,115 @@ const ChatFooter = ({ socket }) => {
 
   const handleFileChange = (files) => {
     console.log(files[0]);
+    setFile(files[0]);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(!isLoading);
+    const formdata = new FormData();
+    formdata.append("images", file);
+    const res = await axios.post(
+      "http://localhost:8000/api/aws/upload",
+      formdata
+    );
+    if (res.status === 200) {
+      const data = {
+        text: res.data.Location,
+        name: JSON.parse(localStorage.getItem("user")).fullName,
+        id: JSON.parse(localStorage.getItem("user"))._id,
+        to: id,
+        socketID: socket.id,
+        status: "delivered",
+      };
+      setInputText("");
+      socket.emit("message", data);
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
+        data
+      );
+    }
+    setIsLoading(false);
+    setFile("");
+    console.log(res);
   };
 
   return (
-    <form
-      className="w-11/12 absolute bottom-5 flex align-middle justify-between"
-      onSubmit={handleSubmit}
-    >
-      <div>
-        <label for="fileInput" className="file-input-label cursor-pointer">
-          <img
-            src="/assets/Attach-icon.svg"
-            alt="Attach File"
-            class="attach-icon"
-          />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          className="file-input hidden"
-          onChange={(e) => handleFileChange(e.target.files)}
-        />
-      </div>
-      <input
-        type="text"
-        placeholder="Send a message"
-        className="w-full px-4"
-        name="inputtext"
-        value={inputtext}
-        onChange={handleChange}
-      />
-      <button type="submit">
-        <img src="/assets/send-icon.svg" />
-      </button>
-    </form>
+    <div className="flex gap-3 align-middle border-t-2">
+      {file ? (
+        <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
+          <div className="flex align-middle justify-between">
+            <label for="fileInput" className="file-input-label cursor-pointer">
+              <img
+                src="/assets/Attach-icon.svg"
+                alt="Attach File"
+                class="attach-icon"
+              />
+            </label>
+            <input
+              type="file"
+              id="fileInput"
+              className="file-input hidden"
+              accept="image/*"
+              onChange={(e) => handleFileChange(e.target.files)}
+            />
+            <div>
+              {isLoading && file ? (
+                <p className="mt-2 ml-8">Sending Wait...</p>
+              ) : (
+                <p className="mt-2 ml-8">Sent</p>
+              )}
+            </div>
+            <button type="submit" className="ml-96">
+              <img src="/assets/send-icon.svg" />
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="">
+          <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
+            <div className="flex align-middle justify-between">
+              <label
+                for="fileInput"
+                className="file-input-label cursor-pointer"
+              >
+                <img
+                  src="/assets/Attach-icon.svg"
+                  alt="Attach File"
+                  class="attach-icon"
+                />
+              </label>
+              <input
+                type="file"
+                id="fileInput"
+                className="file-input hidden"
+                onChange={(e) => handleFileChange(e.target.files)}
+              />
+              <button type="submit" className={file ? "block" : "hidden"}>
+                <img src="/assets/send-icon.svg" />
+              </button>
+            </div>
+          </form>
+          <form
+            className="md:w-11/12 w-3/4 left-16 absolute bottom-5 flex align-middle justify-between mt-3"
+            onSubmit={handleSubmit}
+            enctype="multipart/form-data"
+          >
+            <input
+              type="text"
+              placeholder="Send a message"
+              className="w-full px-4"
+              name="inputtext"
+              value={inputtext}
+              onChange={handleChange}
+            />
+            <button type="submit">
+              <img src="/assets/send-icon.svg" />
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 

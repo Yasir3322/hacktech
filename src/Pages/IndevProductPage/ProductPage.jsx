@@ -68,7 +68,7 @@ const ProductPage = ({ socket }) => {
 
   useEffect(() => {
     getProduct();
-  }, [id, product]);
+  }, [id]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -87,6 +87,8 @@ const ProductPage = ({ socket }) => {
     setUserAvgRating(avgrating);
     setTotalReview(totallength);
   };
+
+  console.log(userDetail);
 
   useEffect(() => {
     getUserDetail();
@@ -313,6 +315,38 @@ const ProductPage = ({ socket }) => {
                   totalProductLiked={totalProductLiked}
                 />
               </div>
+              <div className=" gap-4 ml-12 mt-8 md:hidden flex">
+                <button onClick={handleShareClick}>
+                  <img src="/assets/share-span.svg" />
+                </button>
+                <div>
+                  {product.favourite[0]?.isliked ? (
+                    <button
+                      className="border-2 border-black rounded-md py-2 px-4 flex gap-3"
+                      onClick={() => handleUnLikedButton(id)}
+                    >
+                      <AiFillHeart fill="red" className="mt-1" size={25} />
+                      <span className="font-semibold md:text-lg text-sm text-[#DB3B39]">
+                        Unlike this item
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      className="border-2 border-[#B77EFF] rounded-md md:py-2 py-1 px-1 md:px-4 flex gap-3"
+                      onClick={() => handleLikedButton(id)}
+                    >
+                      <img
+                        src="/assets/not-like.svg"
+                        alt=""
+                        className="mt-0.9"
+                      />
+                      <span className="font-semibold md:text-lg text-sm text-[#B77EFF]">
+                        Like this item
+                      </span>
+                    </button>
+                  )}
+                </div>
+              </div>
               <div className="h-auto">
                 <div>
                   <h2 className="font-semibold text-3xl w-80">
@@ -336,16 +370,27 @@ const ProductPage = ({ socket }) => {
                       <div className="py-5">
                         {!wantProd ? (
                           <div className="grid grid-cols-2 gap-4">
-                            <button
-                              className="bg-[#F2F2F2] rounded-sm p-1"
-                              onClick={() => handleAddToCart(id)}
-                              disabled={!productInStock}
-                            >
-                              Add
-                            </button>
+                            {isLogin ? (
+                              <button
+                                className="bg-[#F2F2F2] rounded-sm p-1"
+                                onClick={() => handleAddToCart(id)}
+                                disabled={!productInStock}
+                              >
+                                Add
+                              </button>
+                            ) : (
+                              <button
+                                className="bg-[#F2F2F2] rounded-sm p-1"
+                                onClick={() => handleAddToCart(id)}
+                                disabled={!isLogin}
+                              >
+                                Add
+                              </button>
+                            )}
                             <button
                               className="bg-[#DB3B39] rounded-sm text-white p-1"
                               onClick={() => setWantProd(!wantProd)}
+                              disabled={!isLogin}
                             >
                               I Want this!
                             </button>
@@ -449,7 +494,7 @@ const ProductPage = ({ socket }) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 ml-12 mt-8">
+          <div className="md:flex gap-4 ml-12 mt-8 hidden">
             <button onClick={handleShareClick}>
               <img src="/assets/share-span.svg" />
             </button>
@@ -460,7 +505,7 @@ const ProductPage = ({ socket }) => {
                   onClick={() => handleUnLikedButton(id)}
                 >
                   <AiFillHeart fill="red" className="mt-1" size={25} />
-                  <span className="font-semibold text-lg text-[#DB3B39]">
+                  <span className="font-semibold md:text-lg text-sm text-[#DB3B39]">
                     Unlike this item
                   </span>
                 </button>
@@ -468,9 +513,10 @@ const ProductPage = ({ socket }) => {
                 <button
                   className="border-2 border-[#B77EFF] rounded-md md:py-2 py-1 px-1 md:px-4 flex gap-3"
                   onClick={() => handleLikedButton(id)}
+                  disabled={!isLogin}
                 >
                   <img src="/assets/not-like.svg" alt="" className="mt-0.9" />
-                  <span className="font-semibold text-lg text-[#B77EFF]">
+                  <span className="font-semibold md:text-lg text-sm text-[#B77EFF]">
                     Like this item
                   </span>
                 </button>
@@ -486,7 +532,9 @@ const ProductPage = ({ socket }) => {
               totalUserSale={totalUserSale}
             />
           </div>
-          <div>{/* <SellerReview userReviews={userReviews} /> */}</div>
+          <div>
+            <SellerReview userReviews={userReviews} />
+          </div>
         </div>
       ) : (
         <Box padding="6" boxShadow="lg" bg="white">

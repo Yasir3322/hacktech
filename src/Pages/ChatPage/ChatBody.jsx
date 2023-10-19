@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { useQuery } from "@chakra-ui/react";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 const ChatBody = ({ socket }) => {
   const { id } = useParams();
@@ -16,6 +17,8 @@ const ChatBody = ({ socket }) => {
   const [loading, setLoading] = useState(false);
   const { setShow, allActiveUsers } = useGlobalCotext();
   const [active, setActive] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const [showModelImage, setShowModelImage] = useState("");
 
   useEffect(() => {
     console.log(allActiveUsers);
@@ -31,8 +34,17 @@ const ChatBody = ({ socket }) => {
   useEffect(() => {
     socket.on("messageResponse", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]); // Use the previous state to update messages
+      socket.emit("messagesRead", data);
     });
   }, [socket]);
+
+  // useEffect(() => {
+  //   const usermess = messages.filter(
+  //     (message) => message.to === JSON.parse(localStorage.getItem("user"))._id
+  //   );
+  //   console.log(usermess);
+  //   socket.emit("messagesRead", usermess);
+  // }, []);
 
   const getUserdetail = async () => {
     const res = await axios.get(
@@ -86,14 +98,40 @@ const ChatBody = ({ socket }) => {
         },
       }
     );
+    getUserMess();
   };
 
   useEffect(() => {
     updateMessStatus();
   }, [socket, id]);
 
+  const handleImageClick = (imgurl) => {
+    console.log(imgurl);
+    setShowModelImage(imgurl);
+    setShowModel(!showModel);
+  };
+
   return (
-    <div className="p-5 w-full h-[28rem] relative">
+    <div className="p-5 w-full h-[28rem]  relative">
+      <div
+        className={
+          showModel
+            ? "absolute w-3/4 h-80 shadow-xl border-1 z-5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            : "hidden"
+        }
+      >
+        <button
+          className="absolute -right-2 -top-2 z-50"
+          onClick={() => setShowModel(!showModel)}
+        >
+          <AiFillCloseCircle size={30} />
+        </button>
+        <img
+          src={showModelImage}
+          alt=""
+          className="w-full h-full z-100 object-cover rounded-lg"
+        />
+      </div>
       <Link
         to="/chat"
         className="px-4 absolute right-1"
@@ -101,7 +139,7 @@ const ChatBody = ({ socket }) => {
       >
         Go back
       </Link>
-      <div className="flex align-middle gap-32">
+      <div className="flex align-middle md:gap-32 gap-3">
         <div className="flex gap-2">
           <img
             src={
@@ -112,9 +150,7 @@ const ChatBody = ({ socket }) => {
                 : "/assets/preview.avif"
             }
             alt="avatar"
-            width={47}
-            height={47}
-            className="rounded-full"
+            className="rounded-full w-12 h-12"
           />
           <div>
             <p className="capitalize">{userDetail.fullName}</p>
@@ -161,8 +197,25 @@ const ChatBody = ({ socket }) => {
               return (
                 <div className="w-full flex items-end justify-end">
                   <div className="ml-auto relative mt-5">
-                    <div className=" bg-[#F9CC65]/30 mt-3 p-1 rounded-l-full px-2 rounded-tr-full text-sm w-80">
-                      <p>{message.text}</p>
+                    <div>
+                      {message.text.startsWith(
+                        "https://trojansquarechatimage.s3.amazonaws.com"
+                      ) ? (
+                        <div
+                          className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
+                          onClick={() => handleImageClick(message.text)}
+                        >
+                          <img
+                            src={message.text}
+                            alt=""
+                            className="rounded-md"
+                          />
+                        </div>
+                      ) : (
+                        <div className=" bg-[#F9CC65]/30 mt-3 z-0 p-1 rounded-l-full px-2 rounded-tr-full text-sm w-80">
+                          <p>{message.text}</p>
+                        </div>
+                      )}
                     </div>
                     <div className="absolute right-0 flex gap-1 mt-1">
                       <div>
@@ -218,13 +271,28 @@ const ChatBody = ({ socket }) => {
                           : "/assets/preview.avif"
                       }
                       alt="avatar"
-                      width={27}
-                      height={25}
-                      className="rounded-full"
+                      className="rounded-full w-8 h-8"
                     />
                     <div className="flex flex-col">
-                      <div className="bg-[#9C9797]/30 p-1 rounded-r-full px-2 rounded-tl-full text-sm w-80">
-                        <p>{message.text}</p>
+                      <div>
+                        {message.text.startsWith(
+                          "https://trojansquarechatimage.s3.amazonaws.com"
+                        ) ? (
+                          <div
+                            onClick={() => handleImageClick(message.text)}
+                            className={`mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto cursor-pointer`}
+                          >
+                            <img
+                              src={message.text}
+                              alt=""
+                              className="rounded-md"
+                            />
+                          </div>
+                        ) : (
+                          <div className=" bg-[#9C9797]/30 mt-3 p-1 rounded-r-full px-2 rounded-tl-full text-sm w-80">
+                            <p>{message.text}</p>
+                          </div>
+                        )}
                       </div>
                       <div>
                         <p className="text-[#DEDEDE] text-xs font-normal">

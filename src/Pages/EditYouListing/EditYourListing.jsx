@@ -5,10 +5,12 @@ import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useGlobalCotext } from "../../Context/Context";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const EditYourListing = () => {
+  const navigate = useNavigate();
+
   const { allCatagories } = useGlobalCotext();
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -162,6 +164,8 @@ const EditYourListing = () => {
         theme: "light",
       });
     }
+
+    navigate(`/myprofile/${JSON.parse(localStorage.getItem("user"))._id}`);
   };
 
   return (

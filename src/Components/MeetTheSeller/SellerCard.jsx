@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const SellerCard = (props) => {
   const { fullName, image, _id } = props?.userDetail[0];
+  console.log(props.userDetail);
+  localStorage.setItem("profile", image);
   const isEmailVerified = localStorage.getItem("isEmailVerified");
   return (
     <div className="md:flex md:flex-row flex flex-col gap-10">

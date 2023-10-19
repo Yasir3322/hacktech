@@ -45,6 +45,8 @@ const MultiCarasoule = (props) => {
     }
   }
 
+  console.log("MultiCarasoule");
+
   return (
     <div className="relative">
       <div className="mt-3">
@@ -59,8 +61,8 @@ const MultiCarasoule = (props) => {
           customRightArrow={<CustomRightArrow />}
           itemClass="image-item carasoule-item"
           responsive={responsive}
-          infinite
-          autoPlaySpeed={2000}
+          // infinite
+          // autoPlaySpeed={2000}
           autoPlay={false}
         >
           {props.products?.map((product) => {
@@ -72,6 +74,7 @@ const MultiCarasoule = (props) => {
               description,
               _id,
               favourite,
+              isLiked,
             } = product;
             const image = images[0];
             const upload_time = formatRelativeTime(createdAt);
@@ -86,6 +89,8 @@ const MultiCarasoule = (props) => {
                   spec={description}
                   id={_id}
                   favourite={favourite}
+                  isLiked={isLiked}
+                  catagory={props.catagorytitle}
                 />
               </div>
             );

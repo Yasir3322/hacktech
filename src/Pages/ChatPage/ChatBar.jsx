@@ -109,9 +109,7 @@ const ChatBar = ({ socket }) => {
                 <img
                   src={userimage}
                   alt="image"
-                  width={45}
-                  height={45}
-                  className="rounded-full"
+                  className="rounded-full w-12 h-12"
                 />
                 <div>
                   <h4>{fullName}</h4>

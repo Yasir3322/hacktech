@@ -101,7 +101,7 @@ const SoldtowhoPopup = (props) => {
             : "hidden"
         }`}
       >
-        <h2 className="font-medium text-2xl">Sold to who?</h2>
+        <h2 className="font-medium md:text-2xl text-xl">Sold to who?</h2>
         <button
           className="absolute right-1 top-1"
           onClick={() => showSoldPopup()}
@@ -170,6 +170,12 @@ const SoldtowhoPopup = (props) => {
                     onKeyDown={handleTextareaKeyPress}
                   />
                 </div>
+                <button
+                  type="submit"
+                  className="px-2 bg-[#DB3B39] border-none text-white py-1 rounded-md"
+                >
+                  Submit
+                </button>
               </form>
             ) : (
               <div>

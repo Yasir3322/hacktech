@@ -2,17 +2,18 @@ import LandingPage from "./Pages/LandingPage/LandingPage";
 import "./App.css";
 import Header from "./Components/Header/Header";
 import Navbar from "./Components/Navbar/Navbar";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useGlobalCotext } from "./Context/Context";
 import Footer from "./Components/Footer/Footer";
 import CreateAccountPopup from "./Components/Popups/CreateAccountPopup";
 import LoginPopup from "./Components/Popups/LoginPopup";
 import SoldtowhoPopup from "./Components/Popups/SoldtowhoPopup";
-import DropDown from "./Components/UI/DropDown";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NotiDropDown from "./Components/UI/NotiDropDown";
+import ProfileDropDown from "./Components/UI/ProfileDropDown";
 
 function App({ socket }) {
   const {
@@ -25,6 +26,7 @@ function App({ socket }) {
     setAllProducts,
     notifi_dropdown_props,
     setNotifi_dropdown_props,
+    isShowMobileIcon,
   } = useGlobalCotext();
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
@@ -92,11 +94,11 @@ function App({ socket }) {
     tokenUserLogin();
   }, []);
 
-  // if (isLogin) {
-  //   useEffect(() => {
-  //     userNotification();
-  //   }, [notifi_dropdown_props]);
-  // }
+  useEffect(() => {
+    if (isLogin) {
+      userNotification();
+    }
+  }, [isLogin]);
 
   const getAllCatagories = async () => {
     const res = await axios.get(
@@ -137,15 +139,26 @@ function App({ socket }) {
             <section className="shadow-md pb-4">
               <ToastContainer />
               <SoldtowhoPopup />
-              {isNotificationDropdownOpen ? (
-                <DropDown items={notifi_dropdown_props} />
-              ) : isProfileDropdownOpen ? (
-                <DropDown items={profile_dropdown_props} />
-              ) : (
-                ""
-              )}
+              <NotiDropDown items={notifi_dropdown_props} />
+              <ProfileDropDown />
               <Header user={isLogin} socket={socket} />
               <Navbar />
+              <div>
+                <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
+                  <Link to="/createnewlisting">
+                    <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
+                  </Link>
+                  <Link to="/likedproduct">
+                    <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
+                  </Link>
+                  <Link to="/chat">
+                    <img src="/assets/mobile-footer/Group 80.svg" alt="" />
+                  </Link>
+                  <Link to="/cart">
+                    <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
+                  </Link>
+                </div>
+              </div>
             </section>
             <div
               id="detail"

@@ -15,12 +15,16 @@ const LandingPage = () => {
     selectedCatagory,
     setSelectedCatagory,
     allSearchProducts,
+    allProducts,
+    setAllProducts,
+    // trandingProd,
+    // setTrandingProd,
+    showCreateAccountPopup
   } = useGlobalCotext();
-  const [technologyProd, setTechnologyProd] = useState([]);
-  const [mensShoesProd, setMensShoesProd] = useState([]);
+
   const [trandingProd, setTrandingProd] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
+  // const [allProducts, setAllProducts] = useState([]);
   const [reserveProducts, setReserveProducts] = useState([]);
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
@@ -47,28 +51,36 @@ const LandingPage = () => {
 
   const getAllProducts = async () => {
     setLoading(!loading);
-    const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
-      {
-        headers: {
-          "ngrok-skip-browser-warning": true,
-          userid: isLogin ? JSON.parse(localStorage.getItem("user"))._id : "",
-        },
-      }
-    );
+    var res;
+    if (isLogin) {
+      const id = JSON.parse(localStorage.getItem("user"))._id;
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": true,
+            userid: id,
+          },
+        }
+      );
+    } else {
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
+      );
+    }
     console.log(res);
     setAllProducts(res?.data?.allProducts);
     setReserveProducts(res?.data?.allProducts);
     console.log(allProducts);
-    res.data.allProducts?.map((products) => {
-      products.products.map((product) => {
-        if (product.istranding) {
-          setTrandingProd((prev) => {
-            return [...prev, product];
-          });
-        }
-      });
-    });
+    // res.data.allProducts?.map((products) => {
+    //   products.products.map((product) => {
+    //     if (product.istranding) {
+    //       setTrandingProd((prev) => {
+    //         return [...prev, product];
+    //       });
+    //     }
+    //   });
+    // });
     setLoading(false);
   };
 
@@ -99,10 +111,10 @@ const LandingPage = () => {
                 Sign up with your college campus!
               </h1>
             </div>
-            <button className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
+            <button onClick={() => showCreateAccountPopup()} className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
               Sign up
             </button>
-            <div className="md:mt-10 flex align-middle justify-center">
+            <div className="md:mt-10 flex align-middle justify-center" >
               <img src="/assets/MASK.svg" alt="mask" className="md:w-5/6" />
             </div>
           </div>
@@ -145,7 +157,7 @@ const LandingPage = () => {
             </Box>
           ) : (
             <div className="pl-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
-              <div>
+              {/* <div>
                 {selectedCatagory === null ? (
                   <ProductCatagories
                     prod_catag_title="Trending @USC"
@@ -157,7 +169,7 @@ const LandingPage = () => {
               </div>
               <div>
                 {allProducts.map((products) => {
-                  if (products.products.length > 0) {
+                  if (products?.products?.length > 0) {
                     return (
                       <ProductCatagories
                         prod_catag_title={products.title}
@@ -166,6 +178,9 @@ const LandingPage = () => {
                     );
                   }
                 })}
+              </div> */}
+              <div>
+                <ProductCatagories   />
               </div>
             </div>
           )}

@@ -11,10 +11,13 @@ const MyProfile = () => {
   const [totalUserSale, setTotalUserSale] = useState(0);
   const [userAvgRating, setUserAvgRating] = useState();
   const [totalReviews, setTotalReview] = useState();
-  const { userimage, setProfileImage } = useGlobalCotext();
+  const { userimage, setProfileImage, isLogin } = useGlobalCotext();
   const [userName, setUserName] = useState("");
   const { id } = useParams();
-  const localstorageid = JSON.parse(localStorage.getItem("user"))._id;
+
+  if (isLogin) {
+    var localstorageid = JSON.parse(localStorage.getItem("user"))._id;
+  }
 
   const getUserListing = async () => {
     // const id = JSON.parse(localStorage.getItem("user"))._id;

@@ -44,7 +44,7 @@ const UserDetail = (props) => {
       <div className="flex w-11/12 m-auto mt-5 align-middle justify-between">
         <div className="flex flex-col flex-grow">
           <div className="flex gap-0">
-            <h2 className="md:w-96 w-48 h-7 font-semibold md:text-5xl text-3xl capitalize">
+            <h2 className="md:w-96 w-48 h-7 mb-5 font-semibold md:text-5xl text-3xl capitalize">
               {props.fullName}
             </h2>
             <div>

@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { useGlobalCotext } from "../../Context/Context";
 
 const UserListing = (props) => {
+  const { showSoldPopup, isLogin } = useGlobalCotext();
   const { id } = useParams();
-  const localstorageid = JSON.parse(localStorage.getItem("user"))._id;
+  if (isLogin) {
+    var localstorageid = JSON.parse(localStorage.getItem("user"))._id;
+  }
   const navigate = useNavigate();
 
   const handleEditButton = (id) => {
@@ -16,8 +19,6 @@ const UserListing = (props) => {
   const handleProductClick = (id) => {
     navigate(`/productpage/${id}`);
   };
-
-  const { showSoldPopup } = useGlobalCotext();
 
   const handleMarkSold = async (id) => {
     // const data = {

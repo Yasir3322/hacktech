@@ -5,7 +5,6 @@ import "./index.css";
 
 //them provider
 import { ThemeProvider } from "@material-tailwind/react";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyProfile from "./Pages/MyProfile/MyProfile.jsx";
 import Cart from "./Pages/Cart/Cart.jsx";
@@ -26,6 +25,7 @@ import ChatBar from "./Pages/ChatPage/ChatBar.jsx";
 import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
 import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
 import RatingSold from "./Components/UI/RatingSold.jsx";
+import ResetPassword from "./Pages/PasswordRest/RestPassword.jsx";
 
 const socket = socketIO.connect("http://localhost:8000");
 
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LandingPage socket={socket} />,
+        element: <LandingPage />,
       },
       {
         path: "/user",
@@ -95,6 +95,10 @@ const router = createBrowserRouter([
   {
     path: "/paymentfailure",
     element: <Failure />,
+  },
+  {
+    path: "/resetpassword",
+    element: <ResetPassword />,
   },
 ]);
 

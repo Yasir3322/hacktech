@@ -16,6 +16,7 @@ const CreateNewListing = () => {
     title: "",
     description: "",
     price: "",
+    quantity: "",
     hashtags: "",
     catagory: "",
     isOnline: false,
@@ -68,7 +69,8 @@ const CreateNewListing = () => {
     const formdata = new FormData();
     formdata.append("title", formData.title);
     formdata.append("description", formData.description);
-    formdata.append("price", 123);
+    formdata.append("price", formData.price);
+    formdata.append("price", formData.quantity);
     formdata.append("hashtags", JSON.stringify(hashtag));
     formdata.append("catagory", formData.catagory);
     formdata.append("isOnline", formData.isOnline);
@@ -88,18 +90,20 @@ const CreateNewListing = () => {
 
   return (
     <div className="w-full">
-      <div className="w-11/12 m-auto pt-12">
+      <div className="w-11/12 m-auto pt-12 bg-[#f7e7e7] p-9 mt-4">
         <div>
-          <h1 className="font-semibold text-5xl">Create a new listing</h1>
-          <p className="font-simibold text-2xl">
+          <h1 className="font-semibold md:text-5xl text-3xl">
+            Create a new listing
+          </h1>
+          <p className="font-simibold md:text-2xl text-base">
             Enter the details to create the listing
           </p>
         </div>
-        <div className="mt-16">
+        <div className="md:mt-16 mt-6">
           <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
             <div className="md:flex md:flex-row flex flex-col md:gap-36 align-middle justify-between">
               <div className="flex flex-col flex-grow">
-                <label className="text-base font-bold">Listing title?</label>
+                <label className="text-base font-bold">Item name</label>
                 <input
                   type="text"
                   className="border bg-white border-[#D0D4D9] w-full"
@@ -118,8 +122,9 @@ const CreateNewListing = () => {
                   name="catagory"
                   value={formData.catagory}
                   onChange={handleChange2}
+                  placeholder="EX: Menswear, Vehicles , Jewelry, etc."
                 >
-                  <option selected>Catagories</option>
+                  <option selected>EX:Menswear, Vehicles, Jewelry, etc.</option>
                   {allCatagories.map((catagory) => {
                     return (
                       <option value={catagory.title} className="capitalize">
@@ -169,6 +174,29 @@ const CreateNewListing = () => {
                   </select>
                   <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#215AFF]">
                     <IoIosArrowUp />
+                  </div>
+                </div>
+                <div className="md:flex md:flex-row flex flex-col mt-3 gap-5">
+                  <div className="flex flex-col">
+                    <label className="text-base font-bold">Price</label>
+                    <input
+                      type="number"
+                      className="border border-[#D0D4D9]"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange2}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-base font-bold">Quantity</label>
+                    <input
+                      type="number"
+                      className="border border-[#D0D4D9]"
+                      placeholder="Ex:1,2,3, etc"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleChange2}
+                    />
                   </div>
                 </div>
                 <div className="flex gap-2 w-72 py-4 border-t border-b bg-white mt-4 border-black">

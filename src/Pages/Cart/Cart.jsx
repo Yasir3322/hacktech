@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import CartCard from "../../Components/UI/CartCard";
 import axios from "axios";
 import { useGlobalCotext } from "../../Context/Context";
+import { Container } from "postcss";
 
 const Cart = () => {
   const { userCartItems, setUserCartItems } = useGlobalCotext();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkoutData, setCheckoutData] = useState([]);
   const getUserCartItem = async () => {
     const token = localStorage.getItem("hacktechtoken");
     const res = await axios.get(
@@ -14,19 +17,34 @@ const Cart = () => {
     setUserCartItems(res.data.items);
   };
 
+  console.log(userCartItems);
+
   useEffect(() => {
     getUserCartItem();
+  }, []);
+
+  useEffect(() => {
+    const total = userCartItems.map((item) => {
+      console.log(item);
+      return item.quantity * item.product[0].price;
+    });
+    console.log(total);
+    const subtotal = total.reduce((acc, current) => acc + current, 0);
+    setTotalPrice(subtotal);
   }, [userCartItems]);
 
   var total_price = 0;
   var fee = 0;
 
   // console.log(userCartItems);
-  const paymentdata = userCartItems.map((item) => {
-    const quantity = item.quantity;
-    const { _id, priceid } = item.product[0];
-    return { _id, priceid, quantity };
-  });
+  useEffect(() => {
+    var paymentdata = userCartItems.map((item) => {
+      const quantity = item.quantity;
+      const { _id, priceid } = item.product[0];
+      return { _id, priceid, quantity };
+    });
+    setCheckoutData(paymentdata);
+  }, [userCartItems]);
 
   // console.log(paymentdata);
 
@@ -40,7 +58,7 @@ const Cart = () => {
     const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/stripe/stripecheckout`,
       // metaData,
-      { paymentdata },
+      { checkoutData },
       {
         headers: {
           token: `${token}`,
@@ -57,21 +75,22 @@ const Cart = () => {
   // console.log(userCartItems);
   return (
     <div>
-      <div className="w-4/5 m-auto">
+      <div className="w-4/5 m-auto h-screen">
         <div>
           <h1 className="text-4xl font-semibold py-7">Your Cart</h1>
         </div>
         <div className="border border-[#737373] ">
           {userCartItems.map((item) => {
             var { title, price, images } = item.product[0];
-            total_price = total_price + price;
+            total_price = price * item.quantity;
+            var quantity = item.quantity;
             const image = images[0];
             const _id = item._id;
             return (
               <CartCard
                 title={title}
                 price={price}
-                quantity={item.quantity}
+                quantity={quantity}
                 image={image}
                 id={_id}
               />
@@ -85,17 +104,17 @@ const Cart = () => {
             </div>
             <div className="flex flex-col align-middle justify-cente p-3 px-5">
               <span className="text-center font-normal text-sm">
-                ${total_price}.00
+                ${totalPrice}.00
               </span>
               <span className="text-center font-normal text-sm">${fee}.00</span>
               <span className="text-center font-normal text-sm">
-                ${total_price + fee}.00
+                ${totalPrice + fee}.00
               </span>
             </div>
           </div>
         </div>
         <button
-          className="bg-[#EA1E1B]  border-2 cursor-pointer text-white w-60 mt-8  h-10 rounded-md float-right"
+          className="bg-[#EA1E1B] z-50 border-2 cursor-pointer text-white w-60 mt-8  h-10 rounded-md float-right"
           onClick={() => handleCheckOut()}
         >
           Proceed To Checkout

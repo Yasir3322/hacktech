@@ -4,6 +4,7 @@ import axios from "axios";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { m } from "../Magic-client";
+import { toast } from "react-toastify";
 
 const CreateAccountPopup = ({ socket }) => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const CreateAccountPopup = ({ socket }) => {
     showLoginPopup,
   } = useGlobalCotext();
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -29,52 +30,56 @@ const CreateAccountPopup = ({ socket }) => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    console.log("called");
     // Toggle loading state to true when the signup process starts
-    setLoading(true);
 
-    try {
-      // email verification code
-      const didtoken = await m.auth.loginWithMagicLink({
-        email: formData.email,
-      });
-      console.log(didtoken);
-
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
-        formData
-      );
-
-      console.log(res);
-
-      setFormData({
-        fullName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        privacypolicy: false,
-      });
-      showCreateAccountPopup();
-      const token = res.data.token;
-
-      if (token && didtoken) {
-        const { _id, fullName } = res.data.user;
-        const user = { _id, fullName };
-        localStorage.setItem("hacktechtoken", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isEmailVerified", true);
-        useLogin();
-        socket.emit("newuser", {
-          userid: _id,
-          socketId: socket.id,
+    if (formData.password === formData.confirmPassword) {
+      setLoading(true);
+      try {
+        // email verification code
+        const didtoken = await m.auth.loginWithMagicLink({
+          email: formData.email,
         });
-        navigate("/");
+        console.log(didtoken);
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/createuser`,
+          formData
+        );
+
+        console.log(res);
+
+        setFormData({
+          fullName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          privacypolicy: false,
+        });
+        showCreateAccountPopup();
+        const token = res.data.token;
+
+        if (token && didtoken) {
+          const { _id, fullName } = res.data.user;
+          const user = { _id, fullName };
+          localStorage.setItem("hacktechtoken", token);
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("isEmailVerified", true);
+          useLogin();
+          socket.emit("newuser", {
+            userid: _id,
+            socketId: socket.id,
+          });
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        // Toggle loading state back to false when the signup process is complete (whether it succeeded or failed)
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      // Toggle loading state back to false when the signup process is complete (whether it succeeded or failed)
-      setLoading(false);
+    } else {
+      setError("Passwords not matched");
     }
   };
 
@@ -112,12 +117,23 @@ const CreateAccountPopup = ({ socket }) => {
       <div
         className={`${
           isCreateAccountPopupOpen
-            ? "show absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2  bg-white rounded-2xl"
+            ? "show absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2   bg-white rounded-2xl"
             : "hidden"
         }`}
       >
+        <div className="w-full">
+          <p
+            className={
+              error.length
+                ? "w-full flex align-middle justify-center text-red-500 transition-opacity duration-300 ease-in-out"
+                : "hidden"
+            }
+          >
+            {error}
+          </p>
+        </div>
         <form
-          className="flex flex-col justify-center items-center p-5 gap-3 "
+          className="flex flex-col justify-center items-center px-5 pb-5 gap-3 "
           onSubmit={handleSignup}
         >
           <h1 className="text-4xl font-bold">Create an Account!</h1>
@@ -139,6 +155,7 @@ const CreateAccountPopup = ({ socket }) => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="flex flex-col w-full">
@@ -149,6 +166,7 @@ const CreateAccountPopup = ({ socket }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="flex flex-col w-full">
@@ -161,6 +179,9 @@ const CreateAccountPopup = ({ socket }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                pattern="^.{8,}$"
+                title="Must contain at least one number, and at least 8 or more characters"
+                required
               />
               <span
                 className="absolute right-2 top-1 cursor-pointer"
@@ -180,6 +201,9 @@ const CreateAccountPopup = ({ socket }) => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                pattern="^.{8,}$"
+                title="Must contain at least one number, and at least 8 or more characters"
+                required
               />
               <span
                 className="absolute right-2 top-1 cursor-pointer"

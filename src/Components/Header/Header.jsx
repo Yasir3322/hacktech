@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { IoIosArrowDown } from "react-icons/io";
 import axios from "axios";
 
 const Header = ({ user, socket }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [showListingbtn, setShowListingbtn] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -16,6 +18,13 @@ const Header = ({ user, socket }) => {
     isLogin,
     setSearchProduct,
     setAllSearchProducts,
+    isShowMobileIcon,
+    setIsShowMobileIcon,
+    isNotificationDropdownOpen,
+    setIsNotificationDropdownOpen,
+    isProfileDropdownOpen,
+    setIsProfileDropdownOpen,
+    setAllProducts,
   } = useGlobalCotext();
 
   if (isLogin) {
@@ -40,11 +49,12 @@ const Header = ({ user, socket }) => {
   };
 
   const handleNotificationbutton = () => {
-    showNotiDropdown();
+    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
   };
 
   const handleProfileDropdownButton = () => {
-    showProfileDropdown();
+    console.log("called");
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
   const handleChatClick = (e) => {
@@ -59,27 +69,128 @@ const Header = ({ user, socket }) => {
   };
 
   const handleSearchChange = async (e) => {
-    const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts?title=${
-        e.target.value
-      }`
-    );
-    console.log(res);
-    setAllSearchProducts(res?.data?.allProducts);
+    if (e.target.value.length > 0) {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts?title=${
+          e.target.value
+        }`
+      );
+      console.log(res);
+      setAllProducts(res?.data?.allProducts);
+    } else {
+      var res;
+      if (isLogin) {
+        const id = JSON.parse(localStorage.getItem("user"))._id;
+        res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": true,
+              userid: id,
+            },
+          }
+        );
+      } else {
+        res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
+        );
+      }
+      console.log(res);
+      setAllProducts(res?.data?.allProducts);
+    }
+  };
+
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768); // Adjust the width as needed for your mobile breakpoint
+  };
+
+  useEffect(() => {
+    checkScreenSize(); // Check the initial screen size
+    window.addEventListener("resize", checkScreenSize);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize); // Clean up the event listener
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("hacktechtoken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("profile");
+    navigate("/");
   };
 
   return (
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
-      <div className="md:flex md:flex-row flex flex-col align-middle justify-between flex-grow mt-3">
-        <Link className="flex md:ml-0 ml-4" to={user ? "/" : "/"}>
-          <img
-            src="/assets/trojansquare.svg"
-            alt="uniswap"
-            className="md:w-48 w-24 h-12 ml-3 scale-150 "
-          />
-        </Link>
-        <div className="md:w-full md:pl-8 md:mr-24 md:ml-12">
-          <form>
+      <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
+        <div className="flex align-middle justify-between">
+          <Link className="flex md:ml-0 ml-4" to={user ? "/" : "/"}>
+            <img
+              src={
+                isMobile
+                  ? "/assets/fingerlogoblack.svg"
+                  : "/assets/new-trojanlogo.jpg"
+              }
+              alt="uniswap"
+              className="md:w-48 w-8 h-8 scale-150"
+            />
+          </Link>
+          <button
+            className={!isLogin ? "mr-3" : "hidden"}
+            onClick={() => setIsShowMobileIcon(!isShowMobileIcon)}
+          >
+            <img src="/assets/threeline.svg" alt="" />
+          </button>
+        </div>
+        <div className="md:hidden block">
+          {isLogin ? (
+            <div>
+              <div className="relative w-full h-10 flex flex-col">
+                <div className="flex gap-3 absolute right-14 align-middle">
+                  <button onClick={handleNotificationbutton}>
+                    <img
+                      src="/assets/Vectorheader2.svg"
+                      alt="vectorheader"
+                      className="md:w-6 md:h-6 w-8 h-8 mt-2"
+                    />
+                  </button>
+                  <button onClick={() => setShowListingbtn(!showListingbtn)}>
+                    <img
+                      src="/assets/user.svg"
+                      alt="vectorheader"
+                      className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className="md:hidden block w-full m-auto mt-4">
+                {showListingbtn ? (
+                  <div className=" flex flex-col gap-3 px-4">
+                    <Link
+                      to={`/myprofile/${
+                        JSON.parse(localStorage.getItem("user"))._id
+                      }`}
+                      className="border border-black p-2 w-full rounded-lg flex align-middle justify-center"
+                    >
+                      My Listing
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="bg-[#DB3B39] p-2 w-full text-white rounded-lg"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="md:w-full md:pl-8 md:mr-24 md:ml-12 md:mt-0 mt-4 md:px-0 px-5">
+          <form className={isShowMobileIcon ? "hidden" : "block"}>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
                 <svg
@@ -105,83 +216,117 @@ const Header = ({ user, socket }) => {
       </div>
       <div className="mt-3">
         {user ? (
-          <div className="md:flex md:flex-row flex flex-row gap-8 align-middle justify-around">
+          <div className="md:flex hidden md:flex-row  gap-8 align-middle justify-around">
             <button
-              className="w-28 h-10 rounded-full border  bg-[#DB3B39] text-white"
+              className="md:w-28 w-full h-10 rounded-full border  bg-[#DB3B39] text-white"
               onClick={() => navigate("/createnewlisting")}
             >
               Sell an item
             </button>
-            <div className="flex gap-3">
-              <img src="/assets/Line 20.svg" alt="line" />
+            <div className="flex align-middle justify-between gap-4">
               <div className="flex gap-3">
-                <Link to="/likedproduct">
-                  <img
-                    src="/assets/Vectorheader.svg"
-                    alt="vectorheader"
-                    className="w-6 mt-3 h-6"
-                  />
-                </Link>
-                <button to="/chat" onClick={handleChatClick}>
-                  <img
-                    src="/assets/Vectorheader1.svg"
-                    alt="vectorheader"
-                    className="w-6 mt-1 h-6"
-                  />
-                </button>
-                <button onClick={handleNotificationbutton}>
-                  <img
-                    src="/assets/Vectorheader2.svg"
-                    alt="vectorheader"
-                    className="w-6 h-6"
-                  />
-                </button>
-                <Link to="/cart">
-                  <img
-                    src="/assets/Vectorheader3.svg"
-                    alt="vectorheader"
-                    className="w-6 mt-3 h-6"
-                  />
-                </Link>
+                <img src="/assets/Line 20.svg" alt="line" />
+                <div className="flex gap-3">
+                  <Link to="/likedproduct">
+                    <img
+                      src="/assets/Vectorheader.svg"
+                      alt="vectorheader"
+                      className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
+                    />
+                  </Link>
+                  <button to="/chat" onClick={handleChatClick}>
+                    <img
+                      src="/assets/Vectorheader1.svg"
+                      alt="vectorheader"
+                      className="md:w-6 mt-1 md:h-6 w-8 h-8"
+                    />
+                  </button>
+                  <button onClick={handleNotificationbutton}>
+                    <img
+                      src="/assets/Vectorheader2.svg"
+                      alt="vectorheader"
+                      className="md:w-6 md:h-6 w-8 h-8"
+                    />
+                  </button>
+                  <Link to="/cart">
+                    <img
+                      src="/assets/Vectorheader3.svg"
+                      alt="vectorheader"
+                      className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
+                    />
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="flex gap-3 align-middle justify-center">
-              <Link
-                to={`myprofile/${JSON.parse(localStorage.getItem("user"))._id}`}
-              >
-                <img
-                  src={`${profile}`}
-                  alt="userprofile"
-                  width={50}
-                  height={50}
-                  className="w-11 h-11 rounded-full"
-                />
-              </Link>
-              <button
-                className=" cursor-pointer"
-                onClick={handleProfileDropdownButton}
-              >
-                <IoIosArrowDown />
-              </button>
+              <div className="flex gap-3 align-middle justify-center">
+                <Link
+                  to={`myprofile/${
+                    JSON.parse(localStorage.getItem("user"))._id
+                  }`}
+                >
+                  <img
+                    src={`${profile}`}
+                    alt="userprofile"
+                    width={50}
+                    height={50}
+                    className="w-11 h-11 rounded-full"
+                  />
+                </Link>
+                <button
+                  className=" cursor-pointer"
+                  onClick={handleProfileDropdownButton}
+                >
+                  <IoIosArrowDown />
+                </button>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="flex md:gap-7 gap-1 ml-5 align-middle justify-between ">
-            <button className="md:w-28  w-12 leading-3 rounded-md h-10 md:rounded-full border md:border-black ">
-              Sell an item
-            </button>
-            <button
-              className="md:w-24 w-12 leading-3 rounded-md h-10 md:rounded-full border"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-            <button
-              className="md:w-24 w-12 leading-3 rounded-md h-10 md:rounded-full border bg-[#DB3B39] text-white"
-              onClick={handleSignup}
-            >
-              Sign up
-            </button>
+          <div>
+            <div className="md:block hidden">
+              <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 ml-5 align-middle justify-between ">
+                <button
+                  className="md:w-28  w-full leading-3 rounded-md h-10 md:rounded-full border md:border-black "
+                  onClick={() => showCreateAccountPopup()}
+                >
+                  Sell an item
+                </button>
+                <button
+                  className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border"
+                  onClick={handleLogin}
+                >
+                  Login
+                </button>
+                <button
+                  className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border bg-[#DB3B39] text-white"
+                  onClick={handleSignup}
+                >
+                  Sign up
+                </button>
+              </div>
+            </div>
+            <div className="md:hidden block">
+              {isShowMobileIcon ? (
+                <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 ml-5 align-middle justify-between ">
+                  <button className="md:w-28  w-full leading-3 rounded-md h-10 md:rounded-full border md:border-black ">
+                    Sell an item
+                  </button>
+                  <button
+                    className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border bg-[#DB3B39] text-white"
+                    onClick={handleSignup}
+                  >
+                    Sign up
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         )}
       </div>

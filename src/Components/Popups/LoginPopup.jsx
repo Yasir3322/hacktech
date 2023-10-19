@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGlobalCotext } from "../../Context/Context";
 import axios from "axios";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { m } from "../Magic-client";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const LoginPopup = ({ socket }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { isLoginPopupOpen, useLogin, showLoginPopup, showCreateAccountPopup } =
     useGlobalCotext();
   const [formData, setFormData] = useState({
@@ -56,7 +57,8 @@ const LoginPopup = ({ socket }) => {
         navigate("/");
       }
     } catch {
-      console.log("something went wrong");
+      setError("Invalid Credentials");
+      setLoading(!loading);
     }
     // }else{
     //      toast.success("please provide valid email", {
@@ -109,6 +111,17 @@ const LoginPopup = ({ socket }) => {
           className="flex flex-col justify-center items-center p-5 gap-3 "
           onSubmit={handleSignin}
         >
+          <div className="w-full">
+            <p
+              className={
+                error.length
+                  ? "w-full flex align-middle justify-center text-red-500 transition-opacity duration-300 ease-in-out"
+                  : "hidden"
+              }
+            >
+              {error}
+            </p>
+          </div>
           <h1 className="text-4xl font-bold">Login into an Account!</h1>
           <button
             className="absolute right-1 top-1"
@@ -159,9 +172,12 @@ const LoginPopup = ({ socket }) => {
               </span>
             </div>
           </div>
-          <button className="text-xs text-blue-700 w-full flex cursor-pointer">
+          <Link
+            className="text-xs text-blue-700 w-full flex cursor-pointer"
+            to="/resetpassword"
+          >
             Forget password?
-          </button>
+          </Link>
           <div className="flex gap-2">
             <input
               type="checkbox"

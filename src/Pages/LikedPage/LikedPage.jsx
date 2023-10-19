@@ -5,9 +5,10 @@ import ProductCard from "../../Components/UI/ProductCard";
 import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useGlobalCotext } from "../../Context/Context";
 
 export const LikedPage = () => {
-  const [likedProducts, setLikedProducts] = useState([]);
+  const { likedProducts, setLikedProducts } = useGlobalCotext();
 
   const getLikedProducts = async () => {
     const userid = JSON.parse(localStorage.getItem("user"))._id;
@@ -19,23 +20,8 @@ export const LikedPage = () => {
         },
       }
     );
-
-    // console.log(res.data.favouriteProducts);
-    // const { instock } = res.data.favouriteProducts.products[0];
-    // if (!instock) {
-    //   toast("Your favourite item has sold");
-    //   await axios.post(
-    //     `${
-    //       import.meta.env.VITE_BACKEND_URL
-    //     }/api/notification/createnotification`,
-    //     {
-    //       title: "Your favorite item has sold",
-    //       url: "/likedproduct",
-    //       notificationto: "64fffd805bd23133cda10641",
-    //     }
-    //   );
-    // }
     setLikedProducts(res.data.favouriteProducts);
+    console.log(res.data.favouriteProducts);
   };
 
   const getInstockProducts = async () => {
@@ -86,7 +72,7 @@ export const LikedPage = () => {
 
   useEffect(() => {
     getLikedProducts();
-  }, [likedProducts]);
+  }, []);
 
   useEffect(() => {
     getInstockProducts();
@@ -159,8 +145,15 @@ export const LikedPage = () => {
         </div>
         <div className="w-3/4 m-auto   md:grid md:grid-cols-4 flex flex-wrap gap-7 align-middle justify-between mt-4">
           {likedProducts?.map((item) => {
-            const { images, createdAt, title, price, description, _id } =
-              item.products[0];
+            const {
+              images,
+              createdAt,
+              title,
+              price,
+              description,
+              _id,
+              favourite,
+            } = item.products[0];
             const image = images[0];
             const { isliked } = item;
             const upload_time = formatRelativeTime(createdAt);
@@ -173,6 +166,7 @@ export const LikedPage = () => {
                 spec={description}
                 isliked={isliked}
                 id={_id}
+                favourite={favourite}
               />
             );
           })}
