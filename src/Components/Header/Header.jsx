@@ -128,14 +128,14 @@ const Header = ({ user, socket }) => {
               src={
                 isMobile
                   ? "/assets/fingerlogoblack.svg"
-                  : "/assets/new-trojanlogo.jpg"
+                  : "/assets/trojansquare.svg"
               }
               alt="uniswap"
               className="md:w-48 w-8 h-8 scale-150"
             />
           </Link>
           <button
-            className={!isLogin ? "mr-3" : "hidden"}
+            className={!isLogin ? "md:hidden block mr-3" : "hidden"}
             onClick={() => setIsShowMobileIcon(!isShowMobileIcon)}
           >
             <img src="/assets/threeline.svg" alt="" />
@@ -286,7 +286,7 @@ const Header = ({ user, socket }) => {
               <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 ml-5 align-middle justify-between ">
                 <button
                   className="md:w-28  w-full leading-3 rounded-md h-10 md:rounded-full border md:border-black "
-                  onClick={() => showCreateAccountPopup()}
+                  onClick={() => showLoginPopup()}
                 >
                   Sell an item
                 </button>

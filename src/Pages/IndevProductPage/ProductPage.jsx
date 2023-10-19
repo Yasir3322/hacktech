@@ -58,7 +58,7 @@ const ProductPage = ({ socket }) => {
         }
       );
     }
-    // console.log(res);
+    console.log(res);
     setTotalProductLiked(res?.data?.product[0].totalliked);
     const instock = res?.data?.product[0].instock;
     // console.log(instock);
@@ -165,7 +165,11 @@ const ProductPage = ({ socket }) => {
           },
         }
       );
+      console.log(res);
       if (res.status === 200) {
+        setProduct((prev) => {
+          return { ...prev, favourite: [res.data.favourite] };
+        });
         toast.success("Added to Your Liked Items", {
           position: "top-right",
           autoClose: 5000,
@@ -195,6 +199,9 @@ const ProductPage = ({ socket }) => {
       }
     );
     if (res.status === 200) {
+      setProduct((prev) => {
+        return { ...prev, favourite: [] };
+      });
       toast.success("Removed successfully", {
         position: "top-right",
         autoClose: 5000,
@@ -271,6 +278,7 @@ const ProductPage = ({ socket }) => {
   };
 
   const handleShareClick = () => {
+    console.log("called");
     const url = window.location.href;
     window.navigator.clipboard.writeText(url);
     if (url) {
@@ -290,6 +298,8 @@ const ProductPage = ({ socket }) => {
   const handleTextAreaChange = (e) => {
     setTextareaValue(e.target.value);
   };
+
+  console.log(userReviews);
 
   return (
     <div>
@@ -532,9 +542,7 @@ const ProductPage = ({ socket }) => {
               totalUserSale={totalUserSale}
             />
           </div>
-          <div>
-            <SellerReview userReviews={userReviews} />
-          </div>
+          {/* <div><SellerReview userReviews={userReviews} /></div> */}
         </div>
       ) : (
         <Box padding="6" boxShadow="lg" bg="white">

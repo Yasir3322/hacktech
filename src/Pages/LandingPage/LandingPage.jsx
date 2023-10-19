@@ -19,7 +19,7 @@ const LandingPage = () => {
     setAllProducts,
     // trandingProd,
     // setTrandingProd,
-    showCreateAccountPopup
+    showCreateAccountPopup,
   } = useGlobalCotext();
 
   const [trandingProd, setTrandingProd] = useState([]);
@@ -88,13 +88,32 @@ const LandingPage = () => {
     getAllProducts();
   }, []);
 
+  const getProducts = async () => {
+    var res;
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          userid: id,
+        },
+      }
+    );
+    setAllProducts(res?.data?.allProducts);
+  };
+
   useEffect(() => {
     console.log(selectedCatagory);
-    const filterCatagory = reserveProducts.filter(
-      (products) => products.title === selectedCatagory
-    );
-    console.log(filterCatagory);
-    setAllProducts(filterCatagory);
+    if (selectedCatagory === "all") {
+      getProducts();
+    } else {
+      const filterCatagory = reserveProducts.filter(
+        (products) => products.title === selectedCatagory
+      );
+      console.log(filterCatagory);
+      setAllProducts(filterCatagory);
+    }
   }, [selectedCatagory]);
 
   useEffect(() => {
@@ -111,10 +130,13 @@ const LandingPage = () => {
                 Sign up with your college campus!
               </h1>
             </div>
-            <button onClick={() => showCreateAccountPopup()} className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5">
+            <button
+              onClick={() => showCreateAccountPopup()}
+              className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5"
+            >
               Sign up
             </button>
-            <div className="md:mt-10 flex align-middle justify-center" >
+            <div className="md:mt-10 flex align-middle justify-center">
               <img src="/assets/MASK.svg" alt="mask" className="md:w-5/6" />
             </div>
           </div>
@@ -180,7 +202,7 @@ const LandingPage = () => {
                 })}
               </div> */}
               <div>
-                <ProductCatagories   />
+                <ProductCatagories />
               </div>
             </div>
           )}

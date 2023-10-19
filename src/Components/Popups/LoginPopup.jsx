@@ -187,7 +187,7 @@ const LoginPopup = ({ socket }) => {
               required
             />
             <label className="text-xs">
-              I agree to the uniswap Terms of Service and Privacy Policy
+              I agree to the trojansquare Terms of Service and Privacy Policy
             </label>
           </div>
           <button className="bg-[#DB3B39] text-white w-full p-1" type="submit">
@@ -202,7 +202,7 @@ const LoginPopup = ({ socket }) => {
           <div className="w-64 font-normal text-xs items-center">
             <p>
               We keep your information safe. We never use your information
-              outside of uniswap.
+              outside of trojansquare.
             </p>
           </div>
         </form>

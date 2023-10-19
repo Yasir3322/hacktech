@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { AiFillHeart } from "react-icons/ai";
 
 const ProductCard = (props) => {
-  console.log(props.favourite);
   const {
     isLogin,
     trandingProd,
@@ -15,13 +14,11 @@ const ProductCard = (props) => {
     setTrandingProd,
     likedProducts,
     setLikedProducts,
-    showCreateAccountPopup,
+    showLoginPopup,
   } = useGlobalCotext();
   const [likeFlag, setLikeFlag] = useState(0);
   // const id = JSON.parse(localStorage.getItem("user"))._id;
   const navigate = useNavigate();
-
-  console.log(trandingProd);
 
   const handleLikedButton = async (id) => {
     if (likeFlag === 0) {
@@ -43,7 +40,6 @@ const ProductCard = (props) => {
         if (props.catagory === "Trending @USC") {
           const updateprod = trandingProd.map((prod) => {
             if (prod._id === likedprodid) {
-              console.log(prod);
               prod.favourite.push(favProd);
             }
             return prod;
@@ -53,10 +49,8 @@ const ProductCard = (props) => {
           let updateProducts = JSON.parse(JSON.stringify(allProducts));
           updateProducts = updateProducts.map((cat) => {
             if (cat.title === props.catagory) {
-              console.log(cat);
               cat?.products?.map((prod) => {
                 if (prod._id === likedprodid) {
-                  console.log(prod);
                   prod.favourite.push(favProd);
                 }
                 return prod;
@@ -128,12 +122,10 @@ const ProductCard = (props) => {
         },
       }
     );
-    console.log(res);
     const likedprodid = res.data?.deleteFavProd?.productid;
     if (props.catagory === "Trending @USC") {
       const updateprod = trandingProd.map((prod) => {
         if (prod._id === likedprodid) {
-          console.log(prod);
           prod.favourite.splice(0);
         }
         return prod;
@@ -143,10 +135,8 @@ const ProductCard = (props) => {
       let updateProducts = JSON.parse(JSON.stringify(allProducts));
       updateProducts = updateProducts.map((cat) => {
         if (cat.title === props.catagory) {
-          console.log(cat);
           cat?.products?.map((prod) => {
             if (prod._id === likedprodid) {
-              console.log(prod);
               prod.favourite.splice(0);
             }
             return prod;
@@ -205,7 +195,7 @@ const ProductCard = (props) => {
             ) : (
               <button
                 className="absolute top-0 right-1 p-1 rounded-full"
-                onClick={() => showCreateAccountPopup()}
+                onClick={() => showLoginPopup()}
               >
                 <AiFillHeart fill="#d0d0d0" className="mt-1" size={25} />
               </button>

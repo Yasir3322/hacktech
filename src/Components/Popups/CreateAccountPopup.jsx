@@ -162,11 +162,14 @@ const CreateAccountPopup = ({ socket }) => {
             <label className="font-semibold text-base">Email address</label>
             <input
               type="email"
-              className="border border-[#CDCED2] rounded-sm h-8"
+              className="border border-[#CDCED2] rounded-sm h-8 px-2"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Email must be USC Email"
               required
+              // pattern="^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+.)?Usc.edu$"
+              // title="Email must be Usc.edu"
             />
           </div>
           <div className="flex flex-col w-full">
@@ -222,20 +225,21 @@ const CreateAccountPopup = ({ socket }) => {
               required
             />
             <label className="text-xs">
-              I agree to the uniswap Terms of Service and Privacy Policy
+              I agree to the trojansquare Terms of Service and Privacy Policy
             </label>
           </div>
           <button className="bg-[#DB3B39]  text-white w-full p-1" type="submit">
             {!loading ? "Sign up" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
-            Have an account already?{" "}
-            <button onClick={() => handleLoginInstead()}>Login instead</button>
+            <button onClick={() => handleLoginInstead()}>
+              Have an account already? Login instead
+            </button>
           </span>
           <div className="w-64 font-normal text-xs items-center">
             <p>
               We keep your information safe. We never use your information
-              outside of uniswap.
+              outside of trojansquare.
             </p>
           </div>
         </form>

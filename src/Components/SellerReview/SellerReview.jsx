@@ -40,41 +40,43 @@ const SellerReview = (props) => {
         </button>
       </div>
       <div>
-        {!seeAllReview ? (
-          <div className="mt-8 grid grid-cols-3 gap-8">
-            {props.userReviews.slice(0, 3).map((review) => {
-              const { reviewerComment, rating, createdAt } = review;
-              const { fullName, image } = review?.reviewerdetail[0];
-              const createdat = formatRelativeTime(createdAt);
-              return (
-                <ReviewCard
-                  text={reviewerComment}
-                  name={fullName}
-                  rating={rating}
-                  image={image}
-                  createdat={createdat}
-                />
-              );
-            })}
-          </div>
-        ) : (
-          <div className="mt-8 grid grid-cols-3 gap-8">
-            {props.userReviews.map((review) => {
-              const { reviewerComment, rating, createdAt } = review;
-              const { fullName, image } = review.reviewerdetail[0];
-              const createdat = formatRelativeTime(createdAt);
-              return (
-                <ReviewCard
-                  text={reviewerComment}
-                  name="dynamic"
-                  rating={rating}
-                  image={image}
-                  createdat={createdat}
-                />
-              );
-            })}
-          </div>
-        )}
+        <div>
+          {!seeAllReview ? (
+            <div className="mt-8 grid grid-cols-3 gap-8">
+              {props.userReviews.slice(0, 3).map((review) => {
+                const { reviewerComment, rating, createdAt } = review;
+                const { fullName, image } = review?.reviewerdetail[0];
+                const createdat = formatRelativeTime(createdAt);
+                return (
+                  <ReviewCard
+                    text={reviewerComment}
+                    name={fullName}
+                    rating={rating}
+                    image={image}
+                    createdat={createdat}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-8 grid grid-cols-3 gap-8">
+              {props.userReviews.map((review) => {
+                const { reviewerComment, rating, createdAt } = review;
+                const { fullName, image } = review.reviewerdetail[0];
+                const createdat = formatRelativeTime(createdAt);
+                return (
+                  <ReviewCard
+                    text={reviewerComment}
+                    name="dynamic"
+                    rating={rating}
+                    image={image}
+                    createdat={createdat}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -122,6 +122,7 @@ function App({ socket }) {
       <div className="w-full">
         {!isLogin ? (
           <>
+            <ToastContainer />
             <section className="shadow-md relative">
               <CreateAccountPopup socket={socket} />
               <LoginPopup socket={socket} />
