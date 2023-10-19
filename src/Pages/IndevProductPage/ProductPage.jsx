@@ -33,7 +33,7 @@ const ProductPage = ({ socket }) => {
   const [productInStock, setProductInStock] = useState();
   const [totalProductLiked, setTotalProductLiked] = useState();
 
-  const { isLogin } = useGlobalCotext();
+  const { isLogin, showLoginPopup } = useGlobalCotext();
 
   const { id } = useParams();
   const getProduct = async () => {
@@ -391,16 +391,22 @@ const ProductPage = ({ socket }) => {
                             ) : (
                               <button
                                 className="bg-[#F2F2F2] rounded-sm p-1"
-                                onClick={() => handleAddToCart(id)}
-                                disabled={!isLogin}
+                                onClick={
+                                  isLogin
+                                    ? () => handleAddToCart(id)
+                                    : () => showLoginPopup()
+                                }
                               >
                                 Add
                               </button>
                             )}
                             <button
                               className="bg-[#DB3B39] rounded-sm text-white p-1"
-                              onClick={() => setWantProd(!wantProd)}
-                              disabled={!isLogin}
+                              onClick={
+                                isLogin
+                                  ? () => setWantProd(!wantProd)
+                                  : () => showLoginPopup()
+                              }
                             >
                               I Want this!
                             </button>
@@ -522,8 +528,11 @@ const ProductPage = ({ socket }) => {
               ) : (
                 <button
                   className="border-2 border-[#B77EFF] rounded-md md:py-2 py-1 px-1 md:px-4 flex gap-3"
-                  onClick={() => handleLikedButton(id)}
-                  disabled={!isLogin}
+                  onClick={
+                    isLogin
+                      ? () => handleLikedButton(id)
+                      : () => showLoginPopup()
+                  }
                 >
                   <img src="/assets/not-like.svg" alt="" className="mt-0.9" />
                   <span className="font-semibold md:text-lg text-sm text-[#B77EFF]">

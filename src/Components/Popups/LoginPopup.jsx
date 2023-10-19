@@ -32,10 +32,7 @@ const LoginPopup = ({ socket }) => {
         `${import.meta.env.VITE_BACKEND_URL}/api/user/loginuser`,
         formData
       );
-      const didtoken = await m.auth.loginWithMagicLink({
-        email: formData.email,
-      });
-      console.log(didtoken);
+
       setFormData({
         email: "",
         password: "",
@@ -43,7 +40,7 @@ const LoginPopup = ({ socket }) => {
       showLoginPopup();
       const token = res.data.token;
       setLoading(!loading);
-      if (token && didtoken) {
+      if (token) {
         console.log(res.data.user);
         const { _id, fullName, image } = res.data.user;
         console.log(image);
@@ -194,9 +191,8 @@ const LoginPopup = ({ socket }) => {
             {!loading ? "Sign in" : "Loading..."}
           </button>
           <span className="text-[#006ACB] text-sm">
-            Don't have an account?{" "}
             <button onClick={() => handleLoginInstead()}>
-              Sign up instead
+              Don't have an account? Sign up instead
             </button>
           </span>
           <div className="w-64 font-normal text-xs items-center">

@@ -4,7 +4,8 @@ import MultiCarasoule from "../UI/MultiCarasoule";
 import { useGlobalCotext } from "../../Context/Context";
 
 const ProductCatagories = (props) => {
-  const { allProducts, trandingProd, setTrandingProd } = useGlobalCotext();
+  const { allProducts, trandingProd, setTrandingProd, selectedCatagory } =
+    useGlobalCotext();
 
   useEffect(() => {
     const temptrendProd = [];
@@ -19,9 +20,10 @@ const ProductCatagories = (props) => {
   }, [allProducts]);
 
   console.log(trandingProd);
+  console.log(allProducts);
   return (
     <div>
-      {trandingProd.length > 0 ? (
+      {trandingProd.length > 0 && selectedCatagory === "all" ? (
         <div>
           <h4 className="text-2xl font-semibold text-black capitalize">
             Trending @USC
@@ -49,6 +51,9 @@ const ProductCatagories = (props) => {
           );
         }
       })}
+      <div>
+        {trandingProd.length === 0 ? <div>No product to show</div> : ""}
+      </div>
     </div>
   );
 };

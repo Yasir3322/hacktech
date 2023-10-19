@@ -55,10 +55,10 @@ const ProfileDropDown = () => {
           className="absolute z-20 flex flex-col bg-white right-6 top-16 w-52"
           ref={dropDownRef}
         >
-          {profile_dropdown_props.map((item, index) => {
+          {profile_dropdown_props.map((item, idx) => {
             return (
               <button
-                key={index}
+                key={idx}
                 className="border p-2 text-sm border-black"
                 onClick={() => handleDropdownLink(item.url)}
               >

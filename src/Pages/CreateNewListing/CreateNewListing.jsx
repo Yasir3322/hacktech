@@ -70,7 +70,7 @@ const CreateNewListing = () => {
     formdata.append("title", formData.title);
     formdata.append("description", formData.description);
     formdata.append("price", formData.price);
-    formdata.append("price", formData.quantity);
+    formdata.append("quantity", formData.quantity);
     formdata.append("hashtags", JSON.stringify(hashtag));
     formdata.append("catagory", formData.catagory);
     formdata.append("isOnline", formData.isOnline);
