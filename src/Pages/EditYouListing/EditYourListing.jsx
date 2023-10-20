@@ -58,6 +58,7 @@ const EditYourListing = () => {
     e.preventDefault();
     console.log(fileList);
     console.log(formData);
+    return;
 
     const response = await axios.patch(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/editlisting/${id}`,
@@ -114,8 +115,10 @@ const EditYourListing = () => {
       }
     );
     console.log(res);
-    const { product } = res.data.product;
-    setFormData(product);
+    const { product } = res.data;
+    console.log(product);
+    setFormData(product[0]);
+
     // setFormData({
     //   title: res?.data?.product.title,
     //   description: res?.data?.product.description,
@@ -126,13 +129,14 @@ const EditYourListing = () => {
     //   condition: res?.data?.product.condition,
     //   images: res?.data?.product?.images,
     // });
-
-    // fileList.push({
-    //   uid: Math.floor(Math.random()),
-    //   name: "image.png",
-    //   status: "done",
-    //   url: formData?.images[0],
-    // });
+    product[0].images.map((image) => {
+      fileList.push({
+        uid: Math.floor(Math.random()),
+        name: "image.png",
+        status: "done",
+        url: `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`,
+      });
+    });
   };
 
   useEffect(() => {
