@@ -22,7 +22,7 @@ const SellerCard = (props) => {
           )}
           <div className="flex flex-col mt-4">
             <h4>{fullName}</h4>
-            <div className="flex align-middle gap-2">
+            <div className="md:flex md:flex-row flex flex-col align-middle md:gap-2 gap-0">
               <ShowRating rating={props.userAvgRating} />
               <div className="flex mt-1.5">
                 <p>{props.totalReviews} review</p>
@@ -32,7 +32,7 @@ const SellerCard = (props) => {
                 <p>{props.totalUserSale} sale</p>
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {isEmailVerified ? (
                 <div className="flex">
                   <img src="/assets/icn-verified.svg.svg" />

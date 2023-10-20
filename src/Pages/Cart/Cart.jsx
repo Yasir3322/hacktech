@@ -43,6 +43,7 @@ const Cart = () => {
       const { _id, priceid } = item.product[0];
       return { _id, priceid, quantity };
     });
+    console.log(paymentdata);
     setCheckoutData(paymentdata);
   }, [userCartItems]);
 

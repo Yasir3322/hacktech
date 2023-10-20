@@ -144,10 +144,11 @@ const LoginPopup = ({ socket }) => {
             <label className="font-semibold text-base">Email address</label>
             <input
               type="email"
-              className="border border-[#CDCED2] rounded-sm h-8"
+              className="border border-[#CDCED2] rounded-sm h-8 px-2"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="example: kgerges@usc.edu"
             />
           </div>
           <div className="flex flex-col w-full">

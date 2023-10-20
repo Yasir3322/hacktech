@@ -151,11 +151,12 @@ const CreateAccountPopup = ({ socket }) => {
             <label className="font-semibold text-base">Full Name</label>
             <input
               type="text"
-              className="border border-[#CDCED2] rounded-sm h-8"
+              className="border border-[#CDCED2] rounded-sm h-8 px-2"
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
               required
+              placeholder="example: Kevin Gerges"
             />
           </div>
           <div className="flex flex-col w-full">

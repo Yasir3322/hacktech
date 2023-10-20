@@ -128,7 +128,7 @@ const Header = ({ user, socket }) => {
               src={
                 isMobile
                   ? "/assets/fingerlogoblack.svg"
-                  : "/assets/trojansquare.svg"
+                  : "/assets/black-logo.svg"
               }
               alt="uniswap"
               className="md:w-48 w-8 h-8 scale-150"
@@ -306,18 +306,18 @@ const Header = ({ user, socket }) => {
             </div>
             <div className="md:hidden block">
               {isShowMobileIcon ? (
-                <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 ml-5 align-middle justify-between ">
-                  <button className="md:w-28  w-full leading-3 rounded-md h-10 md:rounded-full border md:border-black ">
+                <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 px-3 align-middle justify-between ">
+                  <button className="md:w-28  w-full leading-3 rounded-xl h-10 md:rounded-full border border-black ">
                     Sell an item
                   </button>
                   <button
-                    className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border"
+                    className="md:w-24 w-full leading-3 rounded-xl h-10 md:rounded-full border"
                     onClick={handleLogin}
                   >
                     Login
                   </button>
                   <button
-                    className="md:w-24 w-full leading-3 rounded-md h-10 md:rounded-full border bg-[#DB3B39] text-white"
+                    className="md:w-24 w-full leading-3 rounded-xl h-10 md:rounded-full border bg-[#DB3B39] text-white"
                     onClick={handleSignup}
                   >
                     Sign up

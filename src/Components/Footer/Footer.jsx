@@ -14,7 +14,7 @@ const Footer = () => {
       <img
         src="/assets/footer/Vector (1).svg"
         alt="vector_1"
-        className="z-0 absolute bottom-0 xl:h-[14rem] 2xl:h-[23rem] 2xl:left-28 md:h-44 left-5 h-14"
+        className="z-0 absolute bottom-0 xl:h-[11rem] 2xl:h-[23rem] 2xl:left-28 md:h-44 left-5 h-14"
       />
       <img
         src="/assets/footer/Vector (2).svg"

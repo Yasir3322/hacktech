@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import ProductCard from "../../Components/UI/ProductCard";
 
 const LandingPage = () => {
+  const isMobile = window.innerWidth < 768;
+
   const {
     isLogin,
     setIsSoldPopupOpen,
@@ -132,12 +134,16 @@ const LandingPage = () => {
             </div>
             <button
               onClick={() => showCreateAccountPopup()}
-              className="absolute md:w-28 text-sm md:h-12 w-8 h-4 rounded-full md:right-36 right-10 md:mr-16 bg-white text-[#B77EFF] bottom-5"
+              className="absolute md:w-28 text-sm md:h-12 w-16 h-8  rounded-full md:right-36 right-4 md:mr-16 bg-white text-[#B77EFF] md:bottom-5 bottom-2"
             >
               Sign up
             </button>
-            <div className="md:mt-10 flex align-middle justify-center">
-              <img src="/assets/MASK.svg" alt="mask" className="md:w-5/6" />
+            <div className="md:mt-10 mt-5 flex align-middle justify-center">
+              <img
+                src={isMobile ? "/assets/MASK-mobile.svg" : "/assets/MASK.svg"}
+                alt="mask"
+                className="md:w-5/6"
+              />
             </div>
           </div>
         ) : (
@@ -156,7 +162,7 @@ const LandingPage = () => {
                 <div className="w-11/12 m-auto mt-8">
                   <h1 className="font-semibold text-4xl capitalize">{`Welcome, ${fullName.fullName}!`}</h1>
                 </div>
-                <div className="py-10 m-auto w-11/12">
+                <div className="pt-10 md:pb-10 m-auto w-11/12">
                   <img src="/assets/Line 18.svg" />
                 </div>
               </div>

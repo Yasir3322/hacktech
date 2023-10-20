@@ -20,7 +20,7 @@ export const AppProvider = ({ children }) => {
   const [notifi_dropdown_props, setNotifi_dropdown_props] = useState([]);
   const [rating, setRating] = useState(0);
   const [prodIdForSoldTo, setProdIdForSoldTo] = useState(null);
-  const [selectedCatagory, setSelectedCatagory] = useState(null);
+  const [selectedCatagory, setSelectedCatagory] = useState("all");
   const [allActiveUsers, setAllActiveUsers] = useState([]);
   const [searchProduct, setSearchProduct] = useState([]);
   const [isShowMobileIcon, setIsShowMobileIcon] = useState(false);

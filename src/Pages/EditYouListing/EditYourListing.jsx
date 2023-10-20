@@ -14,16 +14,7 @@ const EditYourListing = () => {
   const { allCatagories } = useGlobalCotext();
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    hashtags: "",
-    catagory: "",
-    isOnline: false,
-    condition: "",
-    images: [],
-  });
+  const [formData, setFormData] = useState({});
 
   const { id } = useParams();
 
@@ -122,23 +113,26 @@ const EditYourListing = () => {
         },
       }
     );
-    setFormData({
-      title: res?.data?.product.title,
-      description: res?.data?.product.description,
-      price: res?.data?.product.price,
-      hashtags: res?.data?.product.hashtags,
-      catagory: res?.data?.product.catagory,
-      isOnline: res?.data?.product.isOnline,
-      condition: res?.data?.product.condition,
-      images: res?.data?.product?.images,
-    });
+    console.log(res);
+    const { product } = res.data.product;
+    setFormData(product);
+    // setFormData({
+    //   title: res?.data?.product.title,
+    //   description: res?.data?.product.description,
+    //   price: res?.data?.product.price,
+    //   hashtags: res?.data?.product.hashtags,
+    //   catagory: res?.data?.product.catagory,
+    //   isOnline: res?.data?.product.isOnline,
+    //   condition: res?.data?.product.condition,
+    //   images: res?.data?.product?.images,
+    // });
 
-    fileList.push({
-      uid: Math.floor(Math.random()),
-      name: "image.png",
-      status: "done",
-      url: formData?.images[0],
-    });
+    // fileList.push({
+    //   uid: Math.floor(Math.random()),
+    //   name: "image.png",
+    //   status: "done",
+    //   url: formData?.images[0],
+    // });
   };
 
   useEffect(() => {
