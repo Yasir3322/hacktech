@@ -42,6 +42,15 @@ const EditYourListing = () => {
   const handleChange = ({ fileList }) => {
     console.log(fileList);
     setFileList(fileList);
+
+    Object.keys(formData).forEach((key) => {
+      console.log(key);
+      if (key === "images") {
+        formData[key] = fileList;
+      }
+    });
+
+    console.log(formData);
   };
 
   const handleChange2 = (e) => {
@@ -57,7 +66,32 @@ const EditYourListing = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(fileList);
-    console.log(formData);
+
+    const submitiondata = new FormData();
+    submitiondata.append("title", formData.title);
+    submitiondata.append("description", formData.description);
+    submitiondata.append("price", formData.price);
+    submitiondata.append("quantity", formData.quantity);
+    submitiondata.append("hashtags", JSON.stringify(formData.hashtags));
+    submitiondata.append("catagory", formData.catagory);
+    submitiondata.append("isOnline", formData.isOnline);
+    submitiondata.append("condition", formData.condition);
+    submitiondata.append("instock", formData.instock);
+    submitiondata.append("istranding", formData.istranding);
+    submitiondata.append("sellerid", formData.sellerid);
+    submitiondata.append("priceid", formData.priceid);
+    submitiondata.append("sold", formData.sold);
+    submitiondata.append("totalliked", formData.totalliked);
+    submitiondata.append("quantity", formData.quantity);
+    submitiondata.append("createdAt", formData.createdAt);
+    submitiondata.append("updatedAt", formData.updatedAt);
+    submitiondata.append("favourite", formData.favourite);
+
+    formData.images.forEach((image) => {
+      submitiondata.append("images", image);
+    });
+
+    console.log(submitiondata);
     return;
 
     const response = await axios.patch(
@@ -167,7 +201,7 @@ const EditYourListing = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full md:mb-0 mb-8">
       <div className="w-11/12 m-auto pt-12">
         <div>
           <h1 className="font-semibold md:text-5xl text-4xl">

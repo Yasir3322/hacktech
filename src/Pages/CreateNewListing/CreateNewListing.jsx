@@ -10,6 +10,7 @@ const CreateNewListing = () => {
   const { allCatagories } = useGlobalCotext();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
@@ -61,6 +62,7 @@ const CreateNewListing = () => {
   };
 
   const handleFormSubmit = async (e) => {
+    setLoading(!loading);
     e.preventDefault();
     const hashtag = formData.hashtags.split(",");
     const imagefiles = fileList.map((file) => {
@@ -81,11 +83,12 @@ const CreateNewListing = () => {
     });
 
     const token = localStorage.getItem("hacktechtoken");
-    const res = await axios.post(
+    await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/createproduct`,
       formdata,
       { headers: { "Content-Type": "multipart/form-data", token: token } }
     );
+    setLoading(false);
   };
 
   return (
@@ -106,7 +109,7 @@ const CreateNewListing = () => {
                 <label className="text-base font-bold">Item name</label>
                 <input
                   type="text"
-                  className="border bg-white border-[#D0D4D9] w-full"
+                  className="border bg-white border-[#D0D4D9] w-full px-2"
                   name="title"
                   value={formData.title}
                   onChange={handleChange2}
@@ -142,7 +145,7 @@ const CreateNewListing = () => {
               <label className="text-base font-bold">Description</label>
               <input
                 type="text"
-                className="border border-[#D0D4D9]"
+                className="border border-[#D0D4D9] px-2"
                 name="description"
                 value={formData.description}
                 onChange={handleChange2}
@@ -154,7 +157,7 @@ const CreateNewListing = () => {
                   <label className="text-base font-bold">Hashtags</label>
                   <input
                     type="text"
-                    className="border border-[#D0D4D9]"
+                    className="border border-[#D0D4D9] px-2"
                     name="hashtags"
                     value={formData.hashtags}
                     onChange={handleChange2}
@@ -181,7 +184,7 @@ const CreateNewListing = () => {
                     <label className="text-base font-bold">Price</label>
                     <input
                       type="number"
-                      className="border border-[#D0D4D9]"
+                      className="border border-[#D0D4D9] px-2"
                       name="price"
                       value={formData.price}
                       onChange={handleChange2}
@@ -191,7 +194,7 @@ const CreateNewListing = () => {
                     <label className="text-base font-bold">Quantity</label>
                     <input
                       type="number"
-                      className="border border-[#D0D4D9]"
+                      className="border border-[#D0D4D9] px-2"
                       placeholder="Ex:1,2,3, etc"
                       name="quantity"
                       value={formData.quantity}
@@ -243,7 +246,7 @@ const CreateNewListing = () => {
               className="bg-[#DB3B39] text-white w-28 h-12 rounded-md mt-5"
               type="submit"
             >
-              Sell an item
+              {!loading ? "Sell an item" : "Loading..."}
             </button>
           </form>
         </div>

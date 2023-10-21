@@ -123,7 +123,7 @@ const Header = ({ user, socket }) => {
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
         <div className="flex align-middle justify-between">
-          <Link className="flex md:ml-0 ml-4" to={user ? "/" : "/"}>
+          <Link className="flex md:ml-0 ml-4 mt-1.5" to={user ? "/" : "/"}>
             <img
               src={
                 isMobile

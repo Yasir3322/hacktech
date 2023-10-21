@@ -136,17 +136,19 @@ const CreateAccountPopup = ({ socket }) => {
           className="flex flex-col justify-center items-center px-5 pb-5 gap-3 "
           onSubmit={handleSignup}
         >
-          <h1 className="text-4xl font-bold">Create an Account!</h1>
+          <h1 className="md:text-4xl text-xl mt-4 font-bold">
+            Create an Account!
+          </h1>
           <button
             className="absolute right-1 top-1"
             onClick={() => showCreateAccountPopup()}
           >
             <AiFillCloseCircle />
           </button>
-          <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
+          {/* <button className="border text-lg w-full h-8 flex gap-2 align-middle justify-center">
             <img src="/assets/Frame.png" className="mt-1" />
             <span>Continue with Google</span>
-          </button>
+          </button> */}
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Full Name</label>
             <input

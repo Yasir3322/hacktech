@@ -67,14 +67,14 @@ const MultiCarousel = () => {
                 onClick={() => handleCategoryClick(title)}
                 className={`${
                   selectedCatagory === title
-                    ? "inline-flex cursor-pointer w-30 items-center shadow-md md:border-2 md:rounded-md md:ml-3 md:mr-2 md:px-5 md:py-3 border text-sm font-medium ring-1 ring-inset ring-gray-500/10"
-                    : "inline-flex cursor-pointer w-42 items-center shadow-sm md:rounded-md md:ml-3 ml-2 md:mr-2 md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500/10"
+                    ? "inline-flex cursor-pointer w-42 items-center shadow-md md:rounded-md md:ml-3 ml-2 md:mr-2 md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500"
+                    : "inline-flex cursor-pointer w-42 items-center mr-2 shadow-md md:rounded-md md:ml-3 ml-2 md:mr-2 md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500/10"
                 }`}
               >
                 <img
                   src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${images}`}
                   alt="category"
-                  className="md:w-23 lg:w-36 h-4 md:scale-125 scale-95"
+                  className="md:w-23 lg:w-36 h-4 md:scale-125 scale-125"
                 />
               </Link>
             </div>

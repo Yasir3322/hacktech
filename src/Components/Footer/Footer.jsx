@@ -5,7 +5,7 @@ const Footer = () => {
   const { isLogin } = useGlobalCotext();
 
   return (
-    <footer className="md:relative absolute b-0 w-full md:h-52 h-16 lg:h-96 md:mt-0 mt-40">
+    <footer className="md:relative absolute b-0 w-full md:h-52 h-16 lg:h-96 md:mt-0 mt-5">
       <img
         src="/assets/footer/Vector.svg"
         alt="vector"

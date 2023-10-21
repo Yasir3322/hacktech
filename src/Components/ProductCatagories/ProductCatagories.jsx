@@ -25,7 +25,7 @@ const ProductCatagories = (props) => {
     <div>
       {trandingProd.length > 0 && selectedCatagory === "all" ? (
         <div>
-          <h4 className="text-2xl font-semibold text-black capitalize">
+          <h4 className="md:text-2xl text-lg font-semibold text-black capitalize">
             Trending @USC
           </h4>
           <MultiCarasoule
@@ -40,7 +40,7 @@ const ProductCatagories = (props) => {
         if (categories.products.length > 0) {
           return (
             <div>
-              <h4 className="text-2xl font-semibold text-black capitalize">
+              <h4 className="md:text-2xl text-lg font-semibold text-black capitalize">
                 {categories.title}
               </h4>
               <MultiCarasoule

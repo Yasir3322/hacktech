@@ -220,14 +220,14 @@ const ProductCard = (props) => {
               {props.upload_time}
             </span>
             <div className="flex align-middle justify-between">
-              <p className="text-base font-semibold text-black">
+              <p className="md:text-base text-xs font-semibold text-black">
                 {props.title}
               </p>
-              <p className="text-base font-semibold text-black">
+              <p className="md:text-base text-xs font-semibold text-black">
                 ${props.price}
               </p>
             </div>
-            <span className="text-base text-[#C0C0C0] font-normal">
+            <span className="md:text-base text-xs text-[#C0C0C0] font-normal">
               {props.spec}
             </span>
           </div>

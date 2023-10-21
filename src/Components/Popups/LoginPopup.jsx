@@ -119,7 +119,9 @@ const LoginPopup = ({ socket }) => {
               {error}
             </p>
           </div>
-          <h1 className="text-4xl font-bold">Login into an Account!</h1>
+          <h1 className="md:text-4xl text-xl font-bold">
+            Login into an Account!
+          </h1>
           <button
             className="absolute right-1 top-1"
             onClick={() => showLoginPopup()}
@@ -130,7 +132,7 @@ const LoginPopup = ({ socket }) => {
             <img src="/assets/Frame.png" className="mt-1" />
             <span>Continue with Google</span>
           </button> */}
-          <GoogleOAuthProvider clientId="402471966178-64i90065ujh2ga5e2793g3l6jn00mq4c.apps.googleusercontent.com">
+          {/* <GoogleOAuthProvider clientId="402471966178-64i90065ujh2ga5e2793g3l6jn00mq4c.apps.googleusercontent.com">
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 console.log(credentialResponse);
@@ -139,7 +141,7 @@ const LoginPopup = ({ socket }) => {
                 console.log("Login Failed");
               }}
             />
-          </GoogleOAuthProvider>
+          </GoogleOAuthProvider> */}
           <div className="flex flex-col w-full">
             <label className="font-semibold text-base">Email address</label>
             <input

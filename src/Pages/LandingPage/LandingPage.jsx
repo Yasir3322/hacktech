@@ -138,7 +138,7 @@ const LandingPage = () => {
             >
               Sign up
             </button>
-            <div className="md:mt-10 mt-5 flex align-middle justify-center">
+            <div className="md:mt-10 mt-5 md:px-0 px-4 flex align-middle justify-center">
               <img
                 src={isMobile ? "/assets/MASK-mobile.svg" : "/assets/MASK.svg"}
                 alt="mask"
@@ -160,7 +160,7 @@ const LandingPage = () => {
             ) : (
               <div>
                 <div className="w-11/12 m-auto mt-8">
-                  <h1 className="font-semibold text-4xl capitalize">{`Welcome, ${fullName.fullName}!`}</h1>
+                  <h1 className="font-semibold md:text-4xl text-2xl capitalize">{`Welcome, ${fullName.fullName}!`}</h1>
                 </div>
                 <div className="pt-10 md:pb-10 m-auto w-11/12">
                   <img src="/assets/Line 18.svg" />
@@ -184,7 +184,7 @@ const LandingPage = () => {
               />
             </Box>
           ) : (
-            <div className="pl-7 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
+            <div className="pl-6 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
               {/* <div>
                 {selectedCatagory === null ? (
                   <ProductCatagories
