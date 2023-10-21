@@ -19,6 +19,7 @@ const ChatBody = ({ socket }) => {
   const [active, setActive] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [showModelImage, setShowModelImage] = useState("");
+  const [product, setProduct] = useState({});
 
   useEffect(() => {
     console.log(allActiveUsers);
@@ -30,6 +31,25 @@ const ChatBody = ({ socket }) => {
     }
     console.log(active);
   }, [id, socket]);
+
+  const getProductdetail = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/singleproduct/${prodid}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          userid: JSON.parse(localStorage.getItem("user"))._id,
+        },
+      }
+    );
+    setProduct(res?.data?.product[0]);
+  };
+
+  console.log(product);
+
+  useEffect(() => {
+    getProductdetail();
+  }, []);
 
   useEffect(() => {
     socket.on("messageResponse", (data) => {
@@ -75,7 +95,7 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     getUserMess();
-  }, [id, messages]);
+  }, [id, socket]);
 
   useEffect(() => {
     setLoading(true);
@@ -166,12 +186,22 @@ const ChatBody = ({ socket }) => {
             </span>
           </div>
         </div>
-        <p className="flex">
-          <img src="/assets/trojansquare.png" alt="" width={40} height={10} />
-          <Link to={`/productpage/${prodid}`} className="text-blue-800 mt-2">
-            {`Requested Product`}
-          </Link>
-        </p>
+        <div className=" mt-4  items-end w-full flex flex-col align-middle justify-end">
+          <p className="flex">
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                product.images[0]
+              }`}
+              alt=""
+              width={40}
+              height={10}
+            />
+            <Link to={`/productpage/${prodid}`} className="text-blue-800 mt-2">
+              {`Requested Product`}
+            </Link>
+          </p>
+          <span className="leading-3 text-xs mt-0">{product.title}</span>
+        </div>
       </div>
       <div className="w-full h-4/5 p-5 overflow-y-scroll custom-scrollbar">
         {!loading ? (

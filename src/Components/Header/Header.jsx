@@ -116,6 +116,7 @@ const Header = ({ user, socket }) => {
     localStorage.removeItem("hacktechtoken");
     localStorage.removeItem("user");
     localStorage.removeItem("profile");
+    useLogin();
     navigate("/");
   };
 
@@ -146,7 +147,11 @@ const Header = ({ user, socket }) => {
             <div>
               <div className="relative w-full h-10 flex flex-col">
                 <div className="flex gap-3 absolute right-14 align-middle">
-                  <button onClick={handleNotificationbutton}>
+                  <button
+                    onClick={() =>
+                      setIsNotificationDropdownOpen(!isNotificationDropdownOpen)
+                    }
+                  >
                     <img
                       src="/assets/Vectorheader2.svg"
                       alt="vectorheader"
@@ -190,7 +195,7 @@ const Header = ({ user, socket }) => {
           )}
         </div>
         <div className="md:w-full md:pl-8 md:mr-24 md:ml-12 md:mt-0 mt-4 md:px-0 px-5">
-          <form className={isShowMobileIcon ? "hidden" : "block"}>
+          <form className={showListingbtn ? "hidden" : "block"}>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
                 <svg
@@ -307,7 +312,10 @@ const Header = ({ user, socket }) => {
             <div className="md:hidden block">
               {isShowMobileIcon ? (
                 <div className="md:flex md:flex-row flex flex-col md:gap-7 gap-1 px-3 align-middle justify-between ">
-                  <button className="md:w-28  w-full leading-3 rounded-xl h-10 md:rounded-full border border-black ">
+                  <button
+                    className="md:w-28  w-full leading-3 rounded-xl h-10 md:rounded-full border border-black "
+                    onClick={() => showLoginPopup()}
+                  >
                     Sell an item
                   </button>
                   <button

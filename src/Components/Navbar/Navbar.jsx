@@ -46,7 +46,7 @@ const MultiCarousel = () => {
   };
 
   return (
-    <div className="relative mt-3 w-11/12 m-auto">
+    <div className="relative mt-3 w-11/12 m-auto md:pb-0 pb-3">
       <Carousel
         ssr
         partialVisbile

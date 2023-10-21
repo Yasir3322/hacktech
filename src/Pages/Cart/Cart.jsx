@@ -81,7 +81,7 @@ const Cart = () => {
           <h1 className="text-4xl font-semibold py-7">Your Cart</h1>
         </div>
         <div className="border border-[#737373] ">
-          {userCartItems.map((item) => {
+          {userCartItems?.map((item) => {
             var { title, price, images } = item.product[0];
             total_price = price * item.quantity;
             var quantity = item.quantity;

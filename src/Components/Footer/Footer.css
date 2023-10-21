@@ -1,0 +1,9 @@
+/* Your regular CSS for larger screens */
+
+/* Media query for mobile screens (adjust max-width as needed) */
+@media (max-width: 767px) {
+    .hidden {
+        display: none;
+        /* Hide the footer on mobile screens */
+    }
+}

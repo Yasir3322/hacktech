@@ -37,7 +37,7 @@ const NotiDropDown = ({ items }) => {
     <div>
       {isNotificationDropdownOpen ? (
         <div
-          className="absolute z-20 flex flex-col bg-white right-6 top-16 w-52"
+          className="absolute z-20 flex flex-col bg-white right-6 top-16 w-52 md:mt-0 mt-9"
           ref={dropDownRef}
         >
           {items.map((item) => (

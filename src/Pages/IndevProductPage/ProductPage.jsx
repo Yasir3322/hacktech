@@ -397,7 +397,7 @@ const ProductPage = ({ socket }) => {
                                     : () => showLoginPopup()
                                 }
                               >
-                                Add
+                                Add To Cart
                               </button>
                             )}
                             <button
@@ -420,7 +420,7 @@ const ProductPage = ({ socket }) => {
                               value={textareaValue}
                               style={{ resize: "none" }}
                             />
-                            <div>
+                            <div className="md:flex md:flex-row flex flex-col gap-2">
                               <span
                                 onClick={() =>
                                   setTextareaValue(
@@ -430,8 +430,8 @@ const ProductPage = ({ socket }) => {
                                 className={`${
                                   textareaValue ===
                                   "I’m interested in this item."
-                                    ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                                    : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    ? "bg-[#DB3B39] text-white  md:ml-0 ml-2 cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    : "bg-[#F2F2F2] cursor-pointer md:ml-0 ml-2 text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
                                 }`}
                               >
                                 I’m interested in this item.
@@ -445,8 +445,8 @@ const ProductPage = ({ socket }) => {
                                 className={`${
                                   textareaValue ===
                                   "What condition is this item in?"
-                                    ? "bg-[#DB3B39] text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
-                                    : "bg-[#F2F2F2] cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    ? "bg-[#DB3B39] md:ml-0 ml-2 text-white cursor-pointer text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
+                                    : "bg-[#F2F2F2] md:ml-0 ml-2 cursor-pointer text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-full"
                                 }`}
                               >
                                 What condition is this item in?
@@ -456,7 +456,7 @@ const ProductPage = ({ socket }) => {
                               className="bg-[#DB3B39] text-white w-full mt-4 rounded-sm p-1"
                               onClick={() => handleSendReq(textareaValue, id)}
                             >
-                              Send
+                              Chat now
                             </button>
                           </div>
                         )}
