@@ -186,22 +186,29 @@ const ChatBody = ({ socket }) => {
             </span>
           </div>
         </div>
-        <div className=" mt-4  items-end w-full flex flex-col align-middle justify-end">
-          <p className="flex">
-            <img
-              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${
-                product.images[0]
-              }`}
-              alt=""
-              width={40}
-              height={10}
-            />
-            <Link to={`/productpage/${prodid}`} className="text-blue-800 mt-2">
-              {`Requested Product`}
-            </Link>
-          </p>
-          <span className="leading-3 text-xs mt-0">{product.title}</span>
-        </div>
+        {Object.keys(product).length ? (
+          <div className=" mt-4  items-end w-full flex flex-col align-middle justify-end">
+            <p className="flex">
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                  product?.images[0]
+                }`}
+                alt=""
+                width={40}
+                height={10}
+              />
+              <Link
+                to={`/productpage/${prodid}`}
+                className="text-blue-800 mt-2"
+              >
+                {`Requested Product`}
+              </Link>
+            </p>
+            <span className="leading-3 text-xs mt-0">{product?.title}</span>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div className="w-full h-4/5 p-5 overflow-y-scroll custom-scrollbar">
         {!loading ? (

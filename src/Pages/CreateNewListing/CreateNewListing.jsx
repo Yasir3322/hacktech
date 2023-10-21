@@ -86,14 +86,20 @@ const CreateNewListing = () => {
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/createproduct`,
       formdata,
-      { headers: { "Content-Type": "multipart/form-data", token: token } }
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          "Content-Type": "multipart/form-data",
+          token: token,
+        },
+      }
     );
     setLoading(false);
   };
 
   return (
-    <div className="w-full">
-      <div className="w-11/12 m-auto pt-12 bg-[#f7e7e7] p-9 mt-4">
+    <div className="w-full h-screen">
+      <div className="w-11/12 m-auto pt-12 bg-[#f7e7e7] p-9 mt-4 pb-52">
         <div>
           <h1 className="font-semibold md:text-5xl text-3xl">
             Create a new listing

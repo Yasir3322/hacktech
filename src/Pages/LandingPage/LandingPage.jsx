@@ -207,7 +207,7 @@ const LandingPage = () => {
                   }
                 })}
               </div> */}
-              <div>
+              <div className="mb-16">
                 <ProductCatagories />
               </div>
             </div>

@@ -68,7 +68,7 @@ const ProductPage = ({ socket }) => {
 
   useEffect(() => {
     getProduct();
-  }, [id]);
+  }, [id, product]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -386,7 +386,7 @@ const ProductPage = ({ socket }) => {
                                 onClick={() => handleAddToCart(id)}
                                 disabled={!productInStock}
                               >
-                                Add
+                                Add To Cart
                               </button>
                             ) : (
                               <button
@@ -542,7 +542,7 @@ const ProductPage = ({ socket }) => {
               )}
             </div>
           </div>
-          <div className="mt-4 flex flex-col">
+          <div className="mt-4 flex flex-col mb-4">
             <SellerCard
               userAvgRating={userAvgRating}
               totalReviews={totalReviews}
@@ -554,7 +554,7 @@ const ProductPage = ({ socket }) => {
           {/* <div><SellerReview userReviews={userReviews} /></div> */}
         </div>
       ) : (
-        <Box padding="6" boxShadow="lg" bg="white">
+        <Box padding="6" boxShadow="lg" bg="white" className="h-screen">
           <SkeletonCircle size="10" />
           <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
         </Box>
