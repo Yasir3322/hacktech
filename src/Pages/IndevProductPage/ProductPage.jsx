@@ -8,8 +8,17 @@ import { toast } from "react-toastify";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { useGlobalCotext } from "../../Context/Context";
 import { AiFillHeart } from "react-icons/ai";
+import { NoCarasoule } from "../../Components/NoCarasoule";
 
 const ProductPage = ({ socket }) => {
+  var noimagearr = [
+    "/assets/no-photo2.jpg",
+    "/assets/no-photo2.jpg",
+    "/assets/no-photo2.jpg",
+    "/assets/no-photo2.jpg",
+    "/assets/no-photo2.jpg",
+  ];
+
   const [wantProd, setWantProd] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
   const [product, setProduct] = useState({});
@@ -306,7 +315,7 @@ const ProductPage = ({ socket }) => {
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
           <div className="md:flex md:flex-row flex flex-col gap-3">
-            <div className="md:w-20 w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
+            <div className="md:w-auto w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
               {images.map((image) => {
                 return (
                   <img
@@ -320,10 +329,17 @@ const ProductPage = ({ socket }) => {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-32 mt-7 flex flex-col">
               <div>
-                <Carasoule
-                  images={product.images}
-                  totalProductLiked={totalProductLiked}
-                />
+                {product.images.length > 0 ? (
+                  <Carasoule
+                    images={product.images}
+                    totalProductLiked={totalProductLiked}
+                  />
+                ) : (
+                  <NoCarasoule
+                    images={noimagearr}
+                    totalProductLiked={totalProductLiked}
+                  />
+                )}
               </div>
               <div className=" gap-4 ml-12 mt-8 md:hidden flex">
                 <button onClick={handleShareClick}>

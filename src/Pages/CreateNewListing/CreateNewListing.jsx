@@ -5,6 +5,7 @@ import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useGlobalCotext } from "../../Context/Context";
+import { toast } from "react-toastify";
 
 const CreateNewListing = () => {
   const { allCatagories } = useGlobalCotext();
@@ -78,9 +79,24 @@ const CreateNewListing = () => {
     formdata.append("isOnline", formData.isOnline);
     formdata.append("condition", formData.condition);
 
-    imagefiles.forEach((image) => {
-      formdata.append("images", image);
-    });
+    for (const image of imagefiles) {
+      if (image.type !== "image/png") {
+        toast.info("only Png is allowed", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setLoading(false);
+        return;
+      } else {
+        formdata.append("images", image);
+      }
+    }
 
     const token = localStorage.getItem("hacktechtoken");
     await axios.post(

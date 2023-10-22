@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useGlobalCotext } from "../../Context/Context";
 
 const UserListing = (props) => {
+  console.log(props.image);
   const { showSoldPopup, isLogin } = useGlobalCotext();
   const { id } = useParams();
   if (isLogin) {
@@ -73,7 +74,11 @@ const UserListing = (props) => {
           onClick={() => handleProductClick(props.id)}
         >
           <img
-            src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`}
+            src={
+              props.image === undefined
+                ? `/assets/no-photo2.jpg`
+                : `${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`
+            }
             alt="ipad"
             className="md:w-52 w-full"
           />

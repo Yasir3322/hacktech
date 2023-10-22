@@ -10,6 +10,7 @@ const ProductCatagories = (props) => {
   useEffect(() => {
     const temptrendProd = [];
     allProducts?.map((products) => {
+      console.log(products);
       products.products.map((product) => {
         if (product.istranding) {
           temptrendProd.push(product);

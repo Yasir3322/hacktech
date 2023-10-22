@@ -39,7 +39,7 @@ export const AppProvider = ({ children }) => {
       .getItem("profile")
       .replace(/"/g, "");
     const profile = `${
-      localstorageprofile
+      localstorageprofile !== "null"
         ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
         : "/assets/preview.avif"
     }`;

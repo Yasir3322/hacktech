@@ -31,7 +31,7 @@ const Header = ({ user, socket }) => {
     var localstorageprofile = localStorage.getItem("profile").replace(/"/g, "");
 
     var profile = `${
-      localstorageprofile
+      localstorageprofile !== "null"
         ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
         : "/assets/preview.avif"
     }`;

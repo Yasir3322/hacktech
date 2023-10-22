@@ -54,6 +54,7 @@ const MultiCarousel = () => {
         containerClass=""
         responsive={responsive}
         infinite
+        itemClass=""
         autoPlaySpeed={2000}
         autoPlay={false}
         customLeftArrow={<CustomLeftArrow style={customArrowStyles} />} // Apply custom styles to left arrow
@@ -62,20 +63,23 @@ const MultiCarousel = () => {
         {allCatagories.map((category) => {
           const { images, title } = category;
           return (
-            <div key={title} className="px-2 md:px-2">
+            <div key={title} className="px-0.5">
               <Link
                 onClick={() => handleCategoryClick(title)}
                 className={`${
                   selectedCatagory === title
-                    ? "inline-flex cursor-pointer w-42 items-center shadow-md md:rounded-md md:ml-3 ml-2 md:mr-2 md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500"
-                    : "inline-flex cursor-pointer w-42 items-center mr-2 shadow-md md:rounded-md md:ml-3 ml-2 md:mr-2 md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500/10"
+                    ? "flex align-middle justify-center cursor-pointer w-full items-center shadow-md md:rounded-md md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500"
+                    : " cursor-pointer w-full flex align-middle justify-center items-center shadow-md md:rounded-md  md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500/10"
                 }`}
               >
-                <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${images}`}
-                  alt="category"
-                  className="md:w-23 lg:w-36 h-4 md:scale-125 scale-125"
-                />
+                <div className="flex gap-1">
+                  <img
+                    src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${images}`}
+                    alt="category"
+                    className=""
+                  />
+                  <p className="text-xs">{title}</p>
+                </div>
               </Link>
             </div>
           );

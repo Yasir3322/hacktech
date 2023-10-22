@@ -1,7 +1,7 @@
 import { Carousel, Typography, IconButton } from "@material-tailwind/react";
 import { MdArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
 
-export function Carasoule(props) {
+export function NoCarasoule(props) {
   return (
     <Carousel
       className="rounded-xl  overflow-hidden"
@@ -31,15 +31,15 @@ export function Carasoule(props) {
     >
       {props?.images?.map((image) => {
         return (
-          <div className="relative h-96 w-full">
+          <div className="relative h-96 w-auto">
             <div className="absolute right-3 bg-white top-2  flex shadow-md border px-2 rounded-full">
               {props.totalProductLiked}
               <img src="/assets/totalliked.svg" alt="" />
             </div>
             <img
-              src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`}
+              src={image}
               alt="image 1"
-              className="h-96 md:w-auto w-full object-cover"
+              className="h-96 w-auto object-cover"
             />
           </div>
         );

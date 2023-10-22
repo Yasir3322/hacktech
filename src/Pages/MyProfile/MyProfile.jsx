@@ -37,65 +37,6 @@ const MyProfile = () => {
     getUserListing();
   }, [id]);
 
-  // const mensShoes = [
-  //   {
-  //     image: "/assets/shoe5.svg",
-  //     upload_time: "1 day ago",
-  //     title: "Nike Dunks",
-  //     price: "$65",
-  //     spec: "Size 9",
-  //   },
-  //   {
-  //     image: "/assets/shoe3.svg",
-  //     upload_time: "1 day ago",
-  //     title: "Nike Jordans",
-  //     price: "$68",
-  //     spec: "Size 12",
-  //   },
-  //   {
-  //     image: "/assets/shoe6.svg",
-  //     upload_time: "1 day ago",
-  //     title: "New Balance 550's",
-  //     price: "$155",
-  //     spec: "Size 9.5",
-  //   },
-  //   {
-  //     image: "/assets/shoe4.svg",
-  //     upload_time: "1 day ago",
-  //     title: "New Balance 2002R",
-  //     price: "$105",
-  //     spec: "Size 13",
-  //   },
-  //   {
-  //     image: "/assets/iphone.svg",
-  //     upload_time: "1 day ago",
-  //     title: "ipad Air",
-  //     price: "$600",
-  //     spec: "128gb",
-  //   },
-  //   {
-  //     image: "/assets/clock.svg",
-  //     upload_time: "1 day ago",
-  //     title: "Samsung Galaxy Watch",
-  //     price: "$155",
-  //     spec: "2022",
-  //   },
-  //   {
-  //     image: "/assets/headphone.svg",
-  //     upload_time: "1 day ago",
-  //     title: "Sony Headphones",
-  //     price: "$210",
-  //     spec: "WH-10000XM4",
-  //   },
-  //   {
-  //     image: "/assets/charger.svg",
-  //     upload_time: "1 day ago",
-  //     title: "Wireless Charger",
-  //     price: "$10",
-  //     spec: "Anker",
-  //   },
-  // ];
-
   function formatRelativeTime(timestamp) {
     const now = new Date();
     const date = new Date(timestamp);
