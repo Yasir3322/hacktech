@@ -5,11 +5,8 @@ import { useGlobalCotext } from "../../Context/Context";
 const NotiDropDown = ({ items }) => {
   const dropDownRef = useRef();
 
-  const {
-    useLogin,
-    setIsNotificationDropdownOpen,
-    isNotificationDropdownOpen,
-  } = useGlobalCotext();
+  const { useLogin, hideNotiDropdown, isNotificationDropdownOpen } =
+    useGlobalCotext();
   const navigate = useNavigate();
   const handleDropdownLink = (url) => {
     if (url === "/") {
@@ -24,14 +21,14 @@ const NotiDropDown = ({ items }) => {
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-        setIsNotificationDropdownOpen(false);
+        hideNotiDropdown();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropDownRef, setIsNotificationDropdownOpen]);
+  }, [dropDownRef]);
 
   return (
     <div>

@@ -25,6 +25,7 @@ const Header = ({ user, socket }) => {
     isProfileDropdownOpen,
     setIsProfileDropdownOpen,
     setAllProducts,
+    hideNotiDropdown,
   } = useGlobalCotext();
 
   if (isLogin) {
@@ -49,7 +50,9 @@ const Header = ({ user, socket }) => {
   };
 
   const handleNotificationbutton = () => {
-    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+    console.log("called");
+    console.log(isNotificationDropdownOpen);
+    hideNotiDropdown();
   };
 
   const handleProfileDropdownButton = () => {
@@ -246,7 +249,7 @@ const Header = ({ user, socket }) => {
                       className="md:w-6 mt-1 md:h-6 w-8 h-8"
                     />
                   </button>
-                  <button onClick={handleNotificationbutton}>
+                  <button onClick={() => handleNotificationbutton()}>
                     <img
                       src="/assets/Vectorheader2.svg"
                       alt="vectorheader"

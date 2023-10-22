@@ -72,6 +72,10 @@ export const AppProvider = ({ children }) => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
+  const hideNotiDropdown = () => {
+    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -84,7 +88,7 @@ export const AppProvider = ({ children }) => {
         isSoldPopupOpen,
         showSoldPopup,
         isNotificationDropdownOpen,
-        setIsNotificationDropdownOpen,
+        hideNotiDropdown,
         showNotiDropdown,
         isProfileDropdownOpen,
         setIsProfileDropdownOpen,
