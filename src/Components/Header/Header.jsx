@@ -284,7 +284,7 @@ const Header = ({ user, socket }) => {
                 </Link>
                 <button
                   className=" cursor-pointer"
-                  onClick={handleProfileDropdownButton}
+                  onClick={() => handleProfileDropdownButton()}
                 >
                   <IoIosArrowDown />
                 </button>

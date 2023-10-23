@@ -20,7 +20,7 @@ const ChatWelcome = () => {
   };
 
   return (
-    <div className="w-full  hidden h-full md:flex items-center align-middle text-center">
+    <div className="w-full  hidden h-full md:flex items-center align-middle text-center border-l-2">
       <div className="w-full gap-3 items-center flex flex-col align-middle justify-center">
         <img src="/assets/trojansquare.png" alt="" width={40} height={40} />
         <h2 className="text-2xl font-bold">Welcome to TrojanSquare Chat</h2>

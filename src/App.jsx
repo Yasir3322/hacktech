@@ -127,8 +127,10 @@ function App({ socket }) {
             <section className="shadow-md relative">
               <CreateAccountPopup socket={socket} />
               <LoginPopup socket={socket} />
-              <Header />
-              <Navbar />
+              <div className="shadow-md pb-4">
+                <Header />
+                <Navbar />
+              </div>
               {/* <LandingPage /> */}
               <div id="detail">
                 <Outlet />
