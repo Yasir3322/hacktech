@@ -27,7 +27,7 @@ const MultiCarousel = () => {
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 3,
+      items: 2,
       partialVisibilityGutter: 30,
     },
   };
@@ -57,8 +57,18 @@ const MultiCarousel = () => {
         itemClass=""
         autoPlaySpeed={2000}
         autoPlay={false}
-        customLeftArrow={<CustomLeftArrow style={customArrowStyles} />} // Apply custom styles to left arrow
-        customRightArrow={<CustomRightArrow style={customArrowStyles} />} // Apply custom styles to right arrow
+        customLeftArrow={
+          <CustomLeftArrow
+            style={customArrowStyles}
+            // className="md:block hidden"
+          />
+        }
+        customRightArrow={
+          <CustomRightArrow
+            style={customArrowStyles}
+            // className="md:block hidden"
+          />
+        }
       >
         {allCatagories.map((category) => {
           const { images, title } = category;
@@ -68,17 +78,18 @@ const MultiCarousel = () => {
                 onClick={() => handleCategoryClick(title)}
                 className={`${
                   selectedCatagory === title
-                    ? "flex align-middle justify-center cursor-pointer w-full items-center shadow-md md:rounded-md md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500"
-                    : " cursor-pointer w-full flex align-middle justify-center items-center shadow-md md:rounded-md  md:px-2 md:py-3 text-sm border p-1.5 font-medium ring-1 ring-inset ring-gray-500/10"
+                    ? "flex align-middle justify-center cursor-pointer w-full items-center rounded-lg shadow-lg md:rounded-md md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500"
+                    : " cursor-pointer w-full flex align-middle justify-center items-center rounded-lg shadow-lg md:rounded-md  md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500/10"
                 }`}
               >
-                <div className="flex gap-1">
+                <div className="flex gap-1 md:scale-95 scale-125">
+                  <p className="text-xs md:hidden">{title}</p>
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${images}`}
                     alt="category"
                     className=""
                   />
-                  <p className="text-xs">{title}</p>
+                  <p className="text-xs md:block hidden ">{title}</p>
                 </div>
               </Link>
             </div>

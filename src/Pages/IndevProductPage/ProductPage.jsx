@@ -395,38 +395,51 @@ const ProductPage = ({ socket }) => {
                     ) : (
                       <div className="py-5">
                         {!wantProd ? (
-                          <div className="grid grid-cols-2 gap-4">
-                            {isLogin ? (
-                              <button
-                                className="bg-[#F2F2F2] rounded-sm p-1"
-                                onClick={() => handleAddToCart(id)}
-                                disabled={!productInStock}
-                              >
-                                Add To Cart
-                              </button>
-                            ) : (
-                              <button
-                                className="bg-[#F2F2F2] rounded-sm p-1"
-                                onClick={
-                                  isLogin
-                                    ? () => handleAddToCart(id)
-                                    : () => showLoginPopup()
-                                }
-                              >
-                                Add To Cart
-                              </button>
-                            )}
-                            <button
-                              className="bg-[#DB3B39] rounded-sm text-white p-1"
-                              onClick={
-                                isLogin
-                                  ? () => setWantProd(!wantProd)
-                                  : () => showLoginPopup()
-                              }
-                            >
-                              I Want this!
-                            </button>
-                          </div>
+                          // add to cart and want btn
+
+                          // <div className="grid grid-cols-2 gap-4">
+                          //   {
+                          //   isLogin ? (
+                          //     <button
+                          //       className="bg-[#F2F2F2] rounded-sm p-1"
+                          //       onClick={() => handleAddToCart(id)}
+                          //       disabled={!productInStock}
+                          //     >
+                          //       Add To Cart
+                          //     </button>
+                          //   ) : (
+                          //     <button
+                          //       className="bg-[#F2F2F2] rounded-sm p-1"
+                          //       onClick={
+                          //         isLogin
+                          //           ? () => handleAddToCart(id)
+                          //           : () => showLoginPopup()
+                          //       }
+                          //     >
+                          //       Add To Cart
+                          //     </button>
+                          //   )}
+                          //   <button
+                          //     className="bg-[#DB3B39] rounded-sm text-white p-1"
+                          //     onClick={
+                          //       isLogin
+                          //         ? () => setWantProd(!wantProd)
+                          //         : () => showLoginPopup()
+                          //     }
+                          //   >
+                          //     I Want this!
+                          //   </button>
+                          // </div>
+                          <button
+                            className="bg-[#DB3B39] rounded-sm text-white p-1 w-full"
+                            onClick={
+                              isLogin
+                                ? () => setWantProd(!wantProd)
+                                : () => showLoginPopup()
+                            }
+                          >
+                            I Want this!
+                          </button>
                         ) : (
                           <div>
                             <textarea

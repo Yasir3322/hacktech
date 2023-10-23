@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotiDropDown from "./Components/UI/NotiDropDown";
 import ProfileDropDown from "./Components/UI/ProfileDropDown";
+import { AiOutlineHome } from "react-icons/ai";
 
 function App({ socket }) {
   const {
@@ -146,6 +147,9 @@ function App({ socket }) {
               <Navbar />
               <div>
                 <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
+                  <Link to="/">
+                    <img src="/assets/mobile-footer/home.svg" alt="" />
+                  </Link>
                   <Link to="/createnewlisting">
                     <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
                   </Link>
@@ -155,9 +159,9 @@ function App({ socket }) {
                   <Link to="/chat">
                     <img src="/assets/mobile-footer/Group 80.svg" alt="" />
                   </Link>
-                  <Link to="/cart">
+                  {/* <Link to="/cart">
                     <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </section>
@@ -171,12 +175,7 @@ function App({ socket }) {
             >
               <Outlet />
             </div>
-            {location.pathname === "/chat/:id" ||
-            location.pathname === "/chat" ? (
-              ""
-            ) : (
-              <Footer />
-            )}
+            {location.pathname.includes("/chat") ? "" : <Footer />}
           </>
         )}
       </div>

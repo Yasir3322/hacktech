@@ -87,8 +87,8 @@ const ChatBar = ({ socket }) => {
       <div
         className={
           !show
-            ? "border-r-2 md:w-1/4 block  w-full p-4 h-[28rem] overflow-y-scroll custom-scrollbar"
-            : "border-r-2 md:w-1/4 md:block hidden w-full p-4 h-[28rem] overflow-y-scroll custom-scrollbar"
+            ? "md:w-1/4 block  w-full p-4 h-[27.5rem] overflow-y-scroll custom-scrollbar"
+            : "md:w-1/4 md:block hidden w-full p-4 h-[27.5rem] overflow-y-scroll custom-scrollbar"
         }
       >
         <h4 className="text-lg">Chat</h4>

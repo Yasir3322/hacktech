@@ -127,7 +127,7 @@ const Header = ({ user, socket }) => {
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
         <div className="flex align-middle justify-between">
-          <Link className="flex md:ml-0 ml-4 mt-1.5" to={user ? "/" : "/"}>
+          <Link className="flex md:ml-0 ml-4 mt-1.5" to="/">
             <img
               src={
                 isMobile
@@ -197,8 +197,8 @@ const Header = ({ user, socket }) => {
             ""
           )}
         </div>
-        <div className="md:w-full md:pl-8 md:mr-24 md:ml-12 md:mt-0 mt-4 md:px-0 px-5">
-          <form className={showListingbtn ? "hidden" : "block"}>
+        <div className="md:w-full md:pl-8 md:mr-24 md:ml-4 md:mt-0 mt-4 md:px-0 px-5">
+          <form className={showListingbtn ? "hidden" : "block "}>
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
                 <svg
@@ -214,7 +214,7 @@ const Header = ({ user, socket }) => {
                 </svg>
               </span>
               <input
-                className="w-full  bg-white placeholder:font-italitc border border-slate-300 rounded-full h-11 pl-10 pr-4 focus:outline-none"
+                className="w-full shadow-sm  bg-white placeholder:font-italitc border border-slate-300 rounded-full h-11 pl-10 pr-4 focus:outline-none"
                 type="text"
                 onChange={handleSearchChange}
               />
@@ -256,13 +256,16 @@ const Header = ({ user, socket }) => {
                       className="md:w-6 md:h-6 w-8 h-8"
                     />
                   </button>
-                  <Link to="/cart">
+
+                  {/* add to cart button  */}
+
+                  {/* <Link to="/cart">
                     <img
                       src="/assets/Vectorheader3.svg"
                       alt="vectorheader"
                       className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
                     />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="flex gap-3 align-middle justify-center">

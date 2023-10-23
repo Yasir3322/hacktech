@@ -9,10 +9,6 @@ const ProfileDropDown = () => {
       url: "/myprofile",
     },
     {
-      title: "Information",
-      url: "/information",
-    },
-    {
       title: "Logout",
       url: "/",
     },

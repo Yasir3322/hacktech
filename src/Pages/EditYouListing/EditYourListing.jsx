@@ -64,15 +64,14 @@ const EditYourListing = () => {
   };
 
   const handleFormSubmit = async (e) => {
+    var previousImages = [];
     e.preventDefault();
-    console.log(fileList);
-
     const submitiondata = new FormData();
     submitiondata.append("title", formData.title);
     submitiondata.append("description", formData.description);
     submitiondata.append("price", formData.price);
     submitiondata.append("quantity", formData.quantity);
-    submitiondata.append("hashtags", JSON.stringify(formData.hashtags));
+    submitiondata.append("hashtags", formData.hashtags);
     submitiondata.append("catagory", formData.catagory);
     submitiondata.append("isOnline", formData.isOnline);
     submitiondata.append("condition", formData.condition);
@@ -85,18 +84,30 @@ const EditYourListing = () => {
     submitiondata.append("quantity", formData.quantity);
     submitiondata.append("createdAt", formData.createdAt);
     submitiondata.append("updatedAt", formData.updatedAt);
-    submitiondata.append("favourite", formData.favourite);
+    submitiondata.append("favourite", JSON.stringify(formData.favourite));
 
-    formData.images.forEach((image) => {
-      submitiondata.append("images", image);
+    fileList.forEach((image) => {
+      if (image.url) {
+        const img = image.url;
+        const pathname = new URL(img).pathname;
+        const parts = pathname.split("/");
+        const filename = parts[parts.length - 1];
+        previousImages.push(filename);
+      } else {
+        submitiondata.append("images", image.originFileObj);
+      }
     });
-
-    console.log(submitiondata);
-    return;
 
     const response = await axios.patch(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/editlisting/${id}`,
-      formData
+      submitiondata,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+          "Content-Type": "multipart/form-data",
+          previousImages: JSON.stringify(previousImages),
+        },
+      }
     );
 
     if (response.status === 200) {
@@ -110,33 +121,8 @@ const EditYourListing = () => {
         progress: undefined,
         theme: "light",
       });
+      navigate(`/myprofile/${JSON.parse(localStorage.getItem("user"))._id}`);
     }
-
-    return;
-    const imagefiles = fileList.map((file) => {
-      return file.originFileObj;
-    });
-    const formdata = new FormData();
-    formdata.append("title", formData.title);
-    formdata.append("description", formData.description);
-    formdata.append("price", 123);
-    formdata.append("hashtags", formData.hashtags);
-    formdata.append("catagory", formData.catagory);
-    formdata.append("isOnline", formData.isOnline);
-    formdata.append("condition", formData.condition);
-
-    imagefiles.forEach((image) => {
-      formdata.append("images", image);
-    });
-
-    console.log(formdata);
-    return;
-    const token = localStorage.getItem("hacktechtoken");
-    const res = await axios.post(
-      `${import.meta.env.BACKEND_URL}/product/createproduct`,
-      formdata,
-      { headers: { "Content-Type": "multipart/form-data", token: token } }
-    );
   };
 
   const getProduct = async () => {
@@ -285,6 +271,29 @@ const EditYourListing = () => {
                   </select>
                   <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#215AFF]">
                     <IoIosArrowUp />
+                  </div>
+                </div>
+                <div className="md:flex md:flex-row flex flex-col mt-3 gap-5">
+                  <div className="flex flex-col">
+                    <label className="text-base font-bold">Price</label>
+                    <input
+                      type="number"
+                      className="border border-[#D0D4D9] px-2"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange2}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-base font-bold">Quantity</label>
+                    <input
+                      type="number"
+                      className="border border-[#D0D4D9] px-2"
+                      placeholder="Ex:1,2,3, etc"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleChange2}
+                    />
                   </div>
                 </div>
                 <div className="flex gap-2 w-72 py-4 border-t border-b bg-white mt-4 border-black">

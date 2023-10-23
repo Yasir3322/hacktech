@@ -132,192 +132,131 @@ const ChatBody = ({ socket }) => {
   };
 
   return (
-    <div className="p-5 w-full h-[28rem]  relative">
-      <div
-        className={
-          showModel
-            ? "absolute w-3/4 h-80 shadow-xl border-1 z-5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            : "hidden"
-        }
-      >
-        <button
-          className="absolute -right-2 -top-2 z-50"
-          onClick={() => setShowModel(!showModel)}
+    <div className=" w-full h-full md:border-l-2 ">
+      <div className="p-5 h-[22rem]  relative">
+        <div
+          className={
+            showModel
+              ? "absolute w-3/4 h-80 shadow-xl border-1 z-5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              : "hidden"
+          }
         >
-          <AiFillCloseCircle size={30} />
-        </button>
-        <img
-          src={showModelImage}
-          alt=""
-          className="w-full h-full z-100 object-cover rounded-lg"
-        />
-      </div>
-      <Link
-        to="/chat"
-        className="px-4 absolute right-1"
-        onClick={() => handleGoBackClick()}
-      >
-        Go back
-      </Link>
-      <div className="flex align-middle md:gap-32 gap-3">
-        <div className="flex gap-2">
+          <button
+            className="absolute -right-2 -top-2 z-50"
+            onClick={() => setShowModel(!showModel)}
+          >
+            <AiFillCloseCircle size={30} />
+          </button>
           <img
-            src={
-              userDetail?.image
-                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
-                    userDetail.image
-                  }`
-                : "/assets/preview.avif"
-            }
-            alt="avatar"
-            className="rounded-full w-12 h-12"
+            src={showModelImage}
+            alt=""
+            className="w-full h-full z-100 object-cover rounded-lg"
           />
-          <div>
-            <p className="capitalize">{userDetail.fullName}</p>
-            <span className="text-[#9C9797] text-xs flex align-middle">
-              Active Now{" "}
-              <div>
-                {active ? (
-                  <img src="/assets/Ellipse 28.svg" alt="" className="mt-1" />
-                ) : (
-                  ""
-                )}
-              </div>
-            </span>
-          </div>
         </div>
-        {Object.keys(product).length ? (
-          <div className=" mt-4  items-end w-full flex flex-col align-middle justify-end">
-            <p className="flex">
+
+        <div className="flex align-middle justify-between gap-3">
+          <div className="flex flex-col">
+            <Link
+              to="/chat"
+              className="px-4 absolute right-32 md:hidden block"
+              onClick={() => handleGoBackClick()}
+            >
+              Go back
+            </Link>
+            <div className="flex gap-2">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${
-                  product?.images[0]
-                }`}
-                alt=""
-                width={40}
-                height={10}
+                src={
+                  userDetail?.image
+                    ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                        userDetail.image
+                      }`
+                    : "/assets/preview.avif"
+                }
+                alt="avatar"
+                className="rounded-full w-12 h-12"
               />
-              <Link
-                to={`/productpage/${prodid}`}
-                className="text-blue-800 mt-2"
-              >
-                {`Requested Product`}
-              </Link>
-            </p>
-            <span className="leading-3 text-xs mt-0">{product?.title}</span>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="w-full h-4/5 p-5 overflow-y-scroll custom-scrollbar">
-        {!loading ? (
-          messages.map((message) => {
-            if (message.id === JSON.parse(localStorage.getItem("user"))._id) {
-              const date = new Date(message.createdAt);
-              const hours = date.getHours();
-              const minutes = date.getMinutes();
-
-              let period = "AM";
-              let adjustedHours = hours;
-              if (hours >= 12) {
-                period = "PM";
-                if (hours > 12) {
-                  adjustedHours = hours - 12;
-                }
-              }
-
-              const formattedTime = `${adjustedHours}:${
-                minutes < 10 ? "0" : ""
-              }${minutes} ${period}`;
-
-              return (
-                <div className="w-full flex items-end justify-end">
-                  <div className="ml-auto relative mt-5">
-                    <div>
-                      {message.text.startsWith(
-                        "https://trojansquarechatimage.s3.amazonaws.com"
-                      ) ? (
-                        <div
-                          className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
-                          onClick={() => handleImageClick(message.text)}
-                        >
-                          <img
-                            src={message.text}
-                            alt=""
-                            className="rounded-md"
-                          />
-                        </div>
-                      ) : (
-                        <div className=" bg-[#F9CC65]/30 mt-3 z-0 p-1 rounded-l-full px-2 rounded-tr-full text-sm w-80">
-                          <p>{message.text}</p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="absolute right-0 flex gap-1 mt-1">
-                      <div>
-                        {message.status === "read" ? (
-                          <img
-                            src="/assets/doubletick.svg"
-                            alt="delivered"
-                            className="scale-125 mt-1"
-                          />
-                        ) : (
-                          <img
-                            src="/assets/singletick.svg"
-                            alt="delivered"
-                            className="scale-125 mt-1"
-                          />
-                        )}
-                      </div>
-                      <p className="text-[#DEDEDE] text-xs font-normal">
-                        {formattedTime}
-                      </p>
-                    </div>
+              <div>
+                <p className="capitalize">{userDetail.fullName}</p>
+                <span className="text-[#9C9797] text-xs flex align-middle">
+                  Active Now{" "}
+                  <div>
+                    {active ? (
+                      <img
+                        src="/assets/Ellipse 28.svg"
+                        alt=""
+                        className="mt-1"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
-                </div>
-              );
-            } else if (
-              message.to === JSON.parse(localStorage.getItem("user"))._id
-            ) {
-              const date = new Date(message.createdAt);
-              const hours = date.getHours();
-              const minutes = date.getMinutes();
+                </span>
+              </div>
+            </div>
+          </div>
+          <Link
+            className="bg-blue-900 rounded-md text-white w-24 h-8 flex align-middle justify-center py-0.5"
+            to="https://forms.gle/x4r2TUppFJePVzC78"
+            target="_blank"
+          >
+            report user
+          </Link>
+        </div>
+        <div className="flex w-full items-start bg-[#fbfbfb] mt-2">
+          {Object.keys(product).length ? (
+            <div className="flex align-middle justify-between w-full">
+              <p className="flex">
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                    product?.images[0]
+                  }`}
+                  alt=""
+                  className="h-full w-16"
+                />
+              </p>
+              <div className="flex flex-col h-full align-middle justify-between mt-4">
+                <span className="leading-3 text-base mt-0">
+                  {product?.title}
+                </span>
+                <span className="text-xs">{product?.description}</span>
+              </div>
+              <span className="pr-3">${product?.price}</span>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="w-full md:h-4/5 h-5/6   md:p-5 p-0 overflow-y-scroll custom-scrollbar">
+          {!loading ? (
+            messages.map((message) => {
+              if (message.id === JSON.parse(localStorage.getItem("user"))._id) {
+                const date = new Date(message.createdAt);
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
 
-              let period = "AM";
-              let adjustedHours = hours;
-              if (hours >= 12) {
-                period = "PM";
-                if (hours > 12) {
-                  adjustedHours = hours - 12;
+                let period = "AM";
+                let adjustedHours = hours;
+                if (hours >= 12) {
+                  period = "PM";
+                  if (hours > 12) {
+                    adjustedHours = hours - 12;
+                  }
                 }
-              }
 
-              const formattedTime = `${adjustedHours}:${
-                minutes < 10 ? "0" : ""
-              }${minutes} ${period}`;
-              return (
-                <div className="message__chats mt-3">
-                  <div className="flex gap-2">
-                    <img
-                      src={
-                        userDetail?.image
-                          ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
-                              userDetail.image
-                            }`
-                          : "/assets/preview.avif"
-                      }
-                      alt="avatar"
-                      className="rounded-full w-8 h-8"
-                    />
-                    <div className="flex flex-col">
+                const formattedTime = `${adjustedHours}:${
+                  minutes < 10 ? "0" : ""
+                }${minutes} ${period}`;
+
+                return (
+                  <div className="w-full flex items-end justify-end">
+                    <div className="ml-auto relative mt-5">
                       <div>
                         {message.text.startsWith(
                           "https://trojansquarechatimage.s3.amazonaws.com"
                         ) ? (
                           <div
+                            className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
                             onClick={() => handleImageClick(message.text)}
-                            className={`mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto cursor-pointer`}
                           >
                             <img
                               src={message.text}
@@ -326,27 +265,105 @@ const ChatBody = ({ socket }) => {
                             />
                           </div>
                         ) : (
-                          <div className=" bg-[#9C9797]/30 mt-3 p-1 rounded-r-full px-2 rounded-tl-full text-sm w-80">
+                          <div className="md:leading-3  leading-5 md:bg-black bg-transparent md:border-none text-black border border-gray-400 md:py-2 py-2 md:text-white mt-3 z-0 p-1  md:rounded-l-full px-6 pr-12 md:rounded-tr-full rounded-tr-2xl text-sm md:w-80 w-auto">
                             <p>{message.text}</p>
                           </div>
                         )}
                       </div>
-                      <div>
+                      <div className="absolute right-0 flex gap-1 mt-1">
+                        <div>
+                          {message.status === "read" ? (
+                            <img
+                              src="/assets/doubletick.svg"
+                              alt="delivered"
+                              className="scale-125 mt-1"
+                            />
+                          ) : (
+                            <img
+                              src="/assets/singletick.svg"
+                              alt="delivered"
+                              className="scale-125 mt-1"
+                            />
+                          )}
+                        </div>
                         <p className="text-[#DEDEDE] text-xs font-normal">
                           {formattedTime}
                         </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            }
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
+                );
+              } else if (
+                message.to === JSON.parse(localStorage.getItem("user"))._id
+              ) {
+                const date = new Date(message.createdAt);
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+
+                let period = "AM";
+                let adjustedHours = hours;
+                if (hours >= 12) {
+                  period = "PM";
+                  if (hours > 12) {
+                    adjustedHours = hours - 12;
+                  }
+                }
+
+                const formattedTime = `${adjustedHours}:${
+                  minutes < 10 ? "0" : ""
+                }${minutes} ${period}`;
+                return (
+                  <div className="message__chats mt-3">
+                    <div className="flex gap-2">
+                      <img
+                        src={
+                          userDetail?.image
+                            ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                                userDetail.image
+                              }`
+                            : "/assets/preview.avif"
+                        }
+                        alt="avatar"
+                        className="rounded-full w-8 h-8 md:block hidden"
+                      />
+                      <div className="flex flex-col">
+                        <div>
+                          {message.text.startsWith(
+                            "https://trojansquarechatimage.s3.amazonaws.com"
+                          ) ? (
+                            <div
+                              onClick={() => handleImageClick(message.text)}
+                              className={`mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto cursor-pointer`}
+                            >
+                              <img
+                                src={message.text}
+                                alt=""
+                                className="rounded-md"
+                              />
+                            </div>
+                          ) : (
+                            <div className="md:leading-3 leading-5 md:bg-[#9C9797]/30 bg-[#f9f9f9] mt-3 p-1 md:rounded-r-full rounded-r-xl md:px-2 px-2 md:py-2 py-4  md:rounded-tl-full rounded-tl-xl text-sm md:w-80 w-auto">
+                              <p>{message.text}</p>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-[#DEDEDE] text-xs font-normal">
+                            {formattedTime}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       </div>
-      <div className="w-full">
+      <div className="w-screen">
         <ChatFooter socket={socket} />
       </div>
     </div>

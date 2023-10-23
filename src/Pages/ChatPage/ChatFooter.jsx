@@ -66,7 +66,7 @@ const ChatFooter = ({ socket }) => {
   };
 
   return (
-    <div className="flex gap-3 align-middle border-t-2">
+    <div className="flex md:w-[59rem] w-96 gap-3 align-middle border-t-2 absolute md:bottom-2 bottom-16 md:pb-1 pb-12">
       {file ? (
         <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
           <div className="flex align-middle justify-between">
@@ -97,7 +97,7 @@ const ChatFooter = ({ socket }) => {
           </div>
         </form>
       ) : (
-        <div className="">
+        <div className="flex flex-row align-middle justify-between px-2">
           <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
             <div className="flex align-middle justify-between">
               <label
@@ -122,7 +122,7 @@ const ChatFooter = ({ socket }) => {
             </div>
           </form>
           <form
-            className="md:w-11/12 w-3/4 left-16 absolute bottom-5 flex align-middle justify-between mt-3"
+            className="md:w-[57rem] w-80 left-16 -bottom-16  flex align-middle justify-between"
             onSubmit={handleSubmit}
             enctype="multipart/form-data"
           >
@@ -134,7 +134,7 @@ const ChatFooter = ({ socket }) => {
               value={inputtext}
               onChange={handleChange}
             />
-            <button type="submit">
+            <button type="submit" className="ml-2 scale-150">
               <img src="/assets/send-icon.svg" />
             </button>
           </form>
