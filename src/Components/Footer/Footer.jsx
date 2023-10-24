@@ -18,8 +18,8 @@ const Footer = () => {
   }, []);
 
   return (
-    <div className={isMobile ? "hidden" : "block"}>
-      <footer className="md:relative absolute b-0 w-full md:h-52 h-16 lg:h-96 md:mt-0 mt-5">
+    <div className={isLogin && isMobile ? "hidden" : "block"}>
+      <footer className="md:relative absolute bottom-0 b-0 w-full md:h-52  lg:h-96 md:mt-0 mt-5">
         <img
           src="/assets/footer/Vector.svg"
           alt="vector"

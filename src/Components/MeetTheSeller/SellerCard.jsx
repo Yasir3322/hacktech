@@ -11,7 +11,9 @@ const SellerCard = (props) => {
     <div className="md:flex md:flex-row flex flex-col gap-10">
       <div>
         <div className="flex gap-3 align-middle items-center">
-          <h3 className="font-semibold text-base">Meet the seller</h3>
+          <h3 className="font-semibold text-base md:w-auto w-40">
+            Meet the seller
+          </h3>
           <p className="text-[#000000] font-normal text-xs">
             This Seller usually responds within 24 hours
           </p>

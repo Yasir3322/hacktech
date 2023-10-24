@@ -311,7 +311,7 @@ const ProductPage = ({ socket }) => {
   console.log(userReviews);
 
   return (
-    <div>
+    <div className="md:pb-0 pb-32">
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
           <div className="md:flex md:flex-row flex flex-col gap-3">
@@ -359,7 +359,11 @@ const ProductPage = ({ socket }) => {
                   ) : (
                     <button
                       className="border-2 border-[#B77EFF] rounded-md md:py-2 py-1 px-1 md:px-4 flex gap-3"
-                      onClick={() => handleLikedButton(id)}
+                      onClick={
+                        isLogin
+                          ? () => handleLikedButton(id)
+                          : () => showLoginPopup()
+                      }
                     >
                       <img
                         src="/assets/not-like.svg"

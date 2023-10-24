@@ -17,7 +17,7 @@ const MultiCarousel = () => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 7,
+      items: 6,
       partialVisibilityGutter: 60,
     },
     tablet: {
@@ -78,8 +78,8 @@ const MultiCarousel = () => {
                 onClick={() => handleCategoryClick(title)}
                 className={`${
                   selectedCatagory === title
-                    ? "flex align-middle justify-center cursor-pointer w-full items-center rounded-lg shadow-lg md:rounded-md md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500"
-                    : " cursor-pointer w-full flex align-middle justify-center items-center rounded-lg shadow-lg md:rounded-md  md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500/10"
+                    ? "flex align-middle justify-center   cursor-pointer items-center rounded-lg shadow-lg md:rounded-md md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500"
+                    : " cursor-pointer flex  align-middle justify-center items-center rounded-lg shadow-lg md:rounded-md  md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500/10"
                 }`}
               >
                 <div className="flex gap-1 md:scale-95 scale-125">
@@ -89,7 +89,9 @@ const MultiCarousel = () => {
                     alt="category"
                     className=""
                   />
-                  <p className="text-xs md:block hidden ">{title}</p>
+                  <p className="text-xs md:block hidden flex-nowrap ">
+                    {title}
+                  </p>
                 </div>
               </Link>
             </div>

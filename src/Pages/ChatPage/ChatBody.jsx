@@ -230,6 +230,7 @@ const ChatBody = ({ socket }) => {
           {!loading ? (
             messages.map((message) => {
               if (message.id === JSON.parse(localStorage.getItem("user"))._id) {
+                console.log(message.createdAt);
                 const date = new Date(message.createdAt);
                 const hours = date.getHours();
                 const minutes = date.getMinutes();
@@ -246,7 +247,7 @@ const ChatBody = ({ socket }) => {
                 const formattedTime = `${adjustedHours}:${
                   minutes < 10 ? "0" : ""
                 }${minutes} ${period}`;
-
+                console.log(formattedTime);
                 return (
                   <div className="w-full flex items-end justify-end">
                     <div className="ml-auto relative mt-5">
@@ -312,6 +313,7 @@ const ChatBody = ({ socket }) => {
                 const formattedTime = `${adjustedHours}:${
                   minutes < 10 ? "0" : ""
                 }${minutes} ${period}`;
+                console.log(formattedTime);
                 return (
                   <div className="message__chats mt-3">
                     <div className="flex gap-2">

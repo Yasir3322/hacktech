@@ -66,7 +66,7 @@ const ChatFooter = ({ socket }) => {
   };
 
   return (
-    <div className="flex md:w-[59rem] w-96 gap-3 align-middle border-t-2 absolute md:bottom-2 bottom-16 md:pb-1 pb-12">
+    <div className="flex md:w-[59rem] w-96 gap-3 z-50 align-middle border-t-2 absolute md:bottom-2 bottom-16 md:pb-1 pb-12">
       {file ? (
         <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
           <div className="flex align-middle justify-between">

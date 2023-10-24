@@ -9,8 +9,6 @@ import { toast } from "react-toastify";
 import ProductCard from "../../Components/UI/ProductCard";
 
 const LandingPage = () => {
-  const isMobile = window.innerWidth < 768;
-
   const {
     isLogin,
     setIsSoldPopupOpen,
@@ -26,7 +24,7 @@ const LandingPage = () => {
 
   const [trandingProd, setTrandingProd] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [allProducts, setAllProducts] = useState([]);
+  const [isMobile, setIsMobile] = useState();
   const [reserveProducts, setReserveProducts] = useState([]);
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
@@ -74,15 +72,6 @@ const LandingPage = () => {
     setAllProducts(res?.data?.allProducts);
     setReserveProducts(res?.data?.allProducts);
     console.log(allProducts);
-    // res.data.allProducts?.map((products) => {
-    //   products.products.map((product) => {
-    //     if (product.istranding) {
-    //       setTrandingProd((prev) => {
-    //         return [...prev, product];
-    //       });
-    //     }
-    //   });
-    // });
     setLoading(false);
   };
 
@@ -91,18 +80,29 @@ const LandingPage = () => {
   }, []);
 
   const getProducts = async () => {
+    setLoading(!loading);
     var res;
-    const id = JSON.parse(localStorage.getItem("user"))._id;
-    res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
-      {
-        headers: {
-          "ngrok-skip-browser-warning": true,
-          userid: id,
-        },
-      }
-    );
+    if (isLogin) {
+      const id = JSON.parse(localStorage.getItem("user"))._id;
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": true,
+            userid: id,
+          },
+        }
+      );
+    } else {
+      res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
+      );
+    }
+    console.log(res);
     setAllProducts(res?.data?.allProducts);
+    setReserveProducts(res?.data?.allProducts);
+    console.log(allProducts);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -122,19 +122,31 @@ const LandingPage = () => {
     setAllProducts(allSearchProducts);
   }, [allSearchProducts]);
 
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    checkScreenSize(); // Check the initial screen size
+    window.addEventListener("resize", checkScreenSize);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="md:pb-0 pb-20">
       <div>
         {!isLogin ? (
           <div className="relative">
             <div className="absolute md:left-44 md:top-8 left-5 top-3">
-              <h1 className="md:text-2xl text-xs font-bold text-white">
+              <h1 className="md:text-2xl text-xl md:w-auto w-40 md:ml-0 ml-4  font-bold text-white">
                 Sign up with your college campus!
               </h1>
             </div>
             <button
               onClick={() => showCreateAccountPopup()}
-              className="absolute md:w-28 text-sm md:h-12 w-16 h-8  rounded-full md:right-36 right-4 md:mr-16 bg-white text-[#B77EFF] md:bottom-5 bottom-2"
+              className="absolute md:w-28 text-xs md:h-12 w-16 h-5  rounded-full md:right-36 right-8 md:mr-16 bg-white text-[#B77EFF] md:bottom-5 bottom-2"
             >
               Sign up
             </button>
@@ -207,7 +219,7 @@ const LandingPage = () => {
                   }
                 })}
               </div> */}
-              <div className="mb-16">
+              <div className="mb-16 md:h-auto h-screen">
                 <ProductCatagories />
               </div>
             </div>
