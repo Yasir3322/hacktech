@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 const ChatFooter = ({ socket }) => {
   const [inputtext, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState("");
   const { id } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const prodid = searchParams.get("prodid");
+  console.log(prodid);
   const handleChange = (e) => {
     setInputText(e.target.value);
   };
@@ -20,13 +24,16 @@ const ChatFooter = ({ socket }) => {
         to: id,
         socketID: socket.id,
         status: "delivered",
+        productid: prodid,
       };
       setInputText("");
-      socket.emit("message", data);
-      await axios.post(
+      const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
         data
       );
+      const message = res.data.message;
+      console.log(message);
+      socket.emit("message", message);
     }
   };
 
@@ -66,7 +73,7 @@ const ChatFooter = ({ socket }) => {
   };
 
   return (
-    <div className="flex md:w-[59rem] w-96 gap-3 z-50 align-middle border-t-2 absolute md:bottom-2 bottom-16 md:pb-1 pb-12">
+    <div className="flex gap-3 z-50 align-middle border-t-2 w-full  md:pb-1 pb-12">
       {file ? (
         <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
           <div className="flex align-middle justify-between">
@@ -97,7 +104,7 @@ const ChatFooter = ({ socket }) => {
           </div>
         </form>
       ) : (
-        <div className="flex flex-row align-middle justify-between px-2">
+        <div className="flex flex-row align-middle w-full justify-between px-2">
           <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
             <div className="flex align-middle justify-between">
               <label
@@ -122,7 +129,7 @@ const ChatFooter = ({ socket }) => {
             </div>
           </form>
           <form
-            className="md:w-[57rem] w-80 left-16 -bottom-16  flex align-middle justify-between"
+            className="w-full left-16  flex align-middle justify-between"
             onSubmit={handleSubmit}
             enctype="multipart/form-data"
           >

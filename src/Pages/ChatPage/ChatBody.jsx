@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ChatFooter from "./ChatFooter";
 import axios from "axios";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { useQuery } from "@chakra-ui/react";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -15,11 +15,13 @@ const ChatBody = ({ socket }) => {
   const [messages, setMessages] = useState([]);
   const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(false);
-  const { setShow, allActiveUsers } = useGlobalCotext();
+  const { setShow, allActiveUsers, setAllActiveUsers } = useGlobalCotext();
   const [active, setActive] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [showModelImage, setShowModelImage] = useState("");
   const [product, setProduct] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(allActiveUsers);
@@ -31,6 +33,13 @@ const ChatBody = ({ socket }) => {
     }
     console.log(active);
   }, [id, socket]);
+
+  useEffect(() => {
+    console.log("called");
+    socket.on("newUserResponse", (data) => {
+      setAllActiveUsers(data);
+    });
+  }, [socket]);
 
   const getProductdetail = async () => {
     const res = await axios.get(
@@ -49,22 +58,15 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     getProductdetail();
-  }, []);
+  }, [prodid]);
 
   useEffect(() => {
     socket.on("messageResponse", (data) => {
+      // console.log({ data });
       setMessages((prevMessages) => [...prevMessages, data]); // Use the previous state to update messages
       socket.emit("messagesRead", data);
     });
   }, [socket]);
-
-  // useEffect(() => {
-  //   const usermess = messages.filter(
-  //     (message) => message.to === JSON.parse(localStorage.getItem("user"))._id
-  //   );
-  //   console.log(usermess);
-  //   socket.emit("messagesRead", usermess);
-  // }, []);
 
   const getUserdetail = async () => {
     const res = await axios.get(
@@ -85,8 +87,8 @@ const ChatBody = ({ socket }) => {
     const allmess = res.data.allMessages;
     const filterMessages = allmess.filter((message) => {
       return (
-        (message.id === localid && message.to === id) ||
-        (message.id === id && message.to === localid)
+        (message.id === localid && message.productid === prodid) ||
+        (message.productid === prodid && message.to === localid)
       );
     });
     setMessages(filterMessages);
@@ -95,7 +97,7 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     getUserMess();
-  }, [id, socket]);
+  }, [socket, prodid]);
 
   useEffect(() => {
     setLoading(true);
@@ -122,7 +124,7 @@ const ChatBody = ({ socket }) => {
   };
 
   useEffect(() => {
-    updateMessStatus();
+    // updateMessStatus();
   }, [socket, id]);
 
   const handleImageClick = (imgurl) => {
@@ -131,8 +133,21 @@ const ChatBody = ({ socket }) => {
     setShowModel(!showModel);
   };
 
+  const handleProdClick = () => {
+    navigate(`/productpage/${prodid}`);
+  };
+
   return (
     <div className=" w-full h-full md:border-l-2 ">
+      <div className="items-start w-full h-8">
+        <Link
+          to="/chat"
+          className="px-4 absolute  md:hidden block"
+          onClick={() => handleGoBackClick()}
+        >
+          Go back
+        </Link>
+      </div>
       <div className="p-5 h-[22rem]  relative">
         <div
           className={
@@ -156,13 +171,6 @@ const ChatBody = ({ socket }) => {
 
         <div className="flex align-middle justify-between gap-3">
           <div className="flex flex-col">
-            <Link
-              to="/chat"
-              className="px-4 absolute right-32 md:hidden block"
-              onClick={() => handleGoBackClick()}
-            >
-              Go back
-            </Link>
             <div className="flex gap-2">
               <img
                 src={
@@ -202,7 +210,10 @@ const ChatBody = ({ socket }) => {
             report user
           </Link>
         </div>
-        <div className="flex w-full items-start bg-[#fbfbfb] mt-2">
+        <div
+          className="flex w-full items-start bg-[#fbfbfb] mt-2 cursor-pointer "
+          onClick={() => handleProdClick()}
+        >
           {Object.keys(product).length ? (
             <div className="flex align-middle justify-between w-full">
               <p className="flex">
@@ -220,122 +231,48 @@ const ChatBody = ({ socket }) => {
                 </span>
                 <span className="text-xs">{product?.description}</span>
               </div>
-              <span className="pr-3">${product?.price}</span>
+              <span className="pr-3 mt-4">${product?.price}</span>
             </div>
           ) : (
             ""
           )}
         </div>
-        <div className="w-full md:h-4/5 h-5/6   md:p-5 p-0 overflow-y-scroll custom-scrollbar">
-          {!loading ? (
-            messages.map((message) => {
-              if (message.id === JSON.parse(localStorage.getItem("user"))._id) {
-                console.log(message.createdAt);
-                const date = new Date(message.createdAt);
-                const hours = date.getHours();
-                const minutes = date.getMinutes();
+        <div className="h-[16rem]">
+          <div className="w-full h-[13rem]  overflow-y-scroll custom-scrollbar">
+            {!loading ? (
+              messages.map((message) => {
+                if (
+                  message.id === JSON.parse(localStorage.getItem("user"))._id
+                ) {
+                  // console.log(message);
+                  // console.log(message.createdAt);
+                  const date = new Date(message.createdAt);
+                  const hours = date.getHours();
+                  const minutes = date.getMinutes();
 
-                let period = "AM";
-                let adjustedHours = hours;
-                if (hours >= 12) {
-                  period = "PM";
-                  if (hours > 12) {
-                    adjustedHours = hours - 12;
+                  let period = "AM";
+                  let adjustedHours = hours;
+                  if (hours >= 12) {
+                    period = "PM";
+                    if (hours > 12) {
+                      adjustedHours = hours - 12;
+                    }
                   }
-                }
 
-                const formattedTime = `${adjustedHours}:${
-                  minutes < 10 ? "0" : ""
-                }${minutes} ${period}`;
-                console.log(formattedTime);
-                return (
-                  <div className="w-full flex items-end justify-end">
-                    <div className="ml-auto relative mt-5">
-                      <div>
-                        {message.text.startsWith(
-                          "https://trojansquarechatimage.s3.amazonaws.com"
-                        ) ? (
-                          <div
-                            className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
-                            onClick={() => handleImageClick(message.text)}
-                          >
-                            <img
-                              src={message.text}
-                              alt=""
-                              className="rounded-md"
-                            />
-                          </div>
-                        ) : (
-                          <div className="md:leading-3  leading-5 md:bg-black bg-transparent md:border-none text-black border border-gray-400 md:py-2 py-2 md:text-white mt-3 z-0 p-1  md:rounded-l-full px-6 pr-12 md:rounded-tr-full rounded-tr-2xl text-sm md:w-80 w-auto">
-                            <p>{message.text}</p>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute right-0 flex gap-1 mt-1">
-                        <div>
-                          {message.status === "read" ? (
-                            <img
-                              src="/assets/doubletick.svg"
-                              alt="delivered"
-                              className="scale-125 mt-1"
-                            />
-                          ) : (
-                            <img
-                              src="/assets/singletick.svg"
-                              alt="delivered"
-                              className="scale-125 mt-1"
-                            />
-                          )}
-                        </div>
-                        <p className="text-[#DEDEDE] text-xs font-normal">
-                          {formattedTime}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              } else if (
-                message.to === JSON.parse(localStorage.getItem("user"))._id
-              ) {
-                const date = new Date(message.createdAt);
-                const hours = date.getHours();
-                const minutes = date.getMinutes();
-
-                let period = "AM";
-                let adjustedHours = hours;
-                if (hours >= 12) {
-                  period = "PM";
-                  if (hours > 12) {
-                    adjustedHours = hours - 12;
-                  }
-                }
-
-                const formattedTime = `${adjustedHours}:${
-                  minutes < 10 ? "0" : ""
-                }${minutes} ${period}`;
-                console.log(formattedTime);
-                return (
-                  <div className="message__chats mt-3">
-                    <div className="flex gap-2">
-                      <img
-                        src={
-                          userDetail?.image
-                            ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
-                                userDetail.image
-                              }`
-                            : "/assets/preview.avif"
-                        }
-                        alt="avatar"
-                        className="rounded-full w-8 h-8 md:block hidden"
-                      />
-                      <div className="flex flex-col">
+                  const formattedTime = `${adjustedHours}:${
+                    minutes < 10 ? "0" : ""
+                  }${minutes} ${period}`;
+                  console.log(formattedTime);
+                  return (
+                    <div className="w-full flex items-end justify-end">
+                      <div className="ml-auto relative mt-5">
                         <div>
                           {message.text.startsWith(
                             "https://trojansquarechatimage.s3.amazonaws.com"
                           ) ? (
                             <div
+                              className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
                               onClick={() => handleImageClick(message.text)}
-                              className={`mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto cursor-pointer`}
                             >
                               <img
                                 src={message.text}
@@ -344,29 +281,108 @@ const ChatBody = ({ socket }) => {
                               />
                             </div>
                           ) : (
-                            <div className="md:leading-3 leading-5 md:bg-[#9C9797]/30 bg-[#f9f9f9] mt-3 p-1 md:rounded-r-full rounded-r-xl md:px-2 px-2 md:py-2 py-4  md:rounded-tl-full rounded-tl-xl text-sm md:w-80 w-auto">
+                            <div className="md:leading-3  leading-5 md:bg-black bg-transparent md:border-none text-black border border-gray-400 md:py-2 py-2 md:text-white mt-3 z-0 p-1  md:rounded-l-full px-6 pr-12 md:rounded-tr-full rounded-tr-2xl text-sm md:w-80 w-auto">
                               <p>{message.text}</p>
                             </div>
                           )}
                         </div>
-                        <div>
+                        <div className="absolute right-0 flex gap-1 mt-1">
+                          <div>
+                            {message.status === "read" ? (
+                              <img
+                                src="/assets/doubletick.svg"
+                                alt="delivered"
+                                className="scale-125 mt-1"
+                              />
+                            ) : (
+                              <img
+                                src="/assets/singletick.svg"
+                                alt="delivered"
+                                className="scale-125 mt-1"
+                              />
+                            )}
+                          </div>
                           <p className="text-[#DEDEDE] text-xs font-normal">
                             {formattedTime}
                           </p>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              }
-            })
-          ) : (
-            <div>Loading...</div>
-          )}
+                  );
+                } else if (
+                  message.to === JSON.parse(localStorage.getItem("user"))._id
+                ) {
+                  const date = new Date(message.createdAt);
+                  const hours = date.getHours();
+                  const minutes = date.getMinutes();
+
+                  let period = "AM";
+                  let adjustedHours = hours;
+                  if (hours >= 12) {
+                    period = "PM";
+                    if (hours > 12) {
+                      adjustedHours = hours - 12;
+                    }
+                  }
+
+                  const formattedTime = `${adjustedHours}:${
+                    minutes < 10 ? "0" : ""
+                  }${minutes} ${period}`;
+                  console.log(formattedTime);
+                  return (
+                    <div className="message__chats mt-3">
+                      <div className="flex gap-2">
+                        <img
+                          src={
+                            userDetail?.image
+                              ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${
+                                  userDetail.image
+                                }`
+                              : "/assets/preview.avif"
+                          }
+                          alt="avatar"
+                          className="rounded-full w-8 h-8 md:block hidden"
+                        />
+                        <div className="flex flex-col">
+                          <div>
+                            {message.text.startsWith(
+                              "https://trojansquarechatimage.s3.amazonaws.com"
+                            ) ? (
+                              <div
+                                onClick={() => handleImageClick(message.text)}
+                                className={`mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto cursor-pointer`}
+                              >
+                                <img
+                                  src={message.text}
+                                  alt=""
+                                  className="rounded-md"
+                                />
+                              </div>
+                            ) : (
+                              <div className="md:leading-3 leading-5 md:bg-[#9C9797]/30 bg-[#f9f9f9] mt-3 p-1 md:rounded-r-full rounded-r-xl md:px-2 px-2 md:py-2 py-4  md:rounded-tl-full rounded-tl-xl text-sm md:w-80 w-auto">
+                                <p>{message.text}</p>
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-[#DEDEDE] text-xs font-normal">
+                              {formattedTime}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })
+            ) : (
+              <div>Loading...</div>
+            )}
+          </div>
+          <div className="w-full">
+            <ChatFooter socket={socket} />
+          </div>
         </div>
-      </div>
-      <div className="w-screen">
-        <ChatFooter socket={socket} />
       </div>
     </div>
   );

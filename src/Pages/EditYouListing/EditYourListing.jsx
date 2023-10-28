@@ -187,7 +187,7 @@ const EditYourListing = () => {
   };
 
   return (
-    <div className="w-full md:mb-0 mb-8">
+    <div className="w-full md:mb-0 pb-40">
       <div className="w-11/12 m-auto pt-12">
         <div>
           <h1 className="font-semibold md:text-5xl text-4xl">

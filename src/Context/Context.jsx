@@ -65,15 +65,15 @@ export const AppProvider = ({ children }) => {
   };
 
   const showNotiDropdown = () => {
-    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+    setIsNotificationDropdownOpen((prevState) => !prevState);
   };
 
   const showProfileDropdown = () => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    setIsProfileDropdownOpen((prevState) => !prevState);
   };
 
   const hideNotiDropdown = () => {
-    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+    setIsNotificationDropdownOpen((prevState) => !prevState);
   };
 
   return (

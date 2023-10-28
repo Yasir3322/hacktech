@@ -51,8 +51,8 @@ const Header = ({ user, socket }) => {
 
   const handleNotificationbutton = () => {
     console.log("called");
-    console.log(isNotificationDropdownOpen);
-    hideNotiDropdown();
+    console.log({ isNotificationDropdownOpen });
+    showNotiDropdown();
   };
 
   const handleProfileDropdownButton = () => {

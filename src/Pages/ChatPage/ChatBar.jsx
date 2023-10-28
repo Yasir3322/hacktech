@@ -5,16 +5,15 @@ import { useGlobalCotext } from "../../Context/Context";
 
 const ChatBar = ({ socket }) => {
   const [peoples, setPeople] = useState([]);
-  const { show, setShow, allActiveUsers, setAllActiveUsers } =
-    useGlobalCotext();
+  const [messages, setMessages] = useState([]);
+  const { show, setShow, setAllActiveUsers } = useGlobalCotext();
 
   useEffect(() => {
     console.log("called");
     socket.on("newUserResponse", (data) => {
-      console.log(data);
       setAllActiveUsers(data);
     });
-  }, []);
+  }, [socket]);
 
   const getChatWithUser = async () => {
     const userid = JSON.parse(localStorage.getItem("user"))._id;
@@ -24,7 +23,14 @@ const ChatBar = ({ socket }) => {
     console.log(res.data);
     res.data.chatusers.map((user) => {
       setPeople((prev) => {
-        return [...prev, { ...user.chatuser[0], prodid: user.prodreqid }];
+        return [
+          ...prev,
+          {
+            ...user?.chatuser[0],
+            prodid: user?.prodreqid,
+            lastmess: user?.prodmess?.text,
+          },
+        ];
       });
     });
   };
@@ -33,7 +39,7 @@ const ChatBar = ({ socket }) => {
 
   useEffect(() => {
     getChatWithUser();
-  }, []);
+  }, [socket]);
 
   const handleChatClick = (id) => {
     setShow(!show);
@@ -94,7 +100,7 @@ const ChatBar = ({ socket }) => {
         <h4 className="text-lg">Chat</h4>
         <div className="flex w-full flex-col gap-3 mt-4">
           {peoples.map((people) => {
-            const { image, fullName, _id, prodid } = people;
+            const { image, fullName, _id, prodid, lastmess } = people;
             const userimage = `${
               image
                 ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
@@ -113,7 +119,9 @@ const ChatBar = ({ socket }) => {
                 />
                 <div>
                   <h4>{fullName}</h4>
-                  <span className="text-[#9C9797] text-xs">{`Hi ${fullName} Hope youre doing...`}</span>
+                  <span className="text-[#9C9797] text-xs normal-case">
+                    {lastmess}
+                  </span>
                 </div>
               </Link>
             );

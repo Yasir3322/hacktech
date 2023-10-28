@@ -15,7 +15,7 @@ const ProfileDropDown = () => {
   ];
   const dropDownRef = useRef();
 
-  const { useLogin, isProfileDropdownOpen, setIsProfileDropdownOpen } =
+  const { useLogin, isProfileDropdownOpen, showProfileDropdown } =
     useGlobalCotext();
   const navigate = useNavigate();
   const handleDropdownLink = (url) => {
@@ -35,14 +35,14 @@ const ProfileDropDown = () => {
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-        setIsProfileDropdownOpen(!isProfileDropdownOpen);
+        showProfileDropdown();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropDownRef, setIsProfileDropdownOpen]);
+  }, [dropDownRef]);
 
   return (
     <div>

@@ -143,7 +143,7 @@ export const LikedPage = () => {
         <div className="py-10 m-auto w-3/4">
           <img src="/assets/Line 18.svg" />
         </div>
-        <div className="w-3/4 m-auto   md:grid md:grid-cols-4 flex flex-wrap gap-7 align-middle justify-between mt-4">
+        <div className="w-3/4 m-auto  md:grid md:grid-cols-4 flex flex-wrap gap-7 align-middle justify-between mt-4 pb-32">
           {likedProducts?.map((item) => {
             const {
               images,
@@ -153,7 +153,7 @@ export const LikedPage = () => {
               description,
               _id,
               favourite,
-            } = item.products[0];
+            } = item?.products[0];
             const image = images[0];
             const { isliked } = item;
             const upload_time = formatRelativeTime(createdAt);

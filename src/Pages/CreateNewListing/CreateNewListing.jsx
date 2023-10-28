@@ -147,9 +147,10 @@ const CreateNewListing = () => {
                   name="catagory"
                   value={formData.catagory}
                   onChange={handleChange2}
-                  placeholder="EX: Menswear, Vehicles , Jewelry, etc."
                 >
-                  <option selected>EX:Menswear, Vehicles, Jewelry, etc.</option>
+                  <option value="" disabled selected>
+                    EX:Menswear, Vehicles, Jewelry, etc.
+                  </option>
                   {allCatagories.map((catagory) => {
                     return (
                       <option value={catagory.title} className="capitalize">

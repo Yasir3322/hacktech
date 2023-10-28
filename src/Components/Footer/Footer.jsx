@@ -19,21 +19,21 @@ const Footer = () => {
 
   return (
     <div className={isLogin && isMobile ? "hidden" : "block"}>
-      <footer className="md:relative absolute bottom-0 b-0 w-full md:h-52  lg:h-96 md:mt-0 mt-5">
+      <footer className="md:relative absolute bottom-0 b-0 w-full md:h-40  md:mt-0 mt-5">
         <img
           src="/assets/footer/Vector.svg"
           alt="vector"
-          className="z-10 absolute bottom-0 xl:h-[15rem]  2xl:h-[25rem] md:h-48 h-20"
+          className="z-10 absolute bottom-0 xl:h-[15rem]  2xl:h-[20rem] md:h-48 h-20"
         />
         <img
           src="/assets/footer/Vector (1).svg"
           alt="vector_1"
-          className="z-0 absolute bottom-0 xl:h-[11rem] 2xl:h-[23rem] 2xl:left-28 md:h-44 left-5 h-14"
+          className="z-0 absolute bottom-0 xl:h-[11rem] 2xl:h-[16rem] 2xl:left-28 md:h-44 left-5 h-14"
         />
         <img
           src="/assets/footer/Vector (2).svg"
           alt="vector_1"
-          className="z-10 right-0 absolute xl:h-[15rem] bottom-0 2xl:h-[25rem] md:h-48 h-20"
+          className="z-10 right-0 absolute xl:h-[15rem] bottom-0 2xl:h-[20rem] md:h-48 h-20"
         />
         <div className="absolute bottom-6 md:left-4 left-0 text-white md:text-xl text-xs z-10">
           <div className="flex">

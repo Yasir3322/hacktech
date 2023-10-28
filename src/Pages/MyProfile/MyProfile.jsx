@@ -85,7 +85,7 @@ const MyProfile = () => {
   }, [id]);
 
   return (
-    <div className="md:pb-0 pb-80">
+    <div className="md:mb-0 pb-80">
       <UserDetail
         image={userimage}
         setProfileImage={setProfileImage}

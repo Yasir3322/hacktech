@@ -21,6 +21,7 @@ const NotiDropDown = ({ items }) => {
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        console.log("Clicked Outside");
         hideNotiDropdown();
       }
     }

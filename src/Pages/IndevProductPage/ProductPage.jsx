@@ -43,6 +43,7 @@ const ProductPage = ({ socket }) => {
   const [totalProductLiked, setTotalProductLiked] = useState();
 
   const { isLogin, showLoginPopup } = useGlobalCotext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
   const getProduct = async () => {
@@ -77,7 +78,7 @@ const ProductPage = ({ socket }) => {
 
   useEffect(() => {
     getProduct();
-  }, [id, product]);
+  }, [id]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -254,6 +255,7 @@ const ProductPage = ({ socket }) => {
   };
 
   const handleSendReq = async (value, productid, to, name, socketid) => {
+    setIsLoading(!isLoading);
     const token = localStorage.getItem("hacktechtoken");
     const data = {
       buyercomment: value,
@@ -276,12 +278,21 @@ const ProductPage = ({ socket }) => {
       socketID: socket.id,
       text: value,
       status: "delivered",
+      productid: productid,
     };
+
+    console.log(messagto);
 
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
-      messagto
+      messagto,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": true,
+        },
+      }
     );
+    setIsLoading(!isLoading);
 
     setProductReqStatus(res.status);
   };
@@ -431,7 +442,7 @@ const ProductPage = ({ socket }) => {
                           //         : () => showLoginPopup()
                           //     }
                           //   >
-                          //     I Want this!
+                          //     Chat With
                           //   </button>
                           // </div>
                           <button
@@ -442,7 +453,7 @@ const ProductPage = ({ socket }) => {
                                 : () => showLoginPopup()
                             }
                           >
-                            I Want this!
+                            Chat With
                           </button>
                         ) : (
                           <div>
@@ -489,7 +500,7 @@ const ProductPage = ({ socket }) => {
                               className="bg-[#DB3B39] text-white w-full mt-4 rounded-sm p-1"
                               onClick={() => handleSendReq(textareaValue, id)}
                             >
-                              Chat now
+                              {!isLoading ? "Send" : "Loading..."}
                             </button>
                           </div>
                         )}

@@ -17,6 +17,8 @@ import ProfileDropDown from "./Components/UI/ProfileDropDown";
 import { AiOutlineHome } from "react-icons/ai";
 
 function App({ socket }) {
+  const navigate = useNavigate();
+
   const {
     isLogin,
     isNotificationDropdownOpen,
@@ -118,6 +120,17 @@ function App({ socket }) {
     getAllCatagories();
   }, []);
 
+  const handleChatClick = (e) => {
+    e.preventDefault();
+    const id = JSON.parse(localStorage.getItem("user"))._id;
+    socket.emit("newuser", {
+      userid: id,
+      socketId: socket.id,
+    });
+
+    navigate("/chat");
+  };
+
   return (
     <>
       <div className="w-full">
@@ -147,35 +160,35 @@ function App({ socket }) {
               <ProfileDropDown />
               <Header user={isLogin} socket={socket} />
               <Navbar />
-              <div>
-                <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
-                  <Link to="/">
-                    <img src="/assets/mobile-footer/home.svg" alt="" />
-                  </Link>
-                  <Link to="/createnewlisting">
-                    <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
-                  </Link>
-                  <Link to="/likedproduct">
-                    <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
-                  </Link>
-                  <Link to="/chat">
-                    <img src="/assets/mobile-footer/Group 80.svg" alt="" />
-                  </Link>
-                  {/* <Link to="/cart">
-                    <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
-                  </Link> */}
-                </div>
-              </div>
             </section>
             <div
               id="detail"
               className={`${
                 location.pathname === "/chat" || "/chat/:id"
                   ? "w-full"
-                  : "w-11/12 m-auto"
+                  : "w-11/12 m-auto pb-12"
               }`}
             >
               <Outlet />
+            </div>
+            <div>
+              <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
+                <Link to="/">
+                  <img src="/assets/mobile-footer/home.svg" alt="" />
+                </Link>
+                <Link to="/createnewlisting">
+                  <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
+                </Link>
+                <Link to="/likedproduct">
+                  <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
+                </Link>
+                <button onClick={handleChatClick}>
+                  <img src="/assets/mobile-footer/Group 80.svg" alt="" />
+                </button>
+                {/* <Link to="/cart">
+                    <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
+                  </Link> */}
+              </div>
             </div>
             {location.pathname.includes("/chat") ? "" : <Footer />}
           </>
