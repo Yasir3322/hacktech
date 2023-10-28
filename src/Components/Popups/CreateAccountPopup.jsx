@@ -227,8 +227,9 @@ const CreateAccountPopup = ({ socket }) => {
               checked={formData.privacypolicy}
               onChange={handleChange}
               required
+              id="checkbox"
             />
-            <label className="text-xs">
+            <label className="text-xs cursor-pointer" htmlFor="checkbox">
               I agree to the trojansquare Terms of Service and Privacy Policy
             </label>
           </div>

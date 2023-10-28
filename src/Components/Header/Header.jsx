@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { IoIosArrowDown } from "react-icons/io";
@@ -8,6 +8,7 @@ const Header = ({ user, socket }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showListingbtn, setShowListingbtn] = useState(false);
   const navigate = useNavigate();
+  const dropDownRef = useRef();
 
   const {
     useLogin,
@@ -27,6 +28,19 @@ const Header = ({ user, socket }) => {
     setAllProducts,
     hideNotiDropdown,
   } = useGlobalCotext();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        console.log("Clicked Outside");
+        hideNotiDropdown();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropDownRef]);
 
   if (isLogin) {
     var localstorageprofile = localStorage.getItem("profile").replace(/"/g, "");
@@ -249,7 +263,10 @@ const Header = ({ user, socket }) => {
                       className="md:w-6 mt-1 md:h-6 w-8 h-8"
                     />
                   </button>
-                  <button onClick={() => handleNotificationbutton()}>
+                  <button
+                    onClick={() => handleNotificationbutton()}
+                    ref={dropDownRef}
+                  >
                     <img
                       src="/assets/Vectorheader2.svg"
                       alt="vectorheader"

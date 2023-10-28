@@ -73,7 +73,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const hideNotiDropdown = () => {
-    setIsNotificationDropdownOpen((prevState) => !prevState);
+    setIsNotificationDropdownOpen(false);
   };
 
   return (

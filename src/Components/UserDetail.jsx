@@ -18,6 +18,7 @@ const UserDetail = (props) => {
       formdata,
       {
         headers: {
+          "ngrok-skip-browser-warning": true,
           token: token,
         },
       }

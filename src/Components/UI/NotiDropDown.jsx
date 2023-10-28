@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 
 const NotiDropDown = ({ items }) => {
-  const dropDownRef = useRef();
-
   const { useLogin, hideNotiDropdown, isNotificationDropdownOpen } =
     useGlobalCotext();
   const navigate = useNavigate();
@@ -18,26 +16,10 @@ const NotiDropDown = ({ items }) => {
     }
   };
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-        console.log("Clicked Outside");
-        hideNotiDropdown();
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropDownRef]);
-
   return (
     <div>
       {isNotificationDropdownOpen ? (
-        <div
-          className="absolute z-20 flex flex-col bg-white right-6 top-16 w-52 md:mt-0 mt-9"
-          ref={dropDownRef}
-        >
+        <div className="absolute z-20 flex flex-col bg-white right-6 top-16 w-52 md:mt-0 mt-9">
           {items.map((item) => (
             <button
               key={item.url}
