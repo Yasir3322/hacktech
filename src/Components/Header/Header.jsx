@@ -165,9 +165,8 @@ const Header = ({ user, socket }) => {
               <div className="relative w-full h-10 flex flex-col">
                 <div className="flex gap-3 absolute right-14 align-middle">
                   <button
-                    onClick={() =>
-                      setIsNotificationDropdownOpen(!isNotificationDropdownOpen)
-                    }
+                    onClick={() => handleNotificationbutton()}
+                    ref={dropDownRef}
                   >
                     <img
                       src="/assets/Vectorheader2.svg"

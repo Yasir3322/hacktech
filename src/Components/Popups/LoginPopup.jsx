@@ -185,9 +185,10 @@ const LoginPopup = ({ socket }) => {
               checked={formData.privacyPolicy}
               onChange={handleChange}
               required
-              id="checkbox"
+              id="boxcheck"
+              className="cursor-pointer"
             />
-            <label className="text-xs cursor-pointer" htmlFor="checkbox">
+            <label className="text-xs cursor-pointer" htmlFor="boxcheck">
               I agree to the trojansquare Terms of Service and Privacy Policy
             </label>
           </div>
