@@ -155,7 +155,7 @@ function App({ socket }) {
           <>
             <section className="shadow-md md:pb-4 mb-9">
               <ToastContainer />
-              <SoldtowhoPopup />
+              {/* <SoldtowhoPopup /> */}
               <NotiDropDown items={notifi_dropdown_props} />
               <ProfileDropDown />
               <Header user={isLogin} socket={socket} />
@@ -172,7 +172,7 @@ function App({ socket }) {
               <Outlet />
             </div>
             <div>
-              {location.pathname.includes("/chat") ? (
+              {location.pathname.includes("/chat/") ? (
                 ""
               ) : (
                 <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">

@@ -21,7 +21,7 @@ const SoldtowhoPopup = (props) => {
     console.log(res.data);
     res.data.chatusers.map((user) => {
       setUsers((prev) => {
-        return [...prev, user.chatuser[0]];
+        return [...prev, user?.chatuser[0]];
       });
     });
   };
@@ -39,7 +39,7 @@ const SoldtowhoPopup = (props) => {
   };
 
   const handleRatingSubmit = async () => {
-    console.log(prodIdForSoldTo);
+    // console.log(prodIdForSoldTo);
     const { _id } = selectedUser;
     const id = JSON.parse(localStorage.getItem("user"))._id;
 
