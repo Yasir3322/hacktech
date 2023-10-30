@@ -2,11 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
+import Pusher from "pusher-js";
 
 const ChatBar = ({ socket }) => {
   const [peoples, setPeople] = useState([]);
   const [messages, setMessages] = useState([]);
   const { show, setShow, setAllActiveUsers } = useGlobalCotext();
+
+  const pusher = new Pusher("1904b460da23661d8163", {
+    cluster: "ap2",
+  });
+
+  const channel = pusher.subscribe("hacktech");
 
   useEffect(() => {
     console.log("called");
@@ -20,26 +27,25 @@ const ChatBar = ({ socket }) => {
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/getchatusers/${userid}`
     );
-    console.log(res.data);
-    res.data.chatusers.map((user) => {
-      setPeople((prev) => {
-        return [
-          ...prev,
-          {
-            ...user?.chatuser[0],
-            prodid: user?.prodreqid,
-            lastmess: user?.prodmess?.text,
-          },
-        ];
-      });
+    let users = res.data.chatusers.map((user) => {
+      return {
+        ...user?.chatuser[0],
+        prodid: user?.prodreqid,
+        lastmess: user?.prodmess?.text,
+      };
     });
+    setPeople(users);
   };
 
   console.log(peoples);
 
   useEffect(() => {
     getChatWithUser();
-  }, [socket]);
+  }, []);
+
+  channel.bind("new-message", function (data) {
+    getChatWithUser();
+  });
 
   const handleChatClick = (id) => {
     setShow(!show);
@@ -131,7 +137,9 @@ const ChatBar = ({ socket }) => {
       <div
         id="detail"
         className={
-          show ? "md:w-3/4 w-full md:block" : "md:w-3/4 w-full md:block hidden"
+          show
+            ? "md:w-3/4 w-full md:block overflow-hidden"
+            : "md:w-3/4 w-full md:block hidden"
         }
       >
         <Outlet />

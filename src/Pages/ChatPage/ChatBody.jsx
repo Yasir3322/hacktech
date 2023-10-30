@@ -138,7 +138,7 @@ const ChatBody = ({ socket }) => {
   };
 
   return (
-    <div className=" w-full h-full md:border-l-2 ">
+    <div className=" w-full h-full md:border-l-2">
       <div className="items-start w-full h-8">
         <Link
           to="/chat"
@@ -238,7 +238,7 @@ const ChatBody = ({ socket }) => {
           )}
         </div>
         <div className="h-[16rem]">
-          <div className="w-full h-[13rem]  overflow-y-scroll custom-scrollbar">
+          <div className="w-full md:h-[13rem] h-[11rem]  overflow-y-scroll custom-scrollbar">
             {!loading ? (
               messages.map((message) => {
                 if (

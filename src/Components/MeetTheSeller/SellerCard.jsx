@@ -28,7 +28,7 @@ const SellerCard = (props) => {
             ) : (
               <img src="/assets/preview.avif" width={60} height={60} />
             )}
-            <Link className="bg-[#ECEDF1] p-2" to={`/myprofile/${_id}`}>
+            <Link className="bg-[#ECEDF1] md:p-2 p-1" to={`/myprofile/${_id}`}>
               View Profile
             </Link>
           </div>
