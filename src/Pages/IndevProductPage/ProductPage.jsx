@@ -318,7 +318,7 @@ const ProductPage = ({ socket }) => {
   return (
     <div className="md:mb-44 mb-32 xl:mb-[20rem] 2xl:mb-[20rem]">
       {Object.keys(product).length ? (
-        <div className="w-4/5 m-auto">
+        <div className="w-4/5 m-auto md:pb-0 pb-32">
           <div className="md:flex md:flex-row flex flex-col gap-3">
             <div className="md:w-auto w-12 ml-3 mt-7 md:flex md:flex-col flex flex-row gap-3 justify-between md:h-96">
               {images.map((image) => {
