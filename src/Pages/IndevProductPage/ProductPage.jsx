@@ -78,7 +78,7 @@ const ProductPage = ({ socket }) => {
 
   useEffect(() => {
     getProduct();
-  }, [id]);
+  }, [id, product]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -316,7 +316,7 @@ const ProductPage = ({ socket }) => {
   };
 
   return (
-    <div className="md:mb-44 mb-32">
+    <div className="md:mb-44 mb-32 xl:mb-[20rem] 2xl:mb-[20rem]">
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
           <div className="md:flex md:flex-row flex flex-col gap-3">
