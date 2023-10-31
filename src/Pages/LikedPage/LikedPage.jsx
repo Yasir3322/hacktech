@@ -135,7 +135,7 @@ export const LikedPage = () => {
   }
 
   return (
-    <div>
+    <div className="md:mb-44 mb-32">
       <div>
         <h1 className="md:ml-40 ml-12 md:text-4xl text-xl font-semibold mt-5">
           your liked items

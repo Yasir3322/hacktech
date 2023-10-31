@@ -27,6 +27,7 @@ const Header = ({ user, socket }) => {
     setIsProfileDropdownOpen,
     setAllProducts,
     hideNotiDropdown,
+    setSelectedCatagory,
   } = useGlobalCotext();
 
   useEffect(() => {
@@ -137,11 +138,16 @@ const Header = ({ user, socket }) => {
     navigate("/");
   };
 
+  const handleLogo = () => {
+    setSelectedCatagory("all");
+    navigate("/");
+  };
+
   return (
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
         <div className="flex align-middle justify-between">
-          <Link className="flex md:ml-0 ml-4 mt-1.5" to="/">
+          <button className="flex md:ml-0 ml-4 mt-1.5" onClick={handleLogo}>
             <img
               src={
                 isMobile
@@ -151,7 +157,7 @@ const Header = ({ user, socket }) => {
               alt="uniswap"
               className="md:w-48 w-8 h-8 scale-150"
             />
-          </Link>
+          </button>
           <button
             className={!isLogin ? "md:hidden block mr-3" : "hidden"}
             onClick={() => setIsShowMobileIcon(!isShowMobileIcon)}
@@ -211,7 +217,10 @@ const Header = ({ user, socket }) => {
           )}
         </div>
         <div className="md:w-full md:pl-8 md:mr-24 md:ml-4 md:mt-0 mt-4 md:px-0 px-5">
-          <form className={showListingbtn ? "hidden" : "block "}>
+          <form
+            className={showListingbtn ? "hidden" : "block "}
+            onSubmit={(e) => e.preventDefault()}
+          >
             <label className="relative block">
               <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
                 <svg

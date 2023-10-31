@@ -98,8 +98,6 @@ const ProductPage = ({ socket }) => {
     setTotalReview(totallength);
   };
 
-  console.log(userDetail);
-
   useEffect(() => {
     getUserDetail();
   }, []);
@@ -281,8 +279,6 @@ const ProductPage = ({ socket }) => {
       productid: productid,
     };
 
-    console.log(messagto);
-
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
       messagto,
@@ -319,10 +315,8 @@ const ProductPage = ({ socket }) => {
     setTextareaValue(e.target.value);
   };
 
-  console.log(userReviews);
-
   return (
-    <div className="md:pb-0 pb-32">
+    <div className="md:mb-44 mb-32">
       {Object.keys(product).length ? (
         <div className="w-4/5 m-auto">
           <div className="md:flex md:flex-row flex flex-col gap-3">
