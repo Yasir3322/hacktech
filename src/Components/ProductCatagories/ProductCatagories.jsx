@@ -50,7 +50,8 @@ const ProductCatagories = (props) => {
         }
       })}
       <div>
-        {trandingProd.length === 0 && allProducts[0].products.length === 0 ? (
+        {trandingProd?.length === 0 &&
+        allProducts[0]?.products?.length === 0 ? (
           <div>No product to show</div>
         ) : (
           ""
