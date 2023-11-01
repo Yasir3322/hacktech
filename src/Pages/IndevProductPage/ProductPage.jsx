@@ -68,17 +68,15 @@ const ProductPage = ({ socket }) => {
         }
       );
     }
-    console.log(res);
     setTotalProductLiked(res?.data?.product[0].totalliked);
     const instock = res?.data?.product[0].instock;
-    // console.log(instock);
     setProductInStock(instock);
     setProduct(res?.data?.product[0]);
   };
 
   useEffect(() => {
     getProduct();
-  }, [id, product]);
+  }, [id]);
 
   const getUserDetail = async () => {
     const res = await axios.get(
@@ -90,9 +88,7 @@ const ProductPage = ({ socket }) => {
       (sum, review) => sum + review.rating,
       0
     );
-    // console.log(totalrating);
     const totallength = res.data.userProductDetail[0].reviews.length;
-    // console.log(totallength);
     const avgrating = totalrating / totallength;
     setUserAvgRating(avgrating);
     setTotalReview(totallength);
@@ -118,8 +114,6 @@ const ProductPage = ({ socket }) => {
   useEffect(() => {
     getUserListing();
   }, []);
-
-  // console.log(product);
 
   function formatRelativeTime(timestamp) {
     const now = new Date();
@@ -173,10 +167,12 @@ const ProductPage = ({ socket }) => {
           },
         }
       );
-      console.log(res);
       if (res.status === 200) {
         setProduct((prev) => {
-          return { ...prev, favourite: [res.data.favourite] };
+          return {
+            ...prev,
+            favourite: [res.data.favourite],
+          };
         });
         toast.success("Added to Your Liked Items", {
           position: "top-right",
@@ -189,9 +185,10 @@ const ProductPage = ({ socket }) => {
           theme: "light",
         });
       }
-      await axios.patch(
+      const res2 = await axios.patch(
         `${import.meta.env.VITE_BACKEND_URL}/api/product/updatelikedvalue/${id}`
       );
+      setTotalProductLiked(res2?.data?.product.totalliked);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -208,7 +205,7 @@ const ProductPage = ({ socket }) => {
     );
     if (res.status === 200) {
       setProduct((prev) => {
-        return { ...prev, favourite: [] };
+        return { ...prev, favourite: [], totalliked: prev.totalliked - 1 };
       });
       toast.success("Removed successfully", {
         position: "top-right",
@@ -221,9 +218,10 @@ const ProductPage = ({ socket }) => {
         theme: "light",
       });
     }
-    await axios.patch(
+    const res2 = await axios.patch(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/decreaselikedvalue/${id}`
     );
+    setTotalProductLiked(res2?.data?.product.totalliked);
   };
 
   const handleAddToCart = async (id) => {
@@ -294,7 +292,6 @@ const ProductPage = ({ socket }) => {
   };
 
   const handleShareClick = () => {
-    console.log("called");
     const url = window.location.href;
     window.navigator.clipboard.writeText(url);
     if (url) {
@@ -509,7 +506,7 @@ const ProductPage = ({ socket }) => {
                       <div className="flex  flex-col">
                         <p>Condition</p>
                         <p>Brand</p>
-                        <p>Catagory</p>
+                        <p>Category</p>
                         <p>Tags</p>
                       </div>
                       <div className="flex  flex-col">

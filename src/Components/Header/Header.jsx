@@ -222,7 +222,7 @@ const Header = ({ user, socket }) => {
             onSubmit={(e) => e.preventDefault()}
           >
             <label className="relative block">
-              <span class="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
+              <span className="absolute inset-y-0 left-1.5 top-2 pl-1 flex items-center bg-[#DB3B39] rounded-full w-7 h-7">
                 <svg
                   className="h-5 w-5 fill-white "
                   xmlns="http://www.w3.org/2000/svg"

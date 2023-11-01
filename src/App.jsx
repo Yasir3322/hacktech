@@ -21,15 +21,11 @@ function App({ socket }) {
 
   const {
     isLogin,
-    isNotificationDropdownOpen,
-    isProfileDropdownOpen,
     useLogin,
-    allCatagories,
     setAllCatagories,
-    setAllProducts,
     notifi_dropdown_props,
     setNotifi_dropdown_props,
-    isShowMobileIcon,
+    setSelectedCatagory,
   } = useGlobalCotext();
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
@@ -131,6 +127,11 @@ function App({ socket }) {
     navigate("/chat");
   };
 
+  const handleMobileHomeClick = () => {
+    setSelectedCatagory("all");
+    navigat("/");
+  };
+
   return (
     <>
       <div className="w-full">
@@ -176,9 +177,9 @@ function App({ socket }) {
                 ""
               ) : (
                 <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
-                  <Link to="/">
+                  <button onClick={handleMobileHomeClick}>
                     <img src="/assets/mobile-footer/home.svg" alt="" />
-                  </Link>
+                  </button>
                   <Link to="/createnewlisting">
                     <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
                   </Link>

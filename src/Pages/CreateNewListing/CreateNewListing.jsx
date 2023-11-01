@@ -80,22 +80,22 @@ const CreateNewListing = () => {
     formdata.append("condition", formData.condition);
 
     for (const image of imagefiles) {
-      if (image.type !== "image/png") {
-        toast.info("only Png is allowed", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setLoading(false);
-        return;
-      } else {
-        formdata.append("images", image);
-      }
+      // if (image.type !== "image/png") {
+      //   toast.info("only Png is allowed", {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      //   setLoading(false);
+      //   return;
+      // } else {
+      formdata.append("images", image);
+      // }
     }
 
     const token = localStorage.getItem("hacktechtoken");
@@ -114,7 +114,7 @@ const CreateNewListing = () => {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full 2xl:mb-32">
       <div className="w-11/12 m-auto pt-12 bg-[#f7e7e7] p-9 mt-4 pb-52">
         <div>
           <h1 className="font-semibold md:text-5xl text-3xl">
@@ -231,8 +231,12 @@ const CreateNewListing = () => {
                     name="isOnline"
                     checked={formData.isOnline}
                     onChange={handleChange2}
+                    id="onlineprodbox"
+                    className="cursor-pointer"
                   />
-                  <label>Is this an online product ?</label>
+                  <label htmlFor="onlineprodbox" className="cursor-pointer">
+                    Is this an online product ?
+                  </label>
                 </div>
               </div>
               <div class="md:flex md:flex-row flex flex-col items-center">

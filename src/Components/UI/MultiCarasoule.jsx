@@ -45,14 +45,12 @@ const MultiCarasoule = (props) => {
     }
   }
 
-  console.log("MultiCarasoule");
-
   return (
     <div className="relative">
       <div className="mt-3">
         <Carousel
           ssr
-          partialVisbile
+          partialVisible
           className=""
           containerClass="z-10"
           // deviceType={deviceType}
@@ -80,7 +78,7 @@ const MultiCarasoule = (props) => {
             const upload_time = formatRelativeTime(createdAt);
 
             return (
-              <div className="ml-3">
+              <div className="ml-3" key={_id}>
                 <ProductCard
                   image={image}
                   upload_time={upload_time}

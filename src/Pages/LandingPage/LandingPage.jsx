@@ -36,7 +36,6 @@ const LandingPage = () => {
     });
     const channel = pusher.subscribe("hacktech");
     channel.bind("update-productreq", function (data) {
-      console.log(data);
       const { buyerid } = data;
       const id = JSON.parse(localStorage.getItem("user"))._id;
       if (id === buyerid) {
@@ -68,10 +67,8 @@ const LandingPage = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
       );
     }
-    console.log(res);
     setAllProducts(res?.data?.allProducts);
     setReserveProducts(res?.data?.allProducts);
-    console.log(allProducts);
     setLoading(false);
   };
 
@@ -98,22 +95,18 @@ const LandingPage = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts`
       );
     }
-    console.log(res);
     setAllProducts(res?.data?.allProducts);
     setReserveProducts(res?.data?.allProducts);
-    console.log(allProducts);
     setLoading(false);
   };
 
   useEffect(() => {
-    console.log(selectedCatagory);
     if (selectedCatagory === "all") {
       getProducts();
     } else {
       const filterCatagory = reserveProducts.filter(
         (products) => products.title === selectedCatagory
       );
-      console.log(filterCatagory);
       setAllProducts(filterCatagory);
     }
   }, [selectedCatagory]);
@@ -135,7 +128,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="md:pb-0 pb-20">
+    <div className="">
       <div>
         {!isLogin ? (
           <div className="relative">
@@ -219,7 +212,7 @@ const LandingPage = () => {
                   }
                 })}
               </div> */}
-              <div className="mb-16 md:h-auto h-screen">
+              <div className="md:h-auto h-screen">
                 <ProductCatagories />
               </div>
             </div>

@@ -145,7 +145,9 @@ const connectWithPusher = () => {
 
 connectWithPusher();
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
   <ThemeProvider>
     <ChakraProvider>
       <AppProvider>

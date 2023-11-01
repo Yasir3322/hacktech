@@ -10,7 +10,6 @@ const ProductCatagories = (props) => {
   useEffect(() => {
     const temptrendProd = [];
     allProducts?.map((products) => {
-      console.log(products);
       products.products.map((product) => {
         if (product.istranding) {
           temptrendProd.push(product);
@@ -20,10 +19,8 @@ const ProductCatagories = (props) => {
     setTrandingProd(temptrendProd);
   }, [allProducts]);
 
-  console.log(trandingProd);
-  console.log(allProducts);
   return (
-    <div>
+    <div className="pb-28">
       {trandingProd.length > 0 && selectedCatagory === "all" ? (
         <div>
           <h4 className="md:text-2xl text-lg font-semibold text-black capitalize">
@@ -40,7 +37,7 @@ const ProductCatagories = (props) => {
       {allProducts.map((categories) => {
         if (categories.products.length > 0) {
           return (
-            <div>
+            <div key={categories._id}>
               <h4 className="md:text-2xl text-lg font-semibold text-black capitalize">
                 {categories.title}
               </h4>
@@ -53,7 +50,11 @@ const ProductCatagories = (props) => {
         }
       })}
       <div>
-        {trandingProd.length === 0 ? <div>No product to show</div> : ""}
+        {trandingProd.length === 0 && allProducts[0].products.length === 0 ? (
+          <div>No product to show</div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
