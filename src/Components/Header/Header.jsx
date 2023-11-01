@@ -170,6 +170,14 @@ const Header = ({ user, socket }) => {
             <div>
               <div className="relative w-full h-10 flex flex-col">
                 <div className="flex gap-3 absolute right-14 align-middle">
+                  <button className="md:w-28 w-full h-8 mt-2 rounded-full border  bg-[#DB3B39] text-white">
+                    <Link
+                      to="https://forms.gle/JafxWi2F7hqp9kfRA"
+                      target="_black"
+                    >
+                      Give Feedback
+                    </Link>
+                  </button>
                   <button
                     onClick={() => handleNotificationbutton()}
                     ref={dropDownRef}
@@ -216,7 +224,7 @@ const Header = ({ user, socket }) => {
             ""
           )}
         </div>
-        <div className="md:w-full md:pl-8 md:mr-24 md:ml-4 md:mt-0 mt-4 md:px-0 px-5">
+        <div className="md:w-full md:pl-8 md:mr-14 md:ml-4 md:mt-0 mt-4 md:px-0 px-5">
           <form
             className={showListingbtn ? "hidden" : "block "}
             onSubmit={(e) => e.preventDefault()}
@@ -247,12 +255,19 @@ const Header = ({ user, socket }) => {
       <div className="mt-3">
         {user ? (
           <div className="md:flex hidden md:flex-row  gap-8 align-middle justify-around">
-            <button
-              className="md:w-28 w-full h-10 rounded-full border  bg-[#DB3B39] text-white"
-              onClick={() => navigate("/createnewlisting")}
-            >
-              Sell an item
-            </button>
+            <div className="flex gap-3">
+              <button className="md:w-32 w-full h-10 rounded-full border  bg-[#DB3B39] text-white">
+                <Link to="https://forms.gle/JafxWi2F7hqp9kfRA" target="_black">
+                  Give Feedback
+                </Link>
+              </button>
+              <button
+                className="md:w-28 w-full h-10 rounded-full border  bg-[#DB3B39] text-white"
+                onClick={() => navigate("/createnewlisting")}
+              >
+                Sell an item
+              </button>
+            </div>
             <div className="flex align-middle justify-between gap-4">
               <div className="flex gap-3">
                 <img src="/assets/Line 20.svg" alt="line" />

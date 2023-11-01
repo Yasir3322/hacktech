@@ -235,7 +235,7 @@ const CreateNewListing = () => {
                     className="cursor-pointer"
                   />
                   <label htmlFor="onlineprodbox" className="cursor-pointer">
-                    Is this an online product ?
+                    this item can be sold online
                   </label>
                 </div>
               </div>

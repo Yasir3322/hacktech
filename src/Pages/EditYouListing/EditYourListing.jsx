@@ -134,9 +134,7 @@ const EditYourListing = () => {
         },
       }
     );
-    console.log(res);
     const { product } = res.data;
-    console.log(product);
     setFormData(product[0]);
 
     // setFormData({
@@ -299,12 +297,15 @@ const EditYourListing = () => {
                 <div className="flex gap-2 w-72 py-4 border-t border-b bg-white mt-4 border-black">
                   <input
                     type="checkbox"
-                    name=""
-                    id=""
+                    name="isOnline"
+                    id="editcheckbox"
                     checked={formData.isOnline}
                     onChange={handleChange2}
+                    className="cursor-pointer"
                   />
-                  <label>Is this an online product ?</label>
+                  <label htmlFor="editcheckbox" className="cursor-pointer">
+                    this item can be sold online
+                  </label>
                 </div>
               </div>
               <div class="flex flex-col">
