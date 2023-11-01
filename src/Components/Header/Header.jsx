@@ -256,7 +256,7 @@ const Header = ({ user, socket }) => {
         {user ? (
           <div className="md:flex hidden md:flex-row  gap-8 align-middle justify-around">
             <div className="flex gap-3">
-              <button className="md:w-32 w-full h-10 rounded-full border  bg-[#DB3B39] text-white">
+              <button className="md:w-32 w-full h-10 rounded-full border bg-gray-100 text-black">
                 <Link to="https://forms.gle/JafxWi2F7hqp9kfRA" target="_black">
                   Give Feedback
                 </Link>

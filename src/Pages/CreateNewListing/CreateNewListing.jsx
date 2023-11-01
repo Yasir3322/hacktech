@@ -80,22 +80,7 @@ const CreateNewListing = () => {
     formdata.append("condition", formData.condition);
 
     for (const image of imagefiles) {
-      // if (image.type !== "image/png") {
-      //   toast.info("only Png is allowed", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      //   });
-      //   setLoading(false);
-      //   return;
-      // } else {
       formdata.append("images", image);
-      // }
     }
 
     const token = localStorage.getItem("hacktechtoken");
@@ -246,7 +231,6 @@ const CreateNewListing = () => {
                     fileList={fileList}
                     onPreview={handlePreview}
                     onChange={handleChange}
-                    beforeUpload={() => false}
                   >
                     {fileList.length >= 5 ? null : (
                       <div>
