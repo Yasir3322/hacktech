@@ -156,7 +156,7 @@ function App({ socket }) {
           <>
             <section className="shadow-md md:pb-4 mb-9">
               <ToastContainer />
-              {/* <SoldtowhoPopup /> */}
+              <SoldtowhoPopup />
               <NotiDropDown items={notifi_dropdown_props} />
               <ProfileDropDown />
               <Header user={isLogin} socket={socket} />
