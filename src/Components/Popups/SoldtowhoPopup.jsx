@@ -39,7 +39,8 @@ const SoldtowhoPopup = (props) => {
   };
 
   const handleRatingSubmit = async () => {
-    // console.log(prodIdForSoldTo);
+    e.preventDefault();
+    console.log(prodIdForSoldTo);
     const { _id } = selectedUser;
     const id = JSON.parse(localStorage.getItem("user"))._id;
 
@@ -74,7 +75,6 @@ const SoldtowhoPopup = (props) => {
       `${import.meta.env.VITE_BACKEND_URL}/api/review/createreview`,
       dataobj
     );
-
     // Reset the rating and comment fields if needed
     setUserRating(0);
     setComment("");

@@ -61,11 +61,13 @@ const ChatFooter = ({ socket }) => {
         status: "delivered",
       };
       setInputText("");
-      socket.emit("message", data);
-      await axios.post(
+      const res2 = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
         data
       );
+      const message = res2.data.message;
+      socket.emit("message", message);
+      console.log(res2);
     }
     setIsLoading(false);
     setFile("");
@@ -75,7 +77,11 @@ const ChatFooter = ({ socket }) => {
   return (
     <div className="flex gap-3 z-50 align-middle border-t-2 w-full  ">
       {file ? (
-        <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
+        <form
+          onSubmit={handleFormSubmit}
+          enctype="multipart/form-data"
+          className="w-full"
+        >
           <div className="flex align-middle justify-between">
             <label for="fileInput" className="file-input-label cursor-pointer">
               <img
@@ -87,18 +93,18 @@ const ChatFooter = ({ socket }) => {
             <input
               type="file"
               id="fileInput"
-              className="file-input hidden"
+              className="w-full file-input hidden"
               accept="image/*"
               onChange={(e) => handleFileChange(e.target.files)}
             />
-            <div>
+            <div className="w-full">
               {isLoading && file ? (
                 <p className="mt-2 ml-8">Sending Wait...</p>
               ) : (
                 <p className="mt-2 ml-8">Sent</p>
               )}
             </div>
-            <button type="submit" className="ml-96">
+            <button type="submit" className="scale-150">
               <img src="/assets/send-icon.svg" />
             </button>
           </div>
@@ -120,7 +126,7 @@ const ChatFooter = ({ socket }) => {
               <input
                 type="file"
                 id="fileInput"
-                className="file-input hidden"
+                className="w-full file-input hidden"
                 onChange={(e) => handleFileChange(e.target.files)}
               />
               <button type="submit" className={file ? "block" : "hidden"}>

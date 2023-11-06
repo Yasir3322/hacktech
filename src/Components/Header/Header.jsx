@@ -15,7 +15,6 @@ const Header = ({ user, socket }) => {
     showCreateAccountPopup,
     showLoginPopup,
     showNotiDropdown,
-    showProfileDropdown,
     isLogin,
     setSearchProduct,
     setAllSearchProducts,

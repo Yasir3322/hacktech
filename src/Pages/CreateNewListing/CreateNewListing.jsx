@@ -8,7 +8,7 @@ import { useGlobalCotext } from "../../Context/Context";
 import { toast } from "react-toastify";
 
 const CreateNewListing = () => {
-  const { allCatagories } = useGlobalCotext();
+  const { allCatagories, progress, setProgress } = useGlobalCotext();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -64,11 +64,13 @@ const CreateNewListing = () => {
 
   const handleFormSubmit = async (e) => {
     setLoading(!loading);
+    setProgress(progress + 50);
     e.preventDefault();
     const hashtag = formData.hashtags.split(",");
     const imagefiles = fileList.map((file) => {
       return file.originFileObj;
     });
+    setProgress(progress + 30);
     const formdata = new FormData();
     formdata.append("title", formData.title);
     formdata.append("description", formData.description);
@@ -78,11 +80,11 @@ const CreateNewListing = () => {
     formdata.append("catagory", formData.catagory);
     formdata.append("isOnline", formData.isOnline);
     formdata.append("condition", formData.condition);
-
+    setProgress(progress + 20);
     for (const image of imagefiles) {
       formdata.append("images", image);
+      setProgress(progress + 10);
     }
-
     const token = localStorage.getItem("hacktechtoken");
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/product/createproduct`,
@@ -95,6 +97,7 @@ const CreateNewListing = () => {
         },
       }
     );
+    setProgress(progress + 100);
     setLoading(false);
   };
 
@@ -179,7 +182,7 @@ const CreateNewListing = () => {
                     value={formData.condition}
                     onChange={handleChange2}
                   >
-                    <option selected>Category</option>
+                    <option selected>Condition</option>
                     <option value="Brand New">Brand New</option>
                     <option value="Old">Old</option>
                   </select>

@@ -27,6 +27,7 @@ export const AppProvider = ({ children }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [trandingProd, setTrandingProd] = useState([]);
   const [likedProducts, setLikedProducts] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -125,6 +126,8 @@ export const AppProvider = ({ children }) => {
         setTrandingProd,
         likedProducts,
         setLikedProducts,
+        progress,
+        setProgress,
       }}
     >
       {children}

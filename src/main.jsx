@@ -27,7 +27,7 @@ import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
 import RatingSold from "./Components/UI/RatingSold.jsx";
 import ResetPassword from "./Pages/PasswordRest/RestPassword.jsx";
 
-const socket = socketIO.connect("https://trojansquare.com");
+const socket = socketIO.connect("http://localhost:8000");
 
 // const { setNotifi_dropdown_props } = useGlobalCotext();
 

@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import NotiDropDown from "./Components/UI/NotiDropDown";
 import ProfileDropDown from "./Components/UI/ProfileDropDown";
 import { AiOutlineHome } from "react-icons/ai";
+import LoadingBar from "react-top-loading-bar";
 
 function App({ socket }) {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ function App({ socket }) {
     notifi_dropdown_props,
     setNotifi_dropdown_props,
     setSelectedCatagory,
+    progress,
+    setProgress,
   } = useGlobalCotext();
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
@@ -155,6 +158,12 @@ function App({ socket }) {
         ) : (
           <>
             <section className="shadow-md md:pb-4 mb-9">
+              <LoadingBar
+                color="#db3b39"
+                progress={progress}
+                height={4}
+                onLoaderFinished={() => setProgress(0)}
+              />
               <ToastContainer />
               <SoldtowhoPopup />
               <NotiDropDown items={notifi_dropdown_props} />
