@@ -212,7 +212,7 @@ const LandingPage = () => {
                   }
                 })}
               </div> */}
-              <div className="md:h-auto h-screen">
+              <div className="md:h-auto">
                 <ProductCatagories />
               </div>
             </div>
