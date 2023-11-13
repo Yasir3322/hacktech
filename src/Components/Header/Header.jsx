@@ -45,11 +45,10 @@ const Header = ({ user, socket }) => {
   if (isLogin) {
     var localstorageprofile = localStorage.getItem("profile").replace(/"/g, "");
 
-    var profile = `${
-      localstorageprofile !== "null"
-        ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
-        : "/assets/preview.avif"
-    }`;
+    var profile = `${localstorageprofile !== "null"
+      ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
+      : "/assets/preview.avif"
+      }`;
   }
 
   const handleSignup = () => {
@@ -88,8 +87,7 @@ const Header = ({ user, socket }) => {
   const handleSearchChange = async (e) => {
     if (e.target.value.length > 0) {
       const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts?title=${
-          e.target.value
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/allproducts?title=${e.target.value
         }`
       );
       console.log(res);
@@ -146,7 +144,7 @@ const Header = ({ user, socket }) => {
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
         <div className="flex align-middle justify-between">
-          <button className="flex md:ml-0 ml-4 mt-1.5" onClick={handleLogo}>
+          <button className="flex md:ml-0 ml-4 mt-1.5" onClick={() => handleLogo()}>
             <img
               src={
                 isMobile
@@ -200,9 +198,8 @@ const Header = ({ user, socket }) => {
                 {showListingbtn ? (
                   <div className=" flex flex-col gap-3 px-4">
                     <Link
-                      to={`/myprofile/${
-                        JSON.parse(localStorage.getItem("user"))._id
-                      }`}
+                      to={`/myprofile/${JSON.parse(localStorage.getItem("user"))._id
+                        }`}
                       className="border border-black p-2 w-full rounded-lg flex align-middle justify-center"
                     >
                       My Listing
@@ -309,9 +306,8 @@ const Header = ({ user, socket }) => {
               </div>
               <div className="flex gap-3 align-middle justify-center">
                 <Link
-                  to={`myprofile/${
-                    JSON.parse(localStorage.getItem("user"))._id
-                  }`}
+                  to={`myprofile/${JSON.parse(localStorage.getItem("user"))._id
+                    }`}
                 >
                   <img
                     src={`${profile}`}

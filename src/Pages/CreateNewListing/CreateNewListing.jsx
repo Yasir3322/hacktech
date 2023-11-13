@@ -184,7 +184,7 @@ const CreateNewListing = () => {
                   >
                     <option selected>Condition</option>
                     <option value="Brand New">Brand New</option>
-                    <option value="Old">Old</option>
+                    <option value="Old">Used</option>
                   </select>
                   <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#215AFF]">
                     <IoIosArrowUp />
