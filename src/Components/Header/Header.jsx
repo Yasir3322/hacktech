@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 import { IoIosArrowDown } from "react-icons/io";
 import axios from "axios";
@@ -8,6 +8,7 @@ const Header = ({ user, socket }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [showListingbtn, setShowListingbtn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation()
   const dropDownRef = useRef();
 
   const {
@@ -220,7 +221,7 @@ const Header = ({ user, socket }) => {
             ""
           )}
         </div>
-        <div className="md:w-full md:pl-8 md:mr-14 md:ml-4 md:mt-0 mt-4 md:px-0 px-5">
+        <div className={location.pathname.includes('/chat') && isMobile ? "hidden" : "md:w-full md:pl-8 md:mr-14 md:ml-4 md:mt-0 mt-4 md:px-0 px-5"}>
           <form
             className={showListingbtn ? "hidden" : "block "}
             onSubmit={(e) => e.preventDefault()}

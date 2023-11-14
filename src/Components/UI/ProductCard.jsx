@@ -75,8 +75,7 @@ const ProductCard = (props) => {
           });
         }
         await axios.patch(
-          `${
-            import.meta.env.VITE_BACKEND_URL
+          `${import.meta.env.VITE_BACKEND_URL
           }/api/product/updatelikedvalue/${id}`
         );
       } catch (error) {
@@ -105,8 +104,7 @@ const ProductCard = (props) => {
         });
       }
       await axios.patch(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/product/decreaselikedvalue/${id}`
       );
       setLikeFlag(0);
@@ -174,7 +172,7 @@ const ProductCard = (props) => {
   };
 
   return (
-    <article style={{ width: "fit-content ", marginBottom: "10px" }}>
+    <article style={{ width: "fit-content ", marginBottom: "10px", height: "fit-content" }}>
       <div className="relative">
         {isLogin && props?.favourite[0]?.isliked ? (
           <button
@@ -206,15 +204,17 @@ const ProductCard = (props) => {
           className="cursor-pointer"
           onClick={() => handleProductClick(props.id)}
         >
-          <img
-            src={
-              props.image
-                ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`
-                : "/assets/no-photo2.jpg"
-            }
-            alt="no-image"
-            className="md:w-52  w-full md:h-52 rounded-2xl md:object-cover"
-          />
+          <div>
+            <img
+              src={
+                props.image
+                  ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${props.image}`
+                  : "/assets/no-photo2.jpg"
+              }
+              alt="no-image"
+              className="md:w-52  w-full md:h-52 h-36 rounded-2xl md:object-cover"
+            />
+          </div>
           <div>
             <span className="text-xs text-[#737373] font-normal">
               {props.upload_time}

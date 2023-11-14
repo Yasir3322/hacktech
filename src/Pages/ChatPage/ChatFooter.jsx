@@ -51,20 +51,24 @@ const ChatFooter = ({ socket }) => {
       "http://localhost:8000/api/aws/upload",
       formdata
     );
+    console.log({ res });
     if (res.status === 200) {
       const data = {
         text: res.data.Location,
         name: JSON.parse(localStorage.getItem("user")).fullName,
         id: JSON.parse(localStorage.getItem("user"))._id,
         to: id,
+        productid: prodid,
         socketID: socket.id,
         status: "delivered",
       };
+      console.log({ data });
       setInputText("");
       const res2 = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/message/newmessage`,
         data
       );
+      console.log({ res })
       const message = res2.data.message;
       socket.emit("message", message);
       console.log(res2);

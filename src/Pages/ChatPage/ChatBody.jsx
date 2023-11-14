@@ -57,9 +57,9 @@ const ChatBody = ({ socket }) => {
 
   console.log(product);
 
-  useEffect(() => {
-    getProductdetail();
-  }, [prodid]);
+  // useEffect(() => {
+  //   getProductdetail();
+  // }, [prodid]);
 
   useEffect(() => {
     socket.on("messageResponse", (data) => {
@@ -87,7 +87,9 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     getUserdetail();
-  }, [id]);
+    getUserMess();
+    getProductdetail();
+  }, [id, socket, prodid]);
 
   const getUserMess = async () => {
     const res = await axios.get(
@@ -113,9 +115,9 @@ const ChatBody = ({ socket }) => {
     }, 100)
   };
 
-  useEffect(() => {
-    getUserMess();
-  }, [socket, prodid]);
+  // useEffect(() => {
+  //   getUserMess();
+  // }, [socket, prodid]);
 
   useEffect(() => {
     setLoading(true);
@@ -155,6 +157,8 @@ const ChatBody = ({ socket }) => {
     navigate(`/productpage/${prodid}`);
   };
 
+  console.log({ messages })
+
   return (
     <div className=" w-full h-full md:border-l-2">
       <div className="items-start w-full h-8">
@@ -166,11 +170,11 @@ const ChatBody = ({ socket }) => {
           Go back
         </Link>
       </div>
-      <div className="p-5 h-[22rem]  relative">
+      <div className="p-5 md:h-[34rem] h-[38rem]  relative">
         <div
           className={
             showModel
-              ? "absolute w-3/4 h-80 shadow-xl border-1 z-5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              ? "absolute w-3/4 h-80 shadow-xl border-1 z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               : "hidden"
           }
         >
@@ -189,7 +193,7 @@ const ChatBody = ({ socket }) => {
 
         <div className="flex align-middle justify-between gap-3">
           <div className="flex flex-col">
-            <div className="flex gap-2">
+            <Link className="flex gap-2" to={`/myprofile/${userDetail._id}`}>
               <img
                 src={
                   userDetail?.image
@@ -217,7 +221,7 @@ const ChatBody = ({ socket }) => {
                   </div>
                 </span>
               </div>
-            </div>
+            </Link>
           </div>
           <Link
             className="bg-blue-900 rounded-md text-white w-24 h-8 flex align-middle justify-center py-0.5"
@@ -254,14 +258,14 @@ const ChatBody = ({ socket }) => {
           )}
         </div>
         <div className="h-[16rem]">
-          <div className="w-full md:h-[13rem] h-[11rem]  overflow-y-scroll custom-scrollbar " >
+          <div className="w-full md:h-[20rem] h-[21rem]  overflow-y-scroll custom-scrollbar " >
             <div>
               {!loading ? (
                 messages.map((message) => {
                   if (
                     message.id === JSON.parse(localStorage.getItem("user"))._id
                   ) {
-                    // console.log(message);
+                    console.log({ message })
                     // console.log(message.createdAt);
                     const date = new Date(message.createdAt);
                     const hours = date.getHours();
@@ -287,7 +291,7 @@ const ChatBody = ({ socket }) => {
                               "https://trojansquarechatimage.s3.amazonaws.com"
                             ) ? (
                               <div
-                                className="mt-3 p-1 rounded-l-full px-2 rounded-md text-sm w-80 h-auto"
+                                className="mt-3 p-1 rounded-l-full px-2 cursor-pointer rounded-md text-sm w-80 h-auto"
                                 onClick={() => handleImageClick(message.text)}
                               >
                                 <img
@@ -298,7 +302,6 @@ const ChatBody = ({ socket }) => {
                               </div>
                             ) : (
                               <div>
-
                                 <div className="md:leading-3  leading-5 md:bg-black bg-transparent md:border-none text-black border border-gray-400 md:py-2 py-2 md:text-white mt-3 z-0 p-1  md:rounded-l-full px-6 pr-12 md:rounded-tr-full rounded-tr-2xl text-sm md:w-80 w-auto">
                                   <p>{message.text}</p>
                                 </div>

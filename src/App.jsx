@@ -78,8 +78,7 @@ function App({ socket }) {
   const userNotification = async () => {
     const id = JSON.parse(localStorage.getItem("user"))._id;
     const res = await axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URL
+      `${import.meta.env.VITE_BACKEND_URL
       }/api/notification/allnotification/${id}`
     );
     if (res.data.allnotification.length === 0) {
@@ -157,7 +156,7 @@ function App({ socket }) {
           </>
         ) : (
           <>
-            <section className="shadow-md md:pb-4 mb-9">
+            <section className="shadow-md md:pb-2 mb-8">
               <LoadingBar
                 color="#db3b39"
                 progress={progress}
@@ -173,36 +172,31 @@ function App({ socket }) {
             </section>
             <div
               id="detail"
-              className={`${
-                location.pathname === "/chat" || "/chat/:id"
-                  ? "w-full"
-                  : "w-11/12 m-auto pb-12"
-              }`}
+              className={`${location.pathname === "/chat" || "/chat/:id"
+                ? "w-full"
+                : "w-11/12 m-auto pb-12"
+                }`}
             >
               <Outlet />
             </div>
             <div>
-              {location.pathname.includes("/chat/") ? (
-                ""
-              ) : (
-                <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
-                  <button onClick={handleMobileHomeClick}>
-                    <img src="/assets/mobile-footer/home.svg" alt="" />
-                  </button>
-                  <Link to="/createnewlisting">
-                    <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
-                  </Link>
-                  <Link to="/likedproduct">
-                    <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
-                  </Link>
-                  <button onClick={handleChatClick}>
-                    <img src="/assets/mobile-footer/Group 80.svg" alt="" />
-                  </button>
-                  {/* <Link to="/cart">
+              <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
+                <button onClick={handleMobileHomeClick}>
+                  <img src="/assets/mobile-footer/home.svg" alt="" />
+                </button>
+                <Link to="/createnewlisting">
+                  <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
+                </Link>
+                <Link to="/likedproduct">
+                  <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
+                </Link>
+                <button onClick={handleChatClick}>
+                  <img src="/assets/mobile-footer/Group 80.svg" alt="" />
+                </button>
+                {/* <Link to="/cart">
                     <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
                   </Link> */}
-                </div>
-              )}
+              </div>
             </div>
             {location.pathname.includes("/chat") ? "" : <Footer />}
           </>

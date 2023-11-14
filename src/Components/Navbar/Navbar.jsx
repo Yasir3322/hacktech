@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useGlobalCotext } from "../../Context/Context";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CustomLeftArrow, CustomRightArrow } from "./CustomArrow"; // Import custom arrow components if available
 
 const MultiCarousel = () => {
+
+  const location = useLocation();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768); // Adjust the width as needed for your mobile breakpoint
+  };
+
+  useEffect(() => {
+    checkScreenSize(); // Check the initial screen size
+    window.addEventListener("resize", checkScreenSize);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize); // Clean up the event listener
+    };
+  }, []);
+
   const { allCatagories, setSelectedCatagory, selectedCatagory } =
     useGlobalCotext();
 
@@ -46,7 +63,7 @@ const MultiCarousel = () => {
   };
 
   return (
-    <div className="relative mt-3 w-11/12 m-auto md:pb-0 pb-3">
+    <div className={location.pathname.includes('/chat') && isMobile ? "hidden" : "relative mt-3 w-11/12 m-auto md:pb-0 pb-3"}>
       <Carousel
         ssr
         partialVisbile
@@ -60,13 +77,13 @@ const MultiCarousel = () => {
         customLeftArrow={
           <CustomLeftArrow
             style={customArrowStyles}
-            // className="md:block hidden"
+          // className="md:block hidden"
           />
         }
         customRightArrow={
           <CustomRightArrow
             style={customArrowStyles}
-            // className="md:block hidden"
+          // className="md:block hidden"
           />
         }
       >
@@ -76,11 +93,10 @@ const MultiCarousel = () => {
             <div key={title} className="px-0.5">
               <Link
                 onClick={() => handleCategoryClick(title)}
-                className={`${
-                  selectedCatagory === title
-                    ? "flex align-middle justify-center   cursor-pointer items-center rounded-lg shadow-lg md:rounded-md md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500"
-                    : " cursor-pointer flex  align-middle justify-center items-center rounded-lg shadow-lg md:rounded-md  md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500/10"
-                }`}
+                className={`${selectedCatagory === title
+                  ? "flex align-middle justify-center   cursor-pointer items-center rounded-lg shadow-lg md:rounded-md md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500"
+                  : " cursor-pointer flex  align-middle justify-center items-center rounded-lg shadow-lg md:rounded-md  md:px-2 md:py-3 text-sm border p-3 font-medium ring-1 ring-inset ring-gray-500/10"
+                  }`}
               >
                 <div className="flex gap-1 md:scale-95 scale-125">
                   <p className="text-xs md:hidden">{title}</p>
