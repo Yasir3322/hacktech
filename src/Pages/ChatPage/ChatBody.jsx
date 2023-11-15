@@ -25,18 +25,15 @@ const ChatBody = ({ socket }) => {
   const scrolltodiv = useRef()
 
   useEffect(() => {
-    console.log(allActiveUsers);
     const active = allActiveUsers.some((user) => user.userid === id);
     if (active) {
       setActive(true);
     } else {
       setActive(false);
     }
-    console.log(active);
   }, [id, socket]);
 
   useEffect(() => {
-    console.log("called");
     socket.on("newUserResponse", (data) => {
       setAllActiveUsers(data);
     });
@@ -55,7 +52,6 @@ const ChatBody = ({ socket }) => {
     setProduct(res?.data?.product[0]);
   };
 
-  console.log(product);
 
   // useEffect(() => {
   //   getProductdetail();
@@ -74,7 +70,6 @@ const ChatBody = ({ socket }) => {
         })
 
       }, 100)
-      console.log('called res')
     });
   }, [socket]);
 
@@ -95,7 +90,6 @@ const ChatBody = ({ socket }) => {
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/message/allmessages`
     );
-    console.log('called')
     const allmess = res.data.allMessages;
     const filterMessages = allmess.filter((message) => {
       return (
@@ -148,7 +142,6 @@ const ChatBody = ({ socket }) => {
   }, [socket, id]);
 
   const handleImageClick = (imgurl) => {
-    console.log(imgurl);
     setShowModelImage(imgurl);
     setShowModel(!showModel);
   };
@@ -157,7 +150,6 @@ const ChatBody = ({ socket }) => {
     navigate(`/productpage/${prodid}`);
   };
 
-  console.log({ messages })
 
   return (
     <div className=" w-full h-full md:border-l-2">
@@ -170,7 +162,7 @@ const ChatBody = ({ socket }) => {
           Go back
         </Link>
       </div>
-      <div className="p-5 md:h-[34rem] h-[38rem]  relative">
+      <div className="p-5 md:h-[34rem] h-[30rem]  relative">
         <div
           className={
             showModel
@@ -258,14 +250,13 @@ const ChatBody = ({ socket }) => {
           )}
         </div>
         <div className="h-[16rem]">
-          <div className="w-full md:h-[20rem] h-[21rem]  overflow-y-scroll custom-scrollbar " >
+          <div className="w-full md:h-[20rem] h-[14rem]  overflow-y-scroll custom-scrollbar " >
             <div>
               {!loading ? (
                 messages.map((message) => {
                   if (
                     message.id === JSON.parse(localStorage.getItem("user"))._id
                   ) {
-                    console.log({ message })
                     // console.log(message.createdAt);
                     const date = new Date(message.createdAt);
                     const hours = date.getHours();
@@ -282,7 +273,6 @@ const ChatBody = ({ socket }) => {
 
                     const formattedTime = `${adjustedHours}:${minutes < 10 ? "0" : ""
                       }${minutes} ${period}`;
-                    console.log(formattedTime);
                     return (
                       <div className="w-full flex items-end justify-end">
                         <div className="ml-auto relative mt-5">
@@ -349,7 +339,6 @@ const ChatBody = ({ socket }) => {
 
                     const formattedTime = `${adjustedHours}:${minutes < 10 ? "0" : ""
                       }${minutes} ${period}`;
-                    console.log(formattedTime);
                     return (
                       <div className="message__chats mt-3">
                         <div className="flex gap-2">
