@@ -59,7 +59,7 @@ const ChatFooter = ({ socket, setMessages, scrolltodiv }) => {
     const formdata = new FormData();
     formdata.append("images", file);
     const res = await axios.post(
-      "http://localhost:8000/api/aws/upload",
+      `${import.meta.env.VITE_BACKEND_URL}/api/aws/upload`,
       formdata
     );
     console.log({ res });
