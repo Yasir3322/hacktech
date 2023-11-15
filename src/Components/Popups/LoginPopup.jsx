@@ -50,6 +50,11 @@ const LoginPopup = ({ socket }) => {
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("profile", image);
         localStorage.setItem("isEmailVerified", true);
+        const id = JSON.parse(localStorage.getItem("user"))._id;
+        socket.emit("newuser", {
+          userid: id,
+          socketId: socket.id,
+        });
         useLogin();
         navigate("/");
       }
@@ -93,16 +98,14 @@ const LoginPopup = ({ socket }) => {
 
   return (
     <div
-      className={`${
-        isLoginPopupOpen ? "w-full h-screen fixed bg-black/50  z-20 " : ""
-      }`}
+      className={`${isLoginPopupOpen ? "w-full h-screen fixed bg-black/50  z-20 " : ""
+        }`}
     >
       <div
-        className={`${
-          isLoginPopupOpen
+        className={`${isLoginPopupOpen
             ? "show absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2  bg-white rounded-2xl"
             : "hidden"
-        }`}
+          }`}
       >
         <form
           className="flex flex-col justify-center items-center p-5 gap-3 "

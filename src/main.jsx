@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LandingPage />,
+        element: <LandingPage socket={socket} />,
       },
       {
         path: "/user",

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
-const ChatFooter = ({ socket }) => {
+const ChatFooter = ({ socket, setMessages, scrolltodiv }) => {
   const [inputtext, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState("");
@@ -32,6 +32,17 @@ const ChatFooter = ({ socket }) => {
         data
       );
       const message = res.data.message;
+      setMessages(prev => {
+        return [...prev, message]
+      })
+      setTimeout(() => {
+        scrolltodiv.current.scrollIntoView({
+          // behavior: "smooth",
+          block: "center",
+          inline: "start"
+        })
+
+      }, 100)
       console.log(message);
       socket.emit("message", message);
     }
@@ -70,12 +81,21 @@ const ChatFooter = ({ socket }) => {
       );
       console.log({ res })
       const message = res2.data.message;
+      setMessages(prev => {
+        return [...prev, message]
+      })
+      setTimeout(() => {
+        scrolltodiv.current.scrollIntoView({
+          // behavior: "smooth",
+          block: "center",
+          inline: "start"
+        })
+
+      }, 100)
       socket.emit("message", message);
-      console.log(res2);
     }
     setIsLoading(false);
     setFile("");
-    console.log(res);
   };
 
   return (

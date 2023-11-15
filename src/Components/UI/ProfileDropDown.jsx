@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalCotext } from "../../Context/Context";
 
-const ProfileDropDown = () => {
+const ProfileDropDown = ({ socket }) => {
   const profile_dropdown_props = [
     {
       title: "My profile",
@@ -21,6 +21,12 @@ const ProfileDropDown = () => {
   const handleDropdownLink = (url) => {
     console.log(url);
     if (url === "/") {
+      console.log('called')
+      const id = JSON.parse(localStorage.getItem("user"))._id;
+      socket.emit("disconnect", {
+        userid: id,
+        socketId: socket.id,
+      });
       localStorage.removeItem("hacktechtoken");
       localStorage.removeItem("user");
       localStorage.removeItem("profile");

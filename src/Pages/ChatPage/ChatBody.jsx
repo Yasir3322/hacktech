@@ -59,9 +59,11 @@ const ChatBody = ({ socket }) => {
 
   useEffect(() => {
     socket.on("messageResponse", (data) => {
-      // console.log({ data });
+      console.log({ data });
+      console.log()
       setMessages((prevMessages) => [...prevMessages, data]); // Use the previous state to update messages
       socket.emit("messagesRead", data);
+      getUserMess()
       setTimeout(() => {
         scrolltodiv.current.scrollIntoView({
           // behavior: "smooth",
@@ -109,9 +111,9 @@ const ChatBody = ({ socket }) => {
     }, 100)
   };
 
-  // useEffect(() => {
-  //   getUserMess();
-  // }, [socket, prodid]);
+  useEffect(() => {
+    getUserMess();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -391,7 +393,7 @@ const ChatBody = ({ socket }) => {
             </div>
           </div>
           <div className="w-full">
-            <ChatFooter socket={socket} />
+            <ChatFooter socket={socket} setMessages={setMessages} scrolltodiv={scrolltodiv} />
           </div>
         </div>
       </div>

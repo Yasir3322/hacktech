@@ -120,12 +120,6 @@ function App({ socket }) {
 
   const handleChatClick = (e) => {
     e.preventDefault();
-    const id = JSON.parse(localStorage.getItem("user"))._id;
-    socket.emit("newuser", {
-      userid: id,
-      socketId: socket.id,
-    });
-
     navigate("/chat");
   };
 
@@ -166,7 +160,7 @@ function App({ socket }) {
               <ToastContainer />
               <SoldtowhoPopup />
               <NotiDropDown items={notifi_dropdown_props} />
-              <ProfileDropDown />
+              <ProfileDropDown socket={socket} />
               <Header user={isLogin} socket={socket} />
               <Navbar />
             </section>

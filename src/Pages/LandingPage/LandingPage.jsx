@@ -8,7 +8,7 @@ import Pusher from "pusher-js";
 import { toast } from "react-toastify";
 import ProductCard from "../../Components/UI/ProductCard";
 
-const LandingPage = () => {
+const LandingPage = ({ socket }) => {
   const {
     isLogin,
     setIsSoldPopupOpen,
@@ -29,6 +29,8 @@ const LandingPage = () => {
   const [fullName, setFullName] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+
+
 
   const connectWithPusher = () => {
     const pusher = new Pusher("1904b460da23661d8163", {
