@@ -252,7 +252,7 @@ const ChatBody = ({ socket }) => {
           )}
         </div>
         <div className="h-[16rem]">
-          <div className="w-full md:h-[20rem] h-[14rem]  overflow-y-scroll custom-scrollbar " >
+          <div className="w-full md:h-[20rem] h-[16rem]  overflow-y-scroll custom-scrollbar " >
             <div>
               {!loading ? (
                 messages.map((message) => {

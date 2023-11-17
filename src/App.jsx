@@ -173,25 +173,27 @@ function App({ socket }) {
             >
               <Outlet />
             </div>
-            <div>
-              <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
-                <button onClick={handleMobileHomeClick}>
-                  <img src="/assets/mobile-footer/home.svg" alt="" />
-                </button>
-                <Link to="/createnewlisting">
-                  <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
-                </Link>
-                <Link to="/likedproduct">
-                  <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
-                </Link>
-                <button onClick={handleChatClick}>
-                  <img src="/assets/mobile-footer/Group 80.svg" alt="" />
-                </button>
-                {/* <Link to="/cart">
+            {
+              location.pathname.includes("/chat/") ? (" ") : (<div>
+                <div className="flex  md:hidden fixed bg-white border-t-2 shadow-xl items-center bottom-0 z-50 w-full h-24 align-middle justify-between px-6">
+                  <button onClick={handleMobileHomeClick}>
+                    <img src="/assets/mobile-footer/home.svg" alt="" />
+                  </button>
+                  <Link to="/createnewlisting">
+                    <img src="/assets/mobile-footer/Group 37787.svg" alt="" />
+                  </Link>
+                  <Link to="/likedproduct">
+                    <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
+                  </Link>
+                  <button onClick={handleChatClick}>
+                    <img src="/assets/mobile-footer/Group 80.svg" alt="" />
+                  </button>
+                  {/* <Link to="/cart">
                     <img src="/assets/mobile-footer/Group 37789.svg" alt="" />
                   </Link> */}
-              </div>
-            </div>
+                </div>
+              </div>)
+            }
             {location.pathname.includes("/chat") ? "" : <Footer />}
           </>
         )}
