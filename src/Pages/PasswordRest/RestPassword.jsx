@@ -1,19 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState({
     email: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
-    const data = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/password/resetpassword`,
-      email
+    const url = `${import.meta.env.VITE_BACKEND_URL}/resetpassword`
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/userpassword/resetpassword`,
+      { email, url }
     );
-    console.log(data);
+    if (data.success) {
+      toast.success("We have send a link to your email to reset password", {
+        position: "top-right",
+        // autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate('/');
+    }
     setEmail("");
   };
 

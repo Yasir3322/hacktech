@@ -145,13 +145,9 @@ const Header = ({ user, socket }) => {
     <section className="md:flex md:flex-row flex flex-col align-middle justify-between w-full md:px-10">
       <div className="md:flex md:flex-row align-middle justify-between flex-grow mt-3">
         <div className="flex align-middle justify-between">
-          <button className="flex md:ml-0 ml-4 mt-1.5" onClick={() => handleLogo()}>
+          <button className={isMobile ? "hidden" : "flex md:ml-0 ml-4 mt-1.5"} onClick={() => handleLogo()}>
             <img
-              src={
-                isMobile
-                  ? "/assets/fingerlogoblack.svg"
-                  : "/assets/black-logo.svg"
-              }
+              src="/assets/black-logo.svg"
               alt="uniswap"
               className="md:w-48 w-8 h-8 scale-150"
             />
@@ -166,33 +162,46 @@ const Header = ({ user, socket }) => {
         <div className="md:hidden block">
           {isLogin ? (
             <div>
-              <div className="relative w-full h-10 flex flex-col">
-                <div className="flex gap-3 absolute right-14 align-middle">
-                  <button className="md:w-28 w-full h-8 mt-2 rounded-full border  bg-[#DB3B39] text-white">
-                    <Link
-                      to="https://forms.gle/JafxWi2F7hqp9kfRA"
-                      target="_black"
+              <div className="flex align-middle justify-between">
+                <button className="flex md:ml-0 ml-4 mt-1.5" onClick={() => handleLogo()}>
+                  <img
+                    src={
+                      isMobile
+                        ? "/assets/fingerlogoblack.svg"
+                        : "/assets/black-logo.svg"
+                    }
+                    alt="uniswap"
+                    className="md:w-48 w-8 h-8 scale-150"
+                  />
+                </button>
+                <div className="relative w-full h-10 flex flex-col">
+                  <div className="flex gap-3 absolute right-14 align-middle">
+                    <button className="md:w-28 w-full h-8 mt-2 rounded-full border  bg-[#DB3B39] text-white">
+                      <Link
+                        to="https://forms.gle/JafxWi2F7hqp9kfRA"
+                        target="_black"
+                      >
+                        Give Feedback
+                      </Link>
+                    </button>
+                    <button
+                      onClick={() => handleNotificationbutton()}
+                      ref={dropDownRef}
                     >
-                      Give Feedback
-                    </Link>
-                  </button>
-                  <button
-                    onClick={() => handleNotificationbutton()}
-                    ref={dropDownRef}
-                  >
-                    <img
-                      src="/assets/Vectorheader2.svg"
-                      alt="vectorheader"
-                      className="md:w-6 md:h-6 w-8 h-8 mt-2"
-                    />
-                  </button>
-                  <button onClick={() => setShowListingbtn(!showListingbtn)}>
-                    <img
-                      src="/assets/user.svg"
-                      alt="vectorheader"
-                      className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
-                    />
-                  </button>
+                      <img
+                        src="/assets/Vectorheader2.svg"
+                        alt="vectorheader"
+                        className="md:w-6 md:h-6 w-8 h-8 mt-2"
+                      />
+                    </button>
+                    <button onClick={() => setShowListingbtn(!showListingbtn)}>
+                      <img
+                        src="/assets/user.svg"
+                        alt="vectorheader"
+                        className="md:w-6 md:mt-3 mt-2 md:h-6 w-8 h-8"
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="md:hidden block w-full m-auto mt-4">
@@ -322,7 +331,7 @@ const Header = ({ user, socket }) => {
                   className=" cursor-pointer"
                   onClick={() => handleProfileDropdownButton()}
                 >
-                  <IoIosArrowDown />
+                  <IoIosArrowDown />+
                 </button>
               </div>
             </div>

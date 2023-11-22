@@ -26,6 +26,8 @@ import ChatBody from "./Pages/ChatPage/ChatBody.jsx";
 import ChatWelcome from "./Pages/ChatPage/ChatWelcome.jsx";
 import RatingSold from "./Components/UI/RatingSold.jsx";
 import ResetPassword from "./Pages/PasswordRest/RestPassword.jsx";
+import emailjs from '@emailjs/browser';
+import UpdatePassword from "./Pages/PasswordRest/UpdatePassword.jsx";
 
 const socket = socketIO.connect("https://trojansquare.com");
 
@@ -99,6 +101,10 @@ const router = createBrowserRouter([
   {
     path: "/resetpassword",
     element: <ResetPassword />,
+  },
+  {
+    path: "/resetpassword/:id",
+    element: <UpdatePassword />,
   },
 ]);
 

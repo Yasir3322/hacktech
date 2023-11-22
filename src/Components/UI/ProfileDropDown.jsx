@@ -22,11 +22,6 @@ const ProfileDropDown = ({ socket }) => {
     console.log(url);
     if (url === "/") {
       console.log('called')
-      const id = JSON.parse(localStorage.getItem("user"))._id;
-      socket.emit("disconnect", {
-        userid: id,
-        socketId: socket.id,
-      });
       localStorage.removeItem("hacktechtoken");
       localStorage.removeItem("user");
       localStorage.removeItem("profile");
