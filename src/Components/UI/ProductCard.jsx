@@ -201,7 +201,7 @@ const ProductCard = (props) => {
           </div>
         )}
         <div
-          className="cursor-pointer"
+          className="cursor-pointer md:w-52 w-full"
           onClick={() => handleProductClick(props.id)}
         >
           <div>
@@ -212,14 +212,14 @@ const ProductCard = (props) => {
                   : "/assets/no-photo2.jpg"
               }
               alt="no-image"
-              className="md:w-52  w-full md:h-52 h-36 rounded-2xl md:object-cover"
+              className="w-full md:h-52 h-36 rounded-2xl md:object-cover"
             />
           </div>
           <div>
             <span className="text-xs text-[#737373] font-normal">
               {props.upload_time}
             </span>
-            <div className="flex align-middle justify-between">
+            <div className="flex w-full align-middle justify-between">
               <p className="md:text-base text-xs font-semibold text-black">
                 {props.title}
               </p>
