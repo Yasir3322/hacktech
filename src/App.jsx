@@ -16,9 +16,16 @@ import NotiDropDown from "./Components/UI/NotiDropDown";
 import ProfileDropDown from "./Components/UI/ProfileDropDown";
 import { AiOutlineHome } from "react-icons/ai";
 import LoadingBar from "react-top-loading-bar";
+import Pusher from "pusher-js";
 
 function App({ socket }) {
   const navigate = useNavigate();
+
+  const pusher = new Pusher("1904b460da23661d8163", {
+    cluster: "ap2",
+  });
+
+  const channel = pusher.subscribe("hacktech");
 
   const {
     isLogin,
@@ -29,10 +36,24 @@ function App({ socket }) {
     setSelectedCatagory,
     progress,
     setProgress,
+    newMessNo,
+    setNewMessNo
   } = useGlobalCotext();
   const navigat = useNavigate();
   // const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+
+    channel.bind("new-message", function (data) {
+      // setNotifi_dropdown_props(data);
+
+      const id = JSON.parse(localStorage.getItem("user"))._id;
+      if (id === data.notificationto) {
+        setNewMessNo(prev => prev + 1);
+      }
+    });
+  }, [newMessNo])
 
   // const notifi_dropdown_props = [
   //   {
@@ -185,7 +206,8 @@ function App({ socket }) {
                   <Link to="/likedproduct">
                     <img src="/assets/mobile-footer/Group 37791.svg" alt="" />
                   </Link>
-                  <button onClick={handleChatClick}>
+                  <button onClick={handleChatClick} className="relative">
+                    <p className="absolute bg-[#db3b39] p-0.5 rounded-full text-white w-5 h-5 flex align-middle justify-center items-center -top-4 left-10">{newMessNo}</p>
                     <img src="/assets/mobile-footer/Group 80.svg" alt="" />
                   </button>
                   {/* <Link to="/cart">

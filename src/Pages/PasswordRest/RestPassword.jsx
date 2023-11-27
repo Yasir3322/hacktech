@@ -14,24 +14,30 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${import.meta.env.VITE_BACKEND_URL}/resetpassword`
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/userpassword/resetpassword`,
-      { email, url }
-    );
-    if (data.success) {
-      toast.success("We have send a link to your email to reset password", {
-        position: "top-right",
-        // autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate('/');
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/userpassword/resetpassword`,
+        { email, url }
+      );
+      console.log(data)
+      if (data.success) {
+        toast.success("We have send a link to your email to reset password", {
+          position: "top-right",
+          // autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate('/');
+        setEmail("");
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message)
     }
-    setEmail("");
   };
 
   const handleChange = (e) => {

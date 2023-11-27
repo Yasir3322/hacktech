@@ -28,6 +28,7 @@ export const AppProvider = ({ children }) => {
   const [trandingProd, setTrandingProd] = useState([]);
   const [likedProducts, setLikedProducts] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [newMessNo, setNewMessNo] = useState(0);
 
   const addChatWithUser = (user) => {
     setChatWith((prev) => {
@@ -39,11 +40,10 @@ export const AppProvider = ({ children }) => {
     const localstorageprofile = localStorage
       .getItem("profile")
       .replace(/"/g, "");
-    const profile = `${
-      localstorageprofile !== "null"
-        ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
-        : "/assets/preview.avif"
-    }`;
+    const profile = `${localstorageprofile !== "null"
+      ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${localstorageprofile}`
+      : "/assets/preview.avif"
+      }`;
 
     setUserImage(profile);
   };
@@ -128,6 +128,8 @@ export const AppProvider = ({ children }) => {
         setLikedProducts,
         progress,
         setProgress,
+        newMessNo,
+        setNewMessNo,
       }}
     >
       {children}

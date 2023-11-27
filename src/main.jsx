@@ -132,7 +132,7 @@ const connectWithPusher = () => {
 
   channel.bind("new-message", function (data) {
     // setNotifi_dropdown_props(data);
-    console.log(data);
+
     const id = JSON.parse(localStorage.getItem("user"))._id;
     if (id === data.notificationto) {
       toast.success("New message", {

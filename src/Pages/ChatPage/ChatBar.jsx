@@ -7,7 +7,7 @@ import Pusher from "pusher-js";
 const ChatBar = ({ socket }) => {
   const [peoples, setPeople] = useState([]);
   const [messages, setMessages] = useState([]);
-  const { show, setShow, setAllActiveUsers } = useGlobalCotext();
+  const { show, setShow, setAllActiveUsers, setNewMessNo } = useGlobalCotext();
 
   const pusher = new Pusher("1904b460da23661d8163", {
     cluster: "ap2",
@@ -41,6 +41,7 @@ const ChatBar = ({ socket }) => {
 
   useEffect(() => {
     getChatWithUser();
+    setNewMessNo(0)
   }, []);
 
   channel.bind("new-message", function (data) {
@@ -107,11 +108,10 @@ const ChatBar = ({ socket }) => {
         <div className="flex w-full flex-col gap-3 mt-4">
           {peoples.map((people) => {
             const { image, fullName, _id, prodid, lastmess } = people;
-            const userimage = `${
-              image
+            const userimage = `${image
                 ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
                 : "/assets/preview.avif"
-            }`;
+              }`;
             return (
               <Link
                 className="flex gap-3 cursor-pointer"

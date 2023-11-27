@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdatePassword = () => {
 
   const { id } = useParams()
+  const navigate = useNavigate();
 
   const [newPassword, setNewPassword] = useState({
     password: "",
@@ -34,6 +35,7 @@ const UpdatePassword = () => {
             progress: undefined,
             theme: "light",
           });
+          navigate("/")
         }
       } catch (error) {
         toast.error(error?.message, {
@@ -66,6 +68,7 @@ const UpdatePassword = () => {
           <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Create New Password
           </h2>
+          <p className="text-xs">Password must be at least 8 characters long</p>
           <form
             className="mt-4 space-y-4 lg:mt-5 md:space-y-5"
             onSubmit={handleSubmit}
