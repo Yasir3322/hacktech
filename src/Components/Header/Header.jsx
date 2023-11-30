@@ -331,7 +331,7 @@ const Header = ({ user, socket }) => {
                   className=" cursor-pointer"
                   onClick={() => handleProfileDropdownButton()}
                 >
-                  <IoIosArrowDown />+
+                  <IoIosArrowDown />
                 </button>
               </div>
             </div>

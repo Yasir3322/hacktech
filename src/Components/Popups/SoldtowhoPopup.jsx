@@ -58,8 +58,7 @@ const SoldtowhoPopup = (props) => {
     );
 
     await axios.patch(
-      `${
-        import.meta.env.VITE_BACKEND_URL
+      `${import.meta.env.VITE_BACKEND_URL
       }/api/product/updatesoldvalue/${prodIdForSoldTo}`
     );
 
@@ -90,16 +89,14 @@ const SoldtowhoPopup = (props) => {
 
   return (
     <div
-      className={`${
-        isSoldPopupOpen ? "w-full h-screen fixed bg-black/50  z-20 " : ""
-      }`}
+      className={`${isSoldPopupOpen ? "w-full h-screen fixed bg-black/50  z-20 " : ""
+        }`}
     >
       <div
-        className={`${
-          isSoldPopupOpen
-            ? "show absolute md:left-1/2 left-0 md:mx-0 mx-3 md:-translate-x-1/2 top-1/2 -translate-y-1/2 p-5   bg-white rounded-2xl"
-            : "hidden"
-        }`}
+        className={`${isSoldPopupOpen
+          ? "show absolute md:left-1/2 left-0 md:mx-0 mx-3 md:-translate-x-1/2 top-1/2 -translate-y-1/2 p-5   bg-white rounded-2xl"
+          : "hidden"
+          }`}
       >
         <h2 className="font-medium md:text-2xl text-xl">Sold to who?</h2>
         <button
@@ -108,17 +105,16 @@ const SoldtowhoPopup = (props) => {
         >
           <AiFillCloseCircle />
         </button>
-        <div className="flex gap-10">
-          <div className="border-r-2 p-2">
+        <div className="flex gap-10 h-60">
+          <div className="border-r-2 p-2 h-full overflow-y-scroll">
             <p className="mt-8">your recent chats</p>
             <div className="flex flex-col gap-4 mt-4">
               {users.map((people) => {
                 const { image, fullName, _id } = people;
-                const userimage = `${
-                  image
-                    ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
-                    : "/assets/preview.avif"
-                }`;
+                const userimage = `${image
+                  ? `${import.meta.env.VITE_BACKEND_URL}/api/v1/${image}`
+                  : "/assets/preview.avif"
+                  }`;
                 return (
                   <div
                     className="flex gap-3 cursor-pointer"
@@ -153,8 +149,8 @@ const SoldtowhoPopup = (props) => {
                       scale={5}
                       fillColor="gold"
                       strokeColor="grey"
-                      // onChange={handleRatingChange}
-                      // value={rating}
+                    // onChange={handleRatingChange}
+                    // value={rating}
                     />
                   </ThemeProvider>
                 </div>
