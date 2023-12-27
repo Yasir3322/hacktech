@@ -191,7 +191,7 @@ const LandingPage = ({ socket }) => {
               />
             </Box>
           ) : (
-            <div className="pl-6 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto mb-44">
+            <div className="pl-6 mt-6 mr-8 flex flex-col gap-10 w-11/12 m-auto">
               {/* <div>
                 {selectedCatagory === null ? (
                   <ProductCatagories

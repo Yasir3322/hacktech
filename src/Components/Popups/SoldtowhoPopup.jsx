@@ -18,7 +18,7 @@ const SoldtowhoPopup = (props) => {
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/getchatusers/${userid}`
     );
-    console.log(res.data);
+    console.log(res);
     res.data.chatusers.map((user) => {
       setUsers((prev) => {
         return [...prev, user?.chatuser[0]];
@@ -38,7 +38,12 @@ const SoldtowhoPopup = (props) => {
     setComment(event.target.value);
   };
 
-  const handleRatingSubmit = async () => {
+
+  const handleRatingChange = (newRating) => {
+    setUserRating(newRating);
+  };
+
+  const handleRatingSubmit = async (e) => {
     e.preventDefault();
     console.log(prodIdForSoldTo);
     const { _id } = selectedUser;
@@ -65,7 +70,7 @@ const SoldtowhoPopup = (props) => {
     const dataobj = {
       reviewby: id,
       reviewto: _id,
-      rating,
+      rating: userRating,
       reviewerComment: comment,
     };
     console.log(dataobj);
@@ -149,7 +154,7 @@ const SoldtowhoPopup = (props) => {
                       scale={5}
                       fillColor="gold"
                       strokeColor="grey"
-                    // onChange={handleRatingChange}
+                      onChange={handleRatingChange}
                     // value={rating}
                     />
                   </ThemeProvider>
